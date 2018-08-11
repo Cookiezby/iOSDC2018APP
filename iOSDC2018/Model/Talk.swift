@@ -8,6 +8,10 @@
 
 import Foundation
 
+struct Track {
+    var name: String
+}
+
 struct People {
     var name: String
     var profileImageURL: String
@@ -33,4 +37,3 @@ struct Event: Session {
     var startDate: Int
     var duration: Int
 }
-

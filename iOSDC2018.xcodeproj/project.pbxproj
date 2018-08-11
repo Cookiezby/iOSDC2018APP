@@ -17,8 +17,14 @@
 		7631F54A211E96E20040BD9B /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7631F549211E96E10040BD9B /* Result.framework */; };
 		7631F54C211E96EB0040BD9B /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7631F54B211E96EB0040BD9B /* SnapKit.framework */; };
 		7631F54E211E96F50040BD9B /* ReactiveSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7631F54D211E96F50040BD9B /* ReactiveSwift.framework */; };
-		7631F551211E9A8E0040BD9B /* TimelineTablViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7631F550211E9A8E0040BD9B /* TimelineTablViewController.swift */; };
+		7631F551211E9A8E0040BD9B /* TimeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7631F550211E9A8E0040BD9B /* TimeTableViewController.swift */; };
 		7631F554211EC6720040BD9B /* Talk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7631F553211EC6720040BD9B /* Talk.swift */; };
+		7631F556211ECAB60040BD9B /* Exts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7631F555211ECAB60040BD9B /* Exts.swift */; };
+		7631F558211ECFB20040BD9B /* TrackSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7631F557211ECFB20040BD9B /* TrackSelectView.swift */; };
+		7631F55A211EE08A0040BD9B /* TimeTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7631F559211EE08A0040BD9B /* TimeTableViewModel.swift */; };
+		7631F55C211EFAEE0040BD9B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7631F55B211EFAEE0040BD9B /* GoogleService-Info.plist */; };
+		977F7FC82AB2FEFE30F3C4D0 /* Pods_iOSDC2018Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E72FC361D325E4844FFB8F8C /* Pods_iOSDC2018Tests.framework */; };
+		B86BEED8F37012C6084610CE /* Pods_iOSDC2018.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBF4A64F67710AC98B34E773 /* Pods_iOSDC2018.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		592EFC58006E657042CAC7D0 /* Pods-iOSDC2018.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSDC2018.release.xcconfig"; path = "Pods/Target Support Files/Pods-iOSDC2018/Pods-iOSDC2018.release.xcconfig"; sourceTree = "<group>"; };
 		7631F520211E8BD70040BD9B /* iOSDC2018.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSDC2018.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7631F523211E8BD70040BD9B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7631F528211E8BD70040BD9B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -46,8 +53,17 @@
 		7631F549211E96E10040BD9B /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
 		7631F54B211E96EB0040BD9B /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = Carthage/Build/iOS/SnapKit.framework; sourceTree = "<group>"; };
 		7631F54D211E96F50040BD9B /* ReactiveSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveSwift.framework; path = Carthage/Build/iOS/ReactiveSwift.framework; sourceTree = "<group>"; };
-		7631F550211E9A8E0040BD9B /* TimelineTablViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineTablViewController.swift; sourceTree = "<group>"; };
+		7631F550211E9A8E0040BD9B /* TimeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTableViewController.swift; sourceTree = "<group>"; };
 		7631F553211EC6720040BD9B /* Talk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Talk.swift; sourceTree = "<group>"; };
+		7631F555211ECAB60040BD9B /* Exts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exts.swift; sourceTree = "<group>"; };
+		7631F557211ECFB20040BD9B /* TrackSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectView.swift; sourceTree = "<group>"; };
+		7631F559211EE08A0040BD9B /* TimeTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTableViewModel.swift; sourceTree = "<group>"; };
+		7631F55B211EFAEE0040BD9B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		914A4B6D054240D841EEA2A1 /* Pods-iOSDC2018.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSDC2018.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iOSDC2018/Pods-iOSDC2018.debug.xcconfig"; sourceTree = "<group>"; };
+		B4F4BDF44D9101F4A6D49E5B /* Pods-iOSDC2018Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSDC2018Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-iOSDC2018Tests/Pods-iOSDC2018Tests.release.xcconfig"; sourceTree = "<group>"; };
+		B80FB77280528476EBE5E2E8 /* Pods-iOSDC2018Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSDC2018Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iOSDC2018Tests/Pods-iOSDC2018Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		DBF4A64F67710AC98B34E773 /* Pods_iOSDC2018.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOSDC2018.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E72FC361D325E4844FFB8F8C /* Pods_iOSDC2018Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOSDC2018Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +76,7 @@
 				7631F54A211E96E20040BD9B /* Result.framework in Frameworks */,
 				7631F548211E96D70040BD9B /* ReactiveCocoa.framework in Frameworks */,
 				7631F546211E96CC0040BD9B /* MBProgressHUD.framework in Frameworks */,
+				B86BEED8F37012C6084610CE /* Pods_iOSDC2018.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -67,6 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				977F7FC82AB2FEFE30F3C4D0 /* Pods_iOSDC2018Tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,6 +98,7 @@
 				7631F537211E8BD90040BD9B /* iOSDC2018Tests */,
 				7631F521211E8BD70040BD9B /* Products */,
 				7631F544211E96CC0040BD9B /* Frameworks */,
+				BBD69A3669804E16F39182A6 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -102,6 +121,8 @@
 				7631F52A211E8BD90040BD9B /* Assets.xcassets */,
 				7631F52C211E8BD90040BD9B /* LaunchScreen.storyboard */,
 				7631F52F211E8BD90040BD9B /* Info.plist */,
+				7631F555211ECAB60040BD9B /* Exts.swift */,
+				7631F55B211EFAEE0040BD9B /* GoogleService-Info.plist */,
 			);
 			path = iOSDC2018;
 			sourceTree = "<group>";
@@ -123,6 +144,8 @@
 				7631F549211E96E10040BD9B /* Result.framework */,
 				7631F547211E96D70040BD9B /* ReactiveCocoa.framework */,
 				7631F545211E96CC0040BD9B /* MBProgressHUD.framework */,
+				DBF4A64F67710AC98B34E773 /* Pods_iOSDC2018.framework */,
+				E72FC361D325E4844FFB8F8C /* Pods_iOSDC2018Tests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -130,7 +153,9 @@
 		7631F54F211E9A7E0040BD9B /* TimeTable */ = {
 			isa = PBXGroup;
 			children = (
-				7631F550211E9A8E0040BD9B /* TimelineTablViewController.swift */,
+				7631F559211EE08A0040BD9B /* TimeTableViewModel.swift */,
+				7631F550211E9A8E0040BD9B /* TimeTableViewController.swift */,
+				7631F557211ECFB20040BD9B /* TrackSelectView.swift */,
 			);
 			path = TimeTable;
 			sourceTree = "<group>";
@@ -143,6 +168,17 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		BBD69A3669804E16F39182A6 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				914A4B6D054240D841EEA2A1 /* Pods-iOSDC2018.debug.xcconfig */,
+				592EFC58006E657042CAC7D0 /* Pods-iOSDC2018.release.xcconfig */,
+				B80FB77280528476EBE5E2E8 /* Pods-iOSDC2018Tests.debug.xcconfig */,
+				B4F4BDF44D9101F4A6D49E5B /* Pods-iOSDC2018Tests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -150,10 +186,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7631F53D211E8BD90040BD9B /* Build configuration list for PBXNativeTarget "iOSDC2018" */;
 			buildPhases = (
+				45F523D02FEE51A321586867 /* [CP] Check Pods Manifest.lock */,
 				7631F51C211E8BD70040BD9B /* Sources */,
 				7631F51D211E8BD70040BD9B /* Frameworks */,
 				7631F51E211E8BD70040BD9B /* Resources */,
 				7631F543211E96630040BD9B /* ShellScript */,
+				D98555AB96F02D95C1D58C5F /* [CP] Embed Pods Frameworks */,
+				C3892C3B688B7F8283D834E7 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -168,9 +207,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7631F540211E8BD90040BD9B /* Build configuration list for PBXNativeTarget "iOSDC2018Tests" */;
 			buildPhases = (
+				F61B041F026D587EF0D2445C /* [CP] Check Pods Manifest.lock */,
 				7631F530211E8BD90040BD9B /* Sources */,
 				7631F531211E8BD90040BD9B /* Frameworks */,
 				7631F532211E8BD90040BD9B /* Resources */,
+				4DD485D2219A6D09D2F5DAD5 /* [CP] Embed Pods Frameworks */,
+				A5E70DF9DD5A76FF97D5B06A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -226,6 +268,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7631F52E211E8BD90040BD9B /* LaunchScreen.storyboard in Resources */,
+				7631F55C211EFAEE0040BD9B /* GoogleService-Info.plist in Resources */,
 				7631F52B211E8BD90040BD9B /* Assets.xcassets in Resources */,
 				7631F529211E8BD70040BD9B /* Main.storyboard in Resources */,
 			);
@@ -241,6 +284,39 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		45F523D02FEE51A321586867 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-iOSDC2018-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4DD485D2219A6D09D2F5DAD5 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iOSDC2018Tests/Pods-iOSDC2018Tests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		7631F543211E96630040BD9B /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -259,6 +335,74 @@
 			shellPath = /bin/sh;
 			shellScript = "/usr/local/bin/carthage copy-frameworks";
 		};
+		A5E70DF9DD5A76FF97D5B06A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iOSDC2018Tests/Pods-iOSDC2018Tests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C3892C3B688B7F8283D834E7 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iOSDC2018/Pods-iOSDC2018-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D98555AB96F02D95C1D58C5F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-iOSDC2018/Pods-iOSDC2018-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iOSDC2018/Pods-iOSDC2018-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F61B041F026D587EF0D2445C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-iOSDC2018Tests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -267,7 +411,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				7631F554211EC6720040BD9B /* Talk.swift in Sources */,
-				7631F551211E9A8E0040BD9B /* TimelineTablViewController.swift in Sources */,
+				7631F556211ECAB60040BD9B /* Exts.swift in Sources */,
+				7631F551211E9A8E0040BD9B /* TimeTableViewController.swift in Sources */,
+				7631F558211ECFB20040BD9B /* TrackSelectView.swift in Sources */,
+				7631F55A211EE08A0040BD9B /* TimeTableViewModel.swift in Sources */,
 				7631F524211E8BD70040BD9B /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -426,6 +573,7 @@
 		};
 		7631F53E211E8BD90040BD9B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 914A4B6D054240D841EEA2A1 /* Pods-iOSDC2018.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -436,11 +584,8 @@
 				);
 				INFOPLIST_FILE = iOSDC2018/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.zhubingyi.iOSDC2018;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhubingyi.iosdc2018;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -449,6 +594,7 @@
 		};
 		7631F53F211E8BD90040BD9B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 592EFC58006E657042CAC7D0 /* Pods-iOSDC2018.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -459,11 +605,8 @@
 				);
 				INFOPLIST_FILE = iOSDC2018/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.zhubingyi.iOSDC2018;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhubingyi.iosdc2018;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -472,17 +615,14 @@
 		};
 		7631F541211E8BD90040BD9B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B80FB77280528476EBE5E2E8 /* Pods-iOSDC2018Tests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2RNKT55WYW;
 				INFOPLIST_FILE = iOSDC2018Tests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.zhubingyi.iOSDC2018Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -493,17 +633,14 @@
 		};
 		7631F542211E8BD90040BD9B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B4F4BDF44D9101F4A6D49E5B /* Pods-iOSDC2018Tests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2RNKT55WYW;
 				INFOPLIST_FILE = iOSDC2018Tests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.zhubingyi.iOSDC2018Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
