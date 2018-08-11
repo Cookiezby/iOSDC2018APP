@@ -11,8 +11,8 @@ import ReactiveCocoa
 import ReactiveSwift
 import Result
 
-final class TimeTableViewModel: NSObject {
-    
+final class TimeTableViewModel: NSObject, TimeTableNaviBarInOut {
+    let openInfoAction: Action<Void, Void, NoError> = { Action { SignalProducer(value: $0) }}()
     
     override init() {
         super.init()

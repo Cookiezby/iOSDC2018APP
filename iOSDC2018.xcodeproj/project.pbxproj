@@ -23,6 +23,8 @@
 		7631F558211ECFB20040BD9B /* TrackSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7631F557211ECFB20040BD9B /* TrackSelectView.swift */; };
 		7631F55A211EE08A0040BD9B /* TimeTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7631F559211EE08A0040BD9B /* TimeTableViewModel.swift */; };
 		7631F55C211EFAEE0040BD9B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7631F55B211EFAEE0040BD9B /* GoogleService-Info.plist */; };
+		76A0BBBE211F2D7900835640 /* DayTrackCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A0BBBD211F2D7900835640 /* DayTrackCollectionView.swift */; };
+		76A0BBC1211F307300835640 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A0BBC0211F307300835640 /* InfoViewController.swift */; };
 		977F7FC82AB2FEFE30F3C4D0 /* Pods_iOSDC2018Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E72FC361D325E4844FFB8F8C /* Pods_iOSDC2018Tests.framework */; };
 		B86BEED8F37012C6084610CE /* Pods_iOSDC2018.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBF4A64F67710AC98B34E773 /* Pods_iOSDC2018.framework */; };
 /* End PBXBuildFile section */
@@ -59,6 +61,8 @@
 		7631F557211ECFB20040BD9B /* TrackSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectView.swift; sourceTree = "<group>"; };
 		7631F559211EE08A0040BD9B /* TimeTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTableViewModel.swift; sourceTree = "<group>"; };
 		7631F55B211EFAEE0040BD9B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		76A0BBBD211F2D7900835640 /* DayTrackCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayTrackCollectionView.swift; sourceTree = "<group>"; };
+		76A0BBC0211F307300835640 /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 		914A4B6D054240D841EEA2A1 /* Pods-iOSDC2018.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSDC2018.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iOSDC2018/Pods-iOSDC2018.debug.xcconfig"; sourceTree = "<group>"; };
 		B4F4BDF44D9101F4A6D49E5B /* Pods-iOSDC2018Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSDC2018Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-iOSDC2018Tests/Pods-iOSDC2018Tests.release.xcconfig"; sourceTree = "<group>"; };
 		B80FB77280528476EBE5E2E8 /* Pods-iOSDC2018Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSDC2018Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iOSDC2018Tests/Pods-iOSDC2018Tests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -114,6 +118,7 @@
 		7631F522211E8BD70040BD9B /* iOSDC2018 */ = {
 			isa = PBXGroup;
 			children = (
+				76A0BBBF211F306500835640 /* Info */,
 				7631F552211EC6340040BD9B /* Model */,
 				7631F54F211E9A7E0040BD9B /* TimeTable */,
 				7631F523211E8BD70040BD9B /* AppDelegate.swift */,
@@ -156,6 +161,7 @@
 				7631F559211EE08A0040BD9B /* TimeTableViewModel.swift */,
 				7631F550211E9A8E0040BD9B /* TimeTableViewController.swift */,
 				7631F557211ECFB20040BD9B /* TrackSelectView.swift */,
+				76A0BBBD211F2D7900835640 /* DayTrackCollectionView.swift */,
 			);
 			path = TimeTable;
 			sourceTree = "<group>";
@@ -166,6 +172,14 @@
 				7631F553211EC6720040BD9B /* Talk.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		76A0BBBF211F306500835640 /* Info */ = {
+			isa = PBXGroup;
+			children = (
+				76A0BBC0211F307300835640 /* InfoViewController.swift */,
+			);
+			path = Info;
 			sourceTree = "<group>";
 		};
 		BBD69A3669804E16F39182A6 /* Pods */ = {
@@ -373,11 +387,13 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-iOSDC2018/Pods-iOSDC2018-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -416,6 +432,8 @@
 				7631F558211ECFB20040BD9B /* TrackSelectView.swift in Sources */,
 				7631F55A211EE08A0040BD9B /* TimeTableViewModel.swift in Sources */,
 				7631F524211E8BD70040BD9B /* AppDelegate.swift in Sources */,
+				76A0BBC1211F307300835640 /* InfoViewController.swift in Sources */,
+				76A0BBBE211F2D7900835640 /* DayTrackCollectionView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -584,7 +602,10 @@
 				);
 				INFOPLIST_FILE = iOSDC2018/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.zhubingyi.iosdc2018;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -605,7 +626,10 @@
 				);
 				INFOPLIST_FILE = iOSDC2018/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.zhubingyi.iosdc2018;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -622,7 +646,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2RNKT55WYW;
 				INFOPLIST_FILE = iOSDC2018Tests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.zhubingyi.iOSDC2018Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -640,7 +668,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2RNKT55WYW;
 				INFOPLIST_FILE = iOSDC2018Tests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.zhubingyi.iOSDC2018Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
