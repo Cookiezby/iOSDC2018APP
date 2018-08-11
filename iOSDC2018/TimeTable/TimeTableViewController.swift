@@ -13,6 +13,10 @@ import ReactiveSwift
 import Result
 import SnapKit
 
+protocol TimeTableNaviBarInOut {
+    var openInfoAction: Action<Void, Void, NoError> { get }
+}
+
 fileprivate final
 class TimeTableNaivBar: UIView {
     private let imageView: UIImageView = {
@@ -27,7 +31,7 @@ class TimeTableNaivBar: UIView {
     }()
     
     private let naviBarLayoutGuide = UILayoutGuide()
-    
+   
     init() {
         super.init(frame: .zero)
         backgroundColor = .white
@@ -35,6 +39,10 @@ class TimeTableNaivBar: UIView {
         addSubview(infoButton)
         addLayoutGuide(naviBarLayoutGuide)
         autoLayout()
+    }
+    
+    func bindInOut(_ inOut: TimeTableNaviBarInOut) {
+        infoButton.reactive.pressed = CocoaAction(inOut.openInfoAction)
     }
     
     private func autoLayout() {
@@ -63,28 +71,54 @@ class TimeTableNaivBar: UIView {
     }
 }
 
-
-
 final
 class TimeTableViewController: UIViewController {
-    
     private let naviBar: TimeTableNaivBar = {
         let view = TimeTableNaivBar()
         view.layer.applySketchShadow(color: .black, alpha: 0.15, x: 0, y: 1, blur: 10, spread: 0)
         return view
     }()
     
+    private let trackSelectView = TrackSelectView()
+    private let dayTrackCollecitonView = DayTrackCollectionView()
+    private let viewModel = TimeTableViewModel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = true
+        view.addSubview(trackSelectView)
+        view.addSubview(dayTrackCollecitonView)
         view.addSubview(naviBar)
         autoLayout()
+        bind(viewModel)
+    }
+    
+    func bind(_ viewModel: TimeTableViewModel) {
+        naviBar.bindInOut(viewModel)
+        
+        viewModel.openInfoAction.values.take(during: reactive.lifetime).observeValues { [weak self] in
+            let vc = UINavigationController(rootViewController: InfoViewController())
+            self?.present(vc, animated: true, completion: nil)
+        }
     }
     
     private func autoLayout() {
         naviBar.snp.makeConstraints { (make) in
             make.top.left.right.equalToSuperview()
             make.height.equalTo(navigationController!.navigationBar.frame.height + UIApplication.shared.statusBarFrame.height)
+        }
+        
+        trackSelectView.snp.makeConstraints { (make) in
+            make.top.equalTo(naviBar.snp.bottom)
+            make.left.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.width.equalTo(45)
+        }
+        
+        dayTrackCollecitonView.snp.makeConstraints { (make) in
+            make.top.equalTo(trackSelectView)
+            make.left.equalTo(trackSelectView.snp.right)
+            make.right.bottom.equalToSuperview()
         }
     }
 }
