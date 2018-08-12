@@ -31,8 +31,7 @@ final class DayTrackCollectionView: UIView {
         return view
     }()
     
-    var disposables: CompositeDisposable?
-    let selectTrackAction: Action<Int, Int, NoError> = { Action { SignalProducer(value: $0) }}()
+    var selectTrackAction: Action<Int, Int, NoError> = { Action { SignalProducer(value: $0) }}()
     
     init() {
         super.init(frame: .zero)
@@ -40,7 +39,7 @@ final class DayTrackCollectionView: UIView {
     }
     
     func bind(_ inOut: DayTrackCollectionViewCellInOut) {
-        selectTrackAction.values.take(during: reactive.lifetime).observeValues{ (value) in
+        selectTrackAction.values.take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues{ (value) in
             inOut.selectTrackAction.apply(value).start()
         }
     }
