@@ -55,7 +55,7 @@ class DayTrackCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
-    var selectTrackAction: Action<Int, Int, NoError>? = nil
+    weak var selectTrackAction: Action<Int, Int, NoError>? = nil
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -106,8 +106,8 @@ extension DayTrackCollectionViewCell: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //selectTrackAction?.apply(indexPath.row).start()
-        print("hh")
+        tableView.deselectRow(at: indexPath, animated: false)
+        selectTrackAction?.apply(indexPath.row).start()
     }
 }
 

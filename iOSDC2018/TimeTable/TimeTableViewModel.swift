@@ -24,8 +24,7 @@ final class TimeTableViewModel: NSObject, TimeTableNaviBarInOut, DayTrackCollect
             self?.presentVCAction.apply((vc, true)).start()
         }
         
-        selectTrackAction.values.take(during: reactive.lifetime).observeValues { [weak self] (value) in
-            print("\(value)")
+        selectTrackAction.values.take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues { [weak self] (value) in
             let vc = TrackDetailViewController()
             vc.modalPresentationStyle = .overCurrentContext
             self?.presentVCAction.apply((vc, false)).start()
