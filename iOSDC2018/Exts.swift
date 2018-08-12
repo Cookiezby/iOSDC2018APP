@@ -64,3 +64,21 @@ extension UIColor {
         }
     }
 }
+
+extension UIFont {
+    static func pingFang(size: CGFloat) -> UIFont {
+        return UIFont(name: "PingFang SC", size: size)!
+    }
+    
+    static func pingFangLight(size: CGFloat) -> UIFont {
+        return UIFont(name: "PingFangSC-Light", size: size)!
+    }
+    
+    static func pingFangThin(size: CGFloat) -> UIFont {
+        return UIFont(name: "PingFangSC-Thin", size: size)!
+    }
+    
+    static func pingFangMedium(size: CGFloat) -> UIFont {
+        return UIFont(name: "PingFangSC-Medium", size: size)!
+    }
+}

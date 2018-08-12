@@ -95,10 +95,9 @@ class TimeTableViewController: UIViewController {
     
     func bind(_ viewModel: TimeTableViewModel) {
         naviBar.bindInOut(viewModel)
-        
-        viewModel.openInfoAction.values.take(during: reactive.lifetime).observeValues { [weak self] in
-            let vc = UINavigationController(rootViewController: InfoViewController())
-            self?.present(vc, animated: true, completion: nil)
+        dayTrackCollecitonView.bind(viewModel)
+        viewModel.presentVCAction.values.take(during: reactive.lifetime).observeValues { [weak self] (vc, animated) in
+            self?.present(vc, animated: animated, completion: nil)
         }
     }
     

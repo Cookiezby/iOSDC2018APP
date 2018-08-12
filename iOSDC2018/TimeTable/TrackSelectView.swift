@@ -19,7 +19,7 @@ class TrackSelectView: UIView {
         view.tableFooterView = UIView()
         view.backgroundView = {
             let view = UIView()
-            view.backgroundColor = UIColor.hex("F8F8F8")
+            view.backgroundColor = .white
             return view
         }()
         view.register(TrackSelectViewCell.self, forCellReuseIdentifier: TrackSelectViewCell.description())

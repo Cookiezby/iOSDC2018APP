@@ -23,6 +23,10 @@
 		7631F558211ECFB20040BD9B /* TrackSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7631F557211ECFB20040BD9B /* TrackSelectView.swift */; };
 		7631F55A211EE08A0040BD9B /* TimeTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7631F559211EE08A0040BD9B /* TimeTableViewModel.swift */; };
 		7631F55C211EFAEE0040BD9B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7631F55B211EFAEE0040BD9B /* GoogleService-Info.plist */; };
+		767D0CFC21200DD9003A3730 /* DayTrackCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767D0CFB21200DD9003A3730 /* DayTrackCollectionViewCell.swift */; };
+		767D0CFE2120125F003A3730 /* NotoMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 767D0CFD2120125E003A3730 /* NotoMono-Regular.ttf */; };
+		767D0D012120182C003A3730 /* TrackDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767D0D002120182C003A3730 /* TrackDetailViewController.swift */; };
+		767D0D032120183D003A3730 /* TrackDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767D0D022120183D003A3730 /* TrackDetailViewModel.swift */; };
 		76A0BBBE211F2D7900835640 /* DayTrackCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A0BBBD211F2D7900835640 /* DayTrackCollectionView.swift */; };
 		76A0BBC1211F307300835640 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A0BBC0211F307300835640 /* InfoViewController.swift */; };
 		977F7FC82AB2FEFE30F3C4D0 /* Pods_iOSDC2018Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E72FC361D325E4844FFB8F8C /* Pods_iOSDC2018Tests.framework */; };
@@ -61,6 +65,10 @@
 		7631F557211ECFB20040BD9B /* TrackSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectView.swift; sourceTree = "<group>"; };
 		7631F559211EE08A0040BD9B /* TimeTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTableViewModel.swift; sourceTree = "<group>"; };
 		7631F55B211EFAEE0040BD9B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		767D0CFB21200DD9003A3730 /* DayTrackCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayTrackCollectionViewCell.swift; sourceTree = "<group>"; };
+		767D0CFD2120125E003A3730 /* NotoMono-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoMono-Regular.ttf"; sourceTree = "<group>"; };
+		767D0D002120182C003A3730 /* TrackDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackDetailViewController.swift; sourceTree = "<group>"; };
+		767D0D022120183D003A3730 /* TrackDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackDetailViewModel.swift; sourceTree = "<group>"; };
 		76A0BBBD211F2D7900835640 /* DayTrackCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayTrackCollectionView.swift; sourceTree = "<group>"; };
 		76A0BBC0211F307300835640 /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 		914A4B6D054240D841EEA2A1 /* Pods-iOSDC2018.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSDC2018.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iOSDC2018/Pods-iOSDC2018.debug.xcconfig"; sourceTree = "<group>"; };
@@ -118,6 +126,7 @@
 		7631F522211E8BD70040BD9B /* iOSDC2018 */ = {
 			isa = PBXGroup;
 			children = (
+				767D0CFF21201813003A3730 /* TrackDetail */,
 				76A0BBBF211F306500835640 /* Info */,
 				7631F552211EC6340040BD9B /* Model */,
 				7631F54F211E9A7E0040BD9B /* TimeTable */,
@@ -128,6 +137,7 @@
 				7631F52F211E8BD90040BD9B /* Info.plist */,
 				7631F555211ECAB60040BD9B /* Exts.swift */,
 				7631F55B211EFAEE0040BD9B /* GoogleService-Info.plist */,
+				767D0CFD2120125E003A3730 /* NotoMono-Regular.ttf */,
 			);
 			path = iOSDC2018;
 			sourceTree = "<group>";
@@ -162,6 +172,7 @@
 				7631F550211E9A8E0040BD9B /* TimeTableViewController.swift */,
 				7631F557211ECFB20040BD9B /* TrackSelectView.swift */,
 				76A0BBBD211F2D7900835640 /* DayTrackCollectionView.swift */,
+				767D0CFB21200DD9003A3730 /* DayTrackCollectionViewCell.swift */,
 			);
 			path = TimeTable;
 			sourceTree = "<group>";
@@ -172,6 +183,15 @@
 				7631F553211EC6720040BD9B /* Talk.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		767D0CFF21201813003A3730 /* TrackDetail */ = {
+			isa = PBXGroup;
+			children = (
+				767D0D022120183D003A3730 /* TrackDetailViewModel.swift */,
+				767D0D002120182C003A3730 /* TrackDetailViewController.swift */,
+			);
+			path = TrackDetail;
 			sourceTree = "<group>";
 		};
 		76A0BBBF211F306500835640 /* Info */ = {
@@ -284,6 +304,7 @@
 				7631F52E211E8BD90040BD9B /* LaunchScreen.storyboard in Resources */,
 				7631F55C211EFAEE0040BD9B /* GoogleService-Info.plist in Resources */,
 				7631F52B211E8BD90040BD9B /* Assets.xcassets in Resources */,
+				767D0CFE2120125F003A3730 /* NotoMono-Regular.ttf in Resources */,
 				7631F529211E8BD70040BD9B /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -427,6 +448,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				7631F554211EC6720040BD9B /* Talk.swift in Sources */,
+				767D0D012120182C003A3730 /* TrackDetailViewController.swift in Sources */,
+				767D0CFC21200DD9003A3730 /* DayTrackCollectionViewCell.swift in Sources */,
+				767D0D032120183D003A3730 /* TrackDetailViewModel.swift in Sources */,
 				7631F556211ECAB60040BD9B /* Exts.swift in Sources */,
 				7631F551211E9A8E0040BD9B /* TimeTableViewController.swift in Sources */,
 				7631F558211ECFB20040BD9B /* TrackSelectView.swift in Sources */,

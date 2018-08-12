@@ -7,15 +7,28 @@
 //
 
 import Foundation
+import UIKit
 import ReactiveCocoa
 import ReactiveSwift
 import Result
 
-final class TimeTableViewModel: NSObject, TimeTableNaviBarInOut {
+final class TimeTableViewModel: NSObject, TimeTableNaviBarInOut, DayTrackCollectionViewCellInOut {
     let openInfoAction: Action<Void, Void, NoError> = { Action { SignalProducer(value: $0) }}()
+    let presentVCAction: Action<(UIViewController, Bool), (UIViewController, Bool), NoError>  = { Action { SignalProducer(value: $0) }}()
+    let selectTrackAction: Action<Int, Int, NoError> = { Action { SignalProducer(value: $0) }}()
     
     override init() {
         super.init()
+        openInfoAction.values.take(during: reactive.lifetime).observeValues { [weak self] _ in
+            let vc = UINavigationController(rootViewController: InfoViewController())
+            self?.presentVCAction.apply((vc, true)).start()
+        }
+        
+        selectTrackAction.values.take(during: reactive.lifetime).observeValues { [weak self] (value) in
+            print("\(value)")
+            let vc = TrackDetailViewController()
+            vc.modalPresentationStyle = .overCurrentContext
+            self?.presentVCAction.apply((vc, false)).start()
+        }
     }
-
 }
