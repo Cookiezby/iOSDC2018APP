@@ -8,6 +8,13 @@
 
 import Foundation
 import UIKit
+import ReactiveSwift
+import ReactiveCocoa
+import Result
+
+protocol DayTrackCollectionViewCellInOut {
+    var selectTrackAction: Action<Int, Int, NoError> { get }
+}
 
 final class DayTrackCollectionView: UIView {
     private lazy var collectionView: UICollectionView = {
@@ -20,13 +27,22 @@ final class DayTrackCollectionView: UIView {
         view.dataSource = self
         view.isPagingEnabled = true
         view.backgroundColor = .white
-        view.register(UICollectionViewCell.self, forCellWithReuseIdentifier: UICollectionViewCell.description())
+        view.register(DayTrackCollectionViewCell.self, forCellWithReuseIdentifier: DayTrackCollectionViewCell.description())
         return view
     }()
+    
+    var disposables: CompositeDisposable?
+    let selectTrackAction: Action<Int, Int, NoError> = { Action { SignalProducer(value: $0) }}()
     
     init() {
         super.init(frame: .zero)
         addSubview(collectionView)
+    }
+    
+    func bind(_ inOut: DayTrackCollectionViewCellInOut) {
+        selectTrackAction.values.take(during: reactive.lifetime).observeValues{ (value) in
+            inOut.selectTrackAction.apply(value).start()
+        }
     }
     
     override func layoutSubviews() {
@@ -49,8 +65,8 @@ extension DayTrackCollectionView: UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UICollectionViewCell.description(), for: indexPath)
-        cell.backgroundColor = UIColor.random
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DayTrackCollectionViewCell.description(), for: indexPath) as! DayTrackCollectionViewCell
+        cell.selectTrackAction = selectTrackAction
         return cell
     }
     
@@ -59,18 +75,4 @@ extension DayTrackCollectionView: UICollectionViewDelegate, UICollectionViewData
     }
 }
 
-final
-class DayTrackCollectionViewCell: UICollectionViewCell {
-    private lazy var tableView: UITableView = {
-        let view = UITableView()
-        return view
-    }()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
+
