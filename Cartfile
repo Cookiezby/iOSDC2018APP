@@ -2,3 +2,4 @@ github "SnapKit/SnapKit" ~> 4.0.0
 github "ReactiveCocoa/ReactiveSwift" ~> 3.0
 github "jdg/MBProgressHUD" ~> 1.1.0
 github "ReactiveCocoa/ReactiveCocoa" ~> 7.0
+github "rs/SDWebImage"

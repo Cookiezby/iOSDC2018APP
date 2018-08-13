@@ -11,6 +11,7 @@ import UIKit
 import ReactiveSwift
 import ReactiveCocoa
 import Result
+import SDWebImage
 
 final
 class DayTrackCollectionViewCellDateHeader: UIView {
@@ -93,11 +94,12 @@ extension DayTrackCollectionViewCell: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 12
+        return Proposal.all.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: TrackTableViewCell.description(), for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: TrackTableViewCell.description(), for: indexPath) as! TrackTableViewCell
+        cell.setProposal(Proposal.all[indexPath.row])
         return cell
     }
     
@@ -125,6 +127,7 @@ class TrackTableViewCell: UITableViewCell {
         let view = UIImageView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 12.5
+        view.clipsToBounds = true
         return view
     }()
     
@@ -164,6 +167,13 @@ class TrackTableViewCell: UITableViewCell {
         autoLayout()
     }
     
+    func setProposal(_ proposal: Proposal) {
+        SDWebImageManager.shared().imageDownloader?.downloadImage(with: URL(string: proposal.profileImageURL), options: .lowPriority, progress: nil) { (image, data, error, fiished) in
+            self.profileImage.image = image
+        }
+        titleLabel.text = proposal.title
+    }
+    
     private func autoLayout() {
         timeLabel.snp.makeConstraints { (make) in
             make.left.equalTo(10)
@@ -173,14 +183,14 @@ class TrackTableViewCell: UITableViewCell {
         
         profileImage.snp.makeConstraints { (make) in
             make.left.equalTo(timeLabel.snp.left)
-            make.top.equalTo(timeLabel.snp.bottom).offset(6)
+            make.top.equalTo(timeLabel.snp.bottom).offset(10)
             make.size.equalTo(25)
         }
         
         titleLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(timeLabel.snp.bottom).offset(6)
+            make.top.equalTo(profileImage.snp.top)
             make.left.equalTo(profileImage.snp.right).offset(12)
-            make.bottom.equalTo(-8)
+            make.bottom.lessThanOrEqualTo(-8)
             make.right.equalTo(-8)
         }
         
