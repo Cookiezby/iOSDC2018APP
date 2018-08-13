@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7612ED242121DA0600FAA081 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7612ED232121DA0600FAA081 /* SDWebImage.framework */; };
 		7631F524211E8BD70040BD9B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7631F523211E8BD70040BD9B /* AppDelegate.swift */; };
 		7631F529211E8BD70040BD9B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7631F527211E8BD70040BD9B /* Main.storyboard */; };
 		7631F52B211E8BD90040BD9B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7631F52A211E8BD90040BD9B /* Assets.xcassets */; };
@@ -22,6 +23,7 @@
 		7631F556211ECAB60040BD9B /* Exts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7631F555211ECAB60040BD9B /* Exts.swift */; };
 		7631F558211ECFB20040BD9B /* TrackSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7631F557211ECFB20040BD9B /* TrackSelectView.swift */; };
 		7631F55A211EE08A0040BD9B /* TimeTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7631F559211EE08A0040BD9B /* TimeTableViewModel.swift */; };
+		7667FC8B2121B88600D78955 /* Data.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7667FC8A2121B88600D78955 /* Data.plist */; };
 		767D0CFC21200DD9003A3730 /* DayTrackCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767D0CFB21200DD9003A3730 /* DayTrackCollectionViewCell.swift */; };
 		767D0CFE2120125F003A3730 /* NotoMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 767D0CFD2120125E003A3730 /* NotoMono-Regular.ttf */; };
 		767D0D012120182C003A3730 /* TrackDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767D0D002120182C003A3730 /* TrackDetailViewController.swift */; };
@@ -45,6 +47,7 @@
 
 /* Begin PBXFileReference section */
 		592EFC58006E657042CAC7D0 /* Pods-iOSDC2018.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSDC2018.release.xcconfig"; path = "Pods/Target Support Files/Pods-iOSDC2018/Pods-iOSDC2018.release.xcconfig"; sourceTree = "<group>"; };
+		7612ED232121DA0600FAA081 /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDWebImage.framework; path = Carthage/Build/iOS/SDWebImage.framework; sourceTree = "<group>"; };
 		7631F520211E8BD70040BD9B /* iOSDC2018.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSDC2018.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7631F523211E8BD70040BD9B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7631F528211E8BD70040BD9B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -64,6 +67,7 @@
 		7631F555211ECAB60040BD9B /* Exts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exts.swift; sourceTree = "<group>"; };
 		7631F557211ECFB20040BD9B /* TrackSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectView.swift; sourceTree = "<group>"; };
 		7631F559211EE08A0040BD9B /* TimeTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTableViewModel.swift; sourceTree = "<group>"; };
+		7667FC8A2121B88600D78955 /* Data.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Data.plist; sourceTree = "<group>"; };
 		767D0CFB21200DD9003A3730 /* DayTrackCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayTrackCollectionViewCell.swift; sourceTree = "<group>"; };
 		767D0CFD2120125E003A3730 /* NotoMono-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoMono-Regular.ttf"; sourceTree = "<group>"; };
 		767D0D002120182C003A3730 /* TrackDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackDetailViewController.swift; sourceTree = "<group>"; };
@@ -83,6 +87,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7612ED242121DA0600FAA081 /* SDWebImage.framework in Frameworks */,
 				7631F54E211E96F50040BD9B /* ReactiveSwift.framework in Frameworks */,
 				7631F54C211E96EB0040BD9B /* SnapKit.framework in Frameworks */,
 				7631F54A211E96E20040BD9B /* Result.framework in Frameworks */,
@@ -154,6 +159,7 @@
 		7631F544211E96CC0040BD9B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7612ED232121DA0600FAA081 /* SDWebImage.framework */,
 				7631F54D211E96F50040BD9B /* ReactiveSwift.framework */,
 				7631F54B211E96EB0040BD9B /* SnapKit.framework */,
 				7631F549211E96E10040BD9B /* Result.framework */,
@@ -173,6 +179,7 @@
 				7631F557211ECFB20040BD9B /* TrackSelectView.swift */,
 				76A0BBBD211F2D7900835640 /* DayTrackCollectionView.swift */,
 				767D0CFB21200DD9003A3730 /* DayTrackCollectionViewCell.swift */,
+				7667FC8A2121B88600D78955 /* Data.plist */,
 			);
 			path = TimeTable;
 			sourceTree = "<group>";
@@ -301,6 +308,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7667FC8B2121B88600D78955 /* Data.plist in Resources */,
 				7631F52E211E8BD90040BD9B /* LaunchScreen.storyboard in Resources */,
 				7631F52B211E8BD90040BD9B /* Assets.xcassets in Resources */,
 				767D0D0521207A05003A3730 /* GoogleService-Info.plist in Resources */,
@@ -363,6 +371,7 @@
 				"$(SRCROOT)/Carthage/Build/iOS/ReactiveCocoa.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SnapKit.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/MBProgressHUD.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/SDWebImage.framework",
 			);
 			outputPaths = (
 			);
