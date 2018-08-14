@@ -8,8 +8,9 @@
 
 import Foundation
 import UIKit
+import SDWebImage
 
-fileprivate let ContainerHeight: CGFloat = UIScreen.main.bounds.width > 320 ? 300 : 320
+fileprivate let ContainerHeight: CGFloat = UIScreen.main.bounds.width > 320 ? 330 : 400
 
 final
 class TrackDetailViewController: UIViewController {
@@ -23,39 +24,48 @@ class TrackDetailViewController: UIViewController {
     private let profileImageView: UIImageView = {
         let view = UIImageView()
         view.backgroundColor = .darkGray
-        view.layer.cornerRadius = 15
+        view.layer.cornerRadius = 20
+        view.clipsToBounds = true
         return view
+    }()
+    
+    private let profileBack: CALayer = {
+        let layer = CALayer()
+        layer.borderWidth = 2.0
+        layer.borderColor = UIColor.hex("EAEAEA").cgColor
+        return layer
     }()
     
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.text = " bannzai"
-        label.font = UIFont.pingFang(size: 13)
+        label.font = UIFont.pingFang(size: 14)
         label.textColor = UIColor.hex("4A4A4A")
         return label
     }()
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.pingFangMedium(size: 15)
+        label.font = UIFont.pingFangMedium(size: 16)
         label.numberOfLines = 0
-        label.text = "~~ †††† 漆黒の魔法 Objecitve-C Runtime API †††† ~~ "
         label.textColor = UIColor.hex("4A4A4A")
         return label
     }()
     
     private let detailTextView: UITextView = {
         let view = UITextView()
-        view.textColor = UIColor.hex("9B9B9B")
-        view.font = UIFont.pingFang(size: 11)
+        view.textColor = UIColor.hex("909090")
+        view.font = UIFont.pingFang(size: 12)
         view.contentInset = .zero
-        view.text =
-        """
-        やめて！Objective-Cの黒魔術でRuntime APIで色々されたら、闇のコードと繋がっているiOSアプリエンジニアの精神まで燃え尽きちゃう。お願い、機能してXcode。あなたがここで倒れちゃうとマネージャーや社長との約束はどうなっちゃうの。ライフはまだ残っている。ここを耐えれば納期に間に合うんだから。次回「城n(ry
-        
-        Objective-Cの黒魔術を用いて闇のコードを紹介していきます。
-        """
+        view.isEditable = false
         return view
+    }()
+    
+    private let twitterButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "TwitterButton"), for: .normal)
+        button.layer.applySketchShadow(color: .black, alpha: 0.15, x: 0, y: 1, blur: 7, spread: 0)
+        return button
     }()
     
     private let addToListButton: UIButton = {
@@ -79,19 +89,28 @@ class TrackDetailViewController: UIViewController {
         return tap
     }()
     
-    init() {
+    init(proposal: Proposal) {
         super.init(nibName: nil, bundle: nil)
+        titleLabel.text = proposal.title
+        detailTextView.text = proposal.abstract
+        nameLabel.text = proposal.speaker
+        SDWebImageManager.shared().imageDownloader?.downloadImage(with: URL(string: proposal.profileImageURL), options: .highPriority, progress: nil, completed: { (image, data, error, finished) in
+            let size = 40 * UIScreen.main.nativeScale
+            self.profileImageView.image = image?.resize(newSize: CGSize(width: size, height: size))
+        })
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(containerView)
+        containerView.layer.addSublayer(profileBack)
         containerView.addSubview(nameLabel)
         containerView.addSubview(titleLabel)
         containerView.addSubview(profileImageView)
         containerView.addSubview(detailTextView)
         containerView.addSubview(addToListButton)
         containerView.addSubview(removeFromListButton)
+        containerView.addSubview(twitterButton)
         autoLayout()
         setupAction()
     }
@@ -109,13 +128,14 @@ class TrackDetailViewController: UIViewController {
         }
         
         profileImageView.snp.makeConstraints { (make) in
-            make.top.left.equalTo(18)
-            make.size.equalTo(30)
+            make.left.equalTo(18)
+            make.top.equalTo(15)
+            make.size.equalTo(40)
         }
         
         nameLabel.snp.makeConstraints { (make) in
             make.centerY.equalTo(profileImageView)
-            make.left.equalTo(profileImageView.snp.right).offset(7)
+            make.left.equalTo(profileImageView.snp.right).offset(10)
             make.right.equalTo(-18)
             make.height.greaterThanOrEqualTo(0)
         }
@@ -128,10 +148,10 @@ class TrackDetailViewController: UIViewController {
         }
         
         detailTextView.snp.makeConstraints { (make) in
-            make.left.equalTo(18)
-            make.right.equalTo(-18)
+            make.left.equalTo(17)
+            make.right.equalTo(-17)
             make.top.equalTo(titleLabel.snp.bottom).offset(5)
-            make.bottom.equalTo(-100)
+            make.bottom.equalTo(-90)
         }
         
         addToListButton.snp.makeConstraints { (make) in
@@ -139,6 +159,13 @@ class TrackDetailViewController: UIViewController {
             make.width.equalTo(188)
             make.height.equalTo(42)
             make.bottom.equalTo(-39)
+        }
+        
+        twitterButton.snp.makeConstraints { (make) in
+            make.width.equalTo(28)
+            make.height.equalTo(29)
+            make.right.equalTo(-25)
+            make.centerY.equalTo(profileImageView)
         }
     }
     
@@ -152,6 +179,8 @@ class TrackDetailViewController: UIViewController {
         super.viewDidLayoutSubviews()
         containerView.layer.applySketchShadow(color: .black, alpha: 0.4, x: 0, y: 1, blur: 10, spread: 3)
         addToListButton.layer.applySketchShadow(color: .black, alpha: 0.2, x: 0, y: 1, blur: 7, spread: 0)
+        profileBack.frame = profileImageView.frame.insetBy(dx: -2, dy: -2)
+        profileBack.cornerRadius = profileBack.bounds.width / 2
     }
     
     required init?(coder aDecoder: NSCoder) {

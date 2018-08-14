@@ -13,7 +13,7 @@ import ReactiveCocoa
 import Result
 
 protocol DayTrackCollectionViewCellInOut {
-    var selectTrackAction: Action<Int, Int, NoError> { get }
+    var selectTrackAction: Action<Proposal, Proposal, NoError> { get }
 }
 
 final class DayTrackCollectionView: UIView {
@@ -31,7 +31,7 @@ final class DayTrackCollectionView: UIView {
         return view
     }()
     
-    var selectTrackAction: Action<Int, Int, NoError> = { Action { SignalProducer(value: $0) }}()
+    var selectTrackAction: Action<Proposal, Proposal, NoError> = { Action { SignalProducer(value: $0) }}()
     
     init() {
         super.init(frame: .zero)
