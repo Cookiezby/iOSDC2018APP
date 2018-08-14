@@ -80,10 +80,7 @@ class TimeTableViewController: UIViewController {
     }()
     
     private let trackSelectView = TrackSelectView()
-    private lazy var dayTrackCollecitonView: DayTrackCollectionView = {
-        let view = DayTrackCollectionView()
-        return view
-    }()
+    private lazy var dayTrackCollecitonView = DayTrackCollectionView()
     
     private let viewModel = TimeTableViewModel()
     
@@ -100,7 +97,8 @@ class TimeTableViewController: UIViewController {
     func bind(_ viewModel: TimeTableViewModel) {
         naviBar.bindInOut(viewModel)
         dayTrackCollecitonView.bind(viewModel)
-
+        trackSelectView.bind(viewModel)
+        
         viewModel.presentVCAction.values.take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues { [weak self] (vc, animated) in
             self?.present(vc, animated: animated, completion: nil)
         }

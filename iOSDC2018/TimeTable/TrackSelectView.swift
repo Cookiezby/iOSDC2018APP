@@ -8,6 +8,12 @@
 
 import Foundation
 import UIKit
+import ReactiveSwift
+import Result
+
+protocol TrackSelectViewInOut {
+    var selectedTrack: MutableProperty<TrackProposal> { get }
+}
 
 final
 class TrackSelectView: UIView {
@@ -26,10 +32,16 @@ class TrackSelectView: UIView {
         return view
     }()
     
+    private let selectedTrack = MutableProperty<TrackProposal>(ProposalAdapter.shared.trackProposalList[0])
+    
     init() {
         super.init(frame: .zero)
         addSubview(tableView)
         autoLayout()
+    }
+    
+    func bind(_ inOut: TrackSelectViewInOut) {
+        inOut.selectedTrack <~ selectedTrack.signal.take(during: reactive.lifetime)
     }
     
     private func autoLayout() {
@@ -49,11 +61,12 @@ extension TrackSelectView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 7
+        return ProposalAdapter.shared.trackProposalList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TrackSelectViewCell.description(), for: indexPath) as! TrackSelectViewCell
+        cell.label.text = ProposalAdapter.shared.trackProposalList[indexPath.row].track.rawValue
         return cell
     }
     
@@ -62,12 +75,12 @@ extension TrackSelectView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedTrack.swap(ProposalAdapter.shared.trackProposalList[indexPath.row])
     }
 }
 
 final class TrackSelectViewCell: UITableViewCell {
-    
-    private let label: UILabel = {
+    let label: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 15)
         label.textColor = .darkGray

@@ -15,10 +15,16 @@ import SDWebImage
 
 final
 class DayTrackCollectionViewCellDateHeader: UIView {
+    var date = Date() {
+        didSet {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "M月dd日"
+            dayLabel.text = dateFormatter.string(from: date)
+        }
+    }
     private let dayLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.pingFang(size: 18)
-        label.text = "8月31日"
         label.textColor = .darkGray
         return label
     }()
@@ -66,6 +72,12 @@ class DayTrackCollectionViewCell: UICollectionViewCell {
         clipsToBounds = true
     }
     
+    var dayProposal = DayProposal(date: Date(), proposals: []) {
+        didSet {
+            dateHeader.date = dayProposal.date
+        }
+    }
+    
     private func autoLayout() {
         dateHeader.snp.makeConstraints { (make) in
             make.top.left.right.equalToSuperview()
@@ -76,6 +88,11 @@ class DayTrackCollectionViewCell: UICollectionViewCell {
             make.top.equalTo(dateHeader.snp.bottom)
             make.left.right.bottom.equalToSuperview()
         }
+    }
+    
+    func setDayProposal(_ dayProposal: DayProposal) {
+        self.dayProposal = dayProposal
+        tableView.reloadData()
     }
     
     override func prepareForReuse() {
@@ -94,12 +111,12 @@ extension DayTrackCollectionViewCell: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Proposal.all.count
+        return dayProposal.proposals.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TrackTableViewCell.description(), for: indexPath) as! TrackTableViewCell
-        cell.setProposal(Proposal.all[indexPath.row])
+        cell.setProposal(dayProposal.proposals[indexPath.row])
         return cell
     }
     
@@ -109,7 +126,7 @@ extension DayTrackCollectionViewCell: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
-        selectTrackAction?.apply(Proposal.all[indexPath.row]).start()
+        selectTrackAction?.apply(dayProposal.proposals[indexPath.row]).start()
     }
 }
 

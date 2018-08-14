@@ -92,3 +92,15 @@ extension UIImage {
         return scaledImage!
     }
 }
+
+extension Date {
+    static func createBy(year: Int, month: Int, day: Int, hour: Int = 0, minute: Int = 0) -> Date {
+        var components = DateComponents()
+        components.year = year
+        components.month = month
+        components.day = day
+        components.hour = hour
+        components.minute = minute
+        return Calendar.current.date(from: components)!
+    }
+}

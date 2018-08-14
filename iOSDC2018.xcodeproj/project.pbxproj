@@ -19,7 +19,7 @@
 		7631F54C211E96EB0040BD9B /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7631F54B211E96EB0040BD9B /* SnapKit.framework */; };
 		7631F54E211E96F50040BD9B /* ReactiveSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7631F54D211E96F50040BD9B /* ReactiveSwift.framework */; };
 		7631F551211E9A8E0040BD9B /* TimeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7631F550211E9A8E0040BD9B /* TimeTableViewController.swift */; };
-		7631F554211EC6720040BD9B /* Talk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7631F553211EC6720040BD9B /* Talk.swift */; };
+		7631F554211EC6720040BD9B /* Proposal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7631F553211EC6720040BD9B /* Proposal.swift */; };
 		7631F556211ECAB60040BD9B /* Exts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7631F555211ECAB60040BD9B /* Exts.swift */; };
 		7631F558211ECFB20040BD9B /* TrackSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7631F557211ECFB20040BD9B /* TrackSelectView.swift */; };
 		7631F55A211EE08A0040BD9B /* TimeTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7631F559211EE08A0040BD9B /* TimeTableViewModel.swift */; };
@@ -29,6 +29,7 @@
 		767D0D012120182C003A3730 /* TrackDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767D0D002120182C003A3730 /* TrackDetailViewController.swift */; };
 		767D0D032120183D003A3730 /* TrackDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767D0D022120183D003A3730 /* TrackDetailViewModel.swift */; };
 		767D0D0521207A05003A3730 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 767D0D0421207A05003A3730 /* GoogleService-Info.plist */; };
+		768EF46B21231BED00A50591 /* ProposalAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768EF46A21231BED00A50591 /* ProposalAdapter.swift */; };
 		76A0BBBE211F2D7900835640 /* DayTrackCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A0BBBD211F2D7900835640 /* DayTrackCollectionView.swift */; };
 		76A0BBC1211F307300835640 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A0BBC0211F307300835640 /* InfoViewController.swift */; };
 		977F7FC82AB2FEFE30F3C4D0 /* Pods_iOSDC2018Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E72FC361D325E4844FFB8F8C /* Pods_iOSDC2018Tests.framework */; };
@@ -63,7 +64,7 @@
 		7631F54B211E96EB0040BD9B /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = Carthage/Build/iOS/SnapKit.framework; sourceTree = "<group>"; };
 		7631F54D211E96F50040BD9B /* ReactiveSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveSwift.framework; path = Carthage/Build/iOS/ReactiveSwift.framework; sourceTree = "<group>"; };
 		7631F550211E9A8E0040BD9B /* TimeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTableViewController.swift; sourceTree = "<group>"; };
-		7631F553211EC6720040BD9B /* Talk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Talk.swift; sourceTree = "<group>"; };
+		7631F553211EC6720040BD9B /* Proposal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Proposal.swift; sourceTree = "<group>"; };
 		7631F555211ECAB60040BD9B /* Exts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exts.swift; sourceTree = "<group>"; };
 		7631F557211ECFB20040BD9B /* TrackSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectView.swift; sourceTree = "<group>"; };
 		7631F559211EE08A0040BD9B /* TimeTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTableViewModel.swift; sourceTree = "<group>"; };
@@ -73,6 +74,7 @@
 		767D0D002120182C003A3730 /* TrackDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackDetailViewController.swift; sourceTree = "<group>"; };
 		767D0D022120183D003A3730 /* TrackDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackDetailViewModel.swift; sourceTree = "<group>"; };
 		767D0D0421207A05003A3730 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		768EF46A21231BED00A50591 /* ProposalAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProposalAdapter.swift; sourceTree = "<group>"; };
 		76A0BBBD211F2D7900835640 /* DayTrackCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayTrackCollectionView.swift; sourceTree = "<group>"; };
 		76A0BBC0211F307300835640 /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 		914A4B6D054240D841EEA2A1 /* Pods-iOSDC2018.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSDC2018.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iOSDC2018/Pods-iOSDC2018.debug.xcconfig"; sourceTree = "<group>"; };
@@ -187,7 +189,8 @@
 		7631F552211EC6340040BD9B /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				7631F553211EC6720040BD9B /* Talk.swift */,
+				7631F553211EC6720040BD9B /* Proposal.swift */,
+				768EF46A21231BED00A50591 /* ProposalAdapter.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -456,11 +459,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7631F554211EC6720040BD9B /* Talk.swift in Sources */,
+				7631F554211EC6720040BD9B /* Proposal.swift in Sources */,
 				767D0D012120182C003A3730 /* TrackDetailViewController.swift in Sources */,
 				767D0CFC21200DD9003A3730 /* DayTrackCollectionViewCell.swift in Sources */,
 				767D0D032120183D003A3730 /* TrackDetailViewModel.swift in Sources */,
 				7631F556211ECAB60040BD9B /* Exts.swift in Sources */,
+				768EF46B21231BED00A50591 /* ProposalAdapter.swift in Sources */,
 				7631F551211E9A8E0040BD9B /* TimeTableViewController.swift in Sources */,
 				7631F558211ECFB20040BD9B /* TrackSelectView.swift in Sources */,
 				7631F55A211EE08A0040BD9B /* TimeTableViewModel.swift in Sources */,

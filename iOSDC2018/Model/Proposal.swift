@@ -13,8 +13,6 @@ enum Track: String {
     case B = "B"
     case C = "C"
     case D = "D"
-    case E = "E"
-    case F = "F"
 }
 
 struct Proposal {
