@@ -15,7 +15,7 @@ import Result
 final class TimeTableViewModel: NSObject, TimeTableNaviBarInOut, DayTrackCollectionViewCellInOut {
     let openInfoAction: Action<Void, Void, NoError> = { Action { SignalProducer(value: $0) }}()
     let presentVCAction: Action<(UIViewController, Bool), (UIViewController, Bool), NoError>  = { Action { SignalProducer(value: $0) }}()
-    let selectTrackAction: Action<Int, Int, NoError> = { Action { SignalProducer(value: $0) }}()
+    let selectTrackAction: Action<Proposal, Proposal, NoError> = { Action { SignalProducer(value: $0) }}()
     
     override init() {
         super.init()
@@ -25,7 +25,7 @@ final class TimeTableViewModel: NSObject, TimeTableNaviBarInOut, DayTrackCollect
         }
         
         selectTrackAction.values.take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues { [weak self] (value) in
-            let vc = TrackDetailViewController()
+            let vc = TrackDetailViewController(proposal: value)
             vc.modalPresentationStyle = .overCurrentContext
             self?.presentVCAction.apply((vc, false)).start()
         }

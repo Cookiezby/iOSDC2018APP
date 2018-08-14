@@ -56,8 +56,8 @@ class DayTrackCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
-    weak var selectTrackAction: Action<Int, Int, NoError>? = nil
-    
+    weak var selectTrackAction: Action<Proposal, Proposal, NoError>? = nil
+   
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(dateHeader)
@@ -109,7 +109,7 @@ extension DayTrackCollectionViewCell: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
-        selectTrackAction?.apply(indexPath.row).start()
+        selectTrackAction?.apply(Proposal.all[indexPath.row]).start()
     }
 }
 
@@ -169,7 +169,7 @@ class TrackTableViewCell: UITableViewCell {
     
     func setProposal(_ proposal: Proposal) {
         SDWebImageManager.shared().imageDownloader?.downloadImage(with: URL(string: proposal.profileImageURL), options: .lowPriority, progress: nil) { (image, data, error, fiished) in
-            self.profileImage.image = image
+            self.profileImage.image = image?.resize(newSize: CGSize(width: 50, height: 50))
         }
         titleLabel.text = proposal.title
     }
@@ -200,6 +200,11 @@ class TrackTableViewCell: UITableViewCell {
             make.top.equalTo(6)
             make.bottom.equalTo(-6)
         }
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        profileImage.image = nil
     }
     
     override func layoutSubviews() {
