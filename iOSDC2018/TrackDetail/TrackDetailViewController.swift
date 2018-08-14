@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import SDWebImage
+import SafariServices
 
 fileprivate let ContainerHeight: CGFloat = UIScreen.main.bounds.width > 320 ? 330 : 400
 
@@ -89,7 +90,10 @@ class TrackDetailViewController: UIViewController {
         return tap
     }()
     
+    private var proposal: Proposal
+    
     init(proposal: Proposal) {
+        self.proposal = proposal
         super.init(nibName: nil, bundle: nil)
         titleLabel.text = proposal.title
         detailTextView.text = proposal.abstract
@@ -172,6 +176,14 @@ class TrackDetailViewController: UIViewController {
     private func setupAction() {
         dismissTap.reactive.stateChanged.take(during: reactive.lifetime).observeValues { [weak self] _ in
             self?.dismissAnimation()
+        }
+        
+        twitterButton.reactive.controlEvents(.touchUpInside).take(during: reactive.lifetime).observeValues { [weak self] (_) in
+            guard let twitterURL = self?.proposal.twitterLink else { return }
+            if let url = URL(string: twitterURL) {
+                let safariVC = SFSafariViewController(url: url, entersReaderIfAvailable: true)
+                self?.present(safariVC, animated: true, completion: nil)
+            }
         }
     }
 
