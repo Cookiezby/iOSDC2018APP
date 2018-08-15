@@ -14,7 +14,7 @@ import Result
 
 protocol DayTrackCollectionViewCellInOut {
     var selectProposalAction: Action<Proposal, Proposal, NoError> { get }
-    var selectedTrack: MutableProperty<TrackProposal> { get }
+    var selectedDay: MutableProperty<NewDayProposal> { get }
 }
 
 final class DayTrackCollectionView: UIView {
@@ -32,23 +32,23 @@ final class DayTrackCollectionView: UIView {
         return view
     }()
     
-    var selectTrackAction: Action<Proposal, Proposal, NoError> = { Action { SignalProducer(value: $0) }}()
+    var selectProposalAction: Action<Proposal, Proposal, NoError> = { Action { SignalProducer(value: $0) }}()
+    private let selectedDay = MutableProperty<NewDayProposal>(ProposalAdapter.shared.dayProposalList[0])
     
     init() {
         super.init(frame: .zero)
         addSubview(collectionView)
     }
     
-    private let selectedTrack = MutableProperty<TrackProposal>(ProposalAdapter.shared.trackProposalList[0])
-    
     func bind(_ inOut: DayTrackCollectionViewCellInOut) {
-        selectTrackAction.values.take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues{ (value) in
+        selectProposalAction.values.take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues{ (value) in
             inOut.selectProposalAction.apply(value).start()
         }
         
-        inOut.selectedTrack.signal.take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues { [weak self] (value) in
-            self?.selectedTrack.value = value
+        inOut.selectedDay.signal.take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues { [weak self] (value) in
+            self?.selectedDay.value = value
             self?.collectionView.reloadData()
+            self?.collectionView.contentOffset = .zero
         }
     }
     
@@ -56,7 +56,7 @@ final class DayTrackCollectionView: UIView {
         super.layoutSubviews()
         collectionView.frame = bounds
     }
-    
+        
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -68,13 +68,13 @@ extension DayTrackCollectionView: UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return selectedTrack.value.dayProposals.count
+        return selectedDay.value.trackProposals.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DayTrackCollectionViewCell.description(), for: indexPath) as! DayTrackCollectionViewCell
-        cell.selectTrackAction = selectTrackAction
-        cell.setDayProposal(selectedTrack.value.dayProposals[indexPath.item])
+        cell.selectProposalAction = selectProposalAction
+        cell.setTrackProposal(selectedDay.value.trackProposals[indexPath.item])
         return cell
     }
     
