@@ -15,31 +15,32 @@ import SDWebImage
 
 final
 class DayTrackCollectionViewCellDateHeader: UIView {
-    var date = Date() {
+    var track:Track? = nil {
         didSet {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "M月dd日"
-            dayLabel.text = dateFormatter.string(from: date)
+            if let track = track {
+                trackLabel.text = track.rawValue
+            }
         }
     }
-    private let dayLabel: UILabel = {
+
+    private let trackLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.pingFang(size: 18)
+        label.font = UIFont(name: "NotoMono", size: 19)
         label.textColor = .darkGray
         return label
     }()
     
     init() {
         super.init(frame: .zero)
-        addSubview(dayLabel)
+        addSubview(trackLabel)
         autoLayout()
     }
     
     private func autoLayout() {
-        dayLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(10)
-            make.left.equalTo(18)
+        trackLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(14)
             make.width.height.greaterThanOrEqualTo(0)
+            make.bottom.equalTo(-2)
         }
     }
     
@@ -62,11 +63,14 @@ class DayTrackCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
-    weak var selectTrackAction: Action<Proposal, Proposal, NoError>? = nil
+    private let emptyView = DayTrackEmptyView()
+    
+    weak var selectProposalAction: Action<Proposal, Proposal, NoError>? = nil
    
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(dateHeader)
+        addSubview(emptyView)
         addSubview(tableView)
         autoLayout()
         clipsToBounds = true
@@ -74,30 +78,44 @@ class DayTrackCollectionViewCell: UICollectionViewCell {
     
     var dayProposal = DayProposal(date: Date(), proposals: []) {
         didSet {
-            dateHeader.date = dayProposal.date
+            //dateHeader.date = dayProposal.date
+        }
+    }
+    
+    var trackProposal: NewTrackProposal? = nil {
+        didSet {
+            if let trackProposal = trackProposal {
+                dateHeader.track = trackProposal.track
+                tableView.isHidden = trackProposal.proposals.count == 0
+            }
         }
     }
     
     private func autoLayout() {
         dateHeader.snp.makeConstraints { (make) in
             make.top.left.right.equalToSuperview()
-            make.height.equalTo(43)
+            make.height.equalTo(40)
         }
         
         tableView.snp.makeConstraints { (make) in
             make.top.equalTo(dateHeader.snp.bottom)
             make.left.right.bottom.equalToSuperview()
         }
+        
+        emptyView.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
     }
     
-    func setDayProposal(_ dayProposal: DayProposal) {
-        self.dayProposal = dayProposal
+    func setTrackProposal(_ trackProposal: NewTrackProposal) {
+        self.trackProposal = trackProposal
         tableView.reloadData()
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        selectTrackAction = nil
+        selectProposalAction = nil
+        tableView.contentOffset = .zero
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -111,12 +129,14 @@ extension DayTrackCollectionViewCell: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dayProposal.proposals.count
+        return trackProposal?.proposals.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TrackTableViewCell.description(), for: indexPath) as! TrackTableViewCell
-        cell.setProposal(dayProposal.proposals[indexPath.row])
+        if let proposal = trackProposal?.proposals[indexPath.row] {
+             cell.setProposal(proposal)
+        }
         return cell
     }
     
@@ -126,7 +146,10 @@ extension DayTrackCollectionViewCell: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
-        selectTrackAction?.apply(dayProposal.proposals[indexPath.row]).start()
+        if let proposal = trackProposal?.proposals[indexPath.row] {
+            selectProposalAction?.apply(proposal).start()
+        }
+      
     }
 }
 
@@ -134,9 +157,8 @@ final
 class TrackTableViewCell: UITableViewCell {
     private let timeLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "NotoMono", size: 10)
+        label.font = UIFont(name: "NotoMono", size: 11)
         label.textColor = .white
-        label.text = "10:00 ~ 10:15"
         return label
     }()
     
@@ -152,7 +174,6 @@ class TrackTableViewCell: UITableViewCell {
         let label = UILabel()
         label.textColor = .white
         label.font = UIFont.boldSystemFont(ofSize: 12)
-        label.text = "~~ †††† 漆黒の魔法 Objecitve-C Runtime API †††† ~~"
         label.numberOfLines = 0
         return label
     }()
@@ -167,10 +188,16 @@ class TrackTableViewCell: UITableViewCell {
     private let gradientLayer: CAGradientLayer = {
         let layer = CAGradientLayer()
         layer.cornerRadius = 7
-        layer.colors = [UIColor.hex("F76B1C").cgColor, UIColor.hex("FEAD3F").cgColor]
+        layer.speed = 100
         layer.startPoint = CGPoint(x: 0, y: 0.5)
         layer.endPoint   = CGPoint(x: 1, y: 0.5)
         return layer
+    }()
+    
+    private let timeFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        return formatter
     }()
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -189,6 +216,20 @@ class TrackTableViewCell: UITableViewCell {
             self.profileImage.image = image?.resize(newSize: CGSize(width: 50, height: 50))
         }
         titleLabel.text = proposal.title
+        let startTimeStr = timeFormatter.string(from: Date(timeIntervalSince1970: Double(proposal.startTime)))
+        let endTimeStr   = timeFormatter.string(from: Date(timeIntervalSince1970: Double(proposal.startTime + proposal.seconds)))
+        timeLabel.text = startTimeStr + " ~ " + endTimeStr
+        
+        switch proposal.track {
+        case .A:
+            gradientLayer.colors = [UIColor.hex("02aab0").cgColor, UIColor.hex("00cdac").cgColor]
+        case .B:
+            gradientLayer.colors = [UIColor.hex("ff758c").cgColor, UIColor.hex("ff7eb3").cgColor]
+        case .C:
+            gradientLayer.colors = [UIColor.hex("F76B1C").cgColor, UIColor.hex("FEAD3F").cgColor]
+        case .D:
+            gradientLayer.colors = [UIColor.hex("56ab2f").cgColor, UIColor.hex("a8e063").cgColor]
+        }
     }
     
     private func autoLayout() {

@@ -12,7 +12,8 @@ import ReactiveSwift
 import Result
 
 protocol TrackSelectViewInOut {
-    var selectedTrack: MutableProperty<TrackProposal> { get }
+    var selectedDay: MutableProperty<NewDayProposal> { get }
+    var myFavHidden: MutableProperty<Bool> { get }
 }
 
 final
@@ -28,12 +29,14 @@ class TrackSelectView: UIView {
             view.backgroundColor = .white
             return view
         }()
+        view.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
         view.register(TrackSelectViewCell.self, forCellReuseIdentifier: TrackSelectViewCell.description())
+        view.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .none)
         return view
     }()
     
-    private let selectedTrack = MutableProperty<TrackProposal>(ProposalAdapter.shared.trackProposalList[0])
-    
+    private let selectedDay = MutableProperty<NewDayProposal>(ProposalAdapter.shared.dayProposalList[0])
+    private let myFavHidden = MutableProperty<Bool>(true)
     init() {
         super.init(frame: .zero)
         addSubview(tableView)
@@ -41,7 +44,8 @@ class TrackSelectView: UIView {
     }
     
     func bind(_ inOut: TrackSelectViewInOut) {
-        inOut.selectedTrack <~ selectedTrack.signal.take(during: reactive.lifetime)
+        inOut.selectedDay <~ selectedDay.signal.take(during: reactive.lifetime)
+        inOut.myFavHidden <~ myFavHidden.signal.take(during: reactive.lifetime)
     }
     
     private func autoLayout() {
@@ -57,17 +61,34 @@ class TrackSelectView: UIView {
 
 extension TrackSelectView: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return ProposalAdapter.shared.trackProposalList.count
+        switch section {
+        case 0:
+            return ProposalAdapter.shared.dayProposalList.count
+        case 1:
+            return 1
+        default:
+            return 0
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: TrackSelectViewCell.description(), for: indexPath) as! TrackSelectViewCell
-        cell.label.text = ProposalAdapter.shared.trackProposalList[indexPath.row].track.rawValue
-        return cell
+        switch indexPath.section {
+        case 0:
+            let cell = tableView.dequeueReusableCell(withIdentifier: TrackSelectViewCell.description(), for: indexPath) as! TrackSelectViewCell
+            cell.label.text = ProposalAdapter.shared.dayProposalList[indexPath.row].date.dayStr()
+            return cell
+        case 1:
+            let cell = UITableViewCell()
+            cell.backgroundColor = UIColor.random
+            return cell
+        default:
+            return UITableViewCell()
+        }
+       
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -75,31 +96,55 @@ extension TrackSelectView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedTrack.swap(ProposalAdapter.shared.trackProposalList[indexPath.row])
+        switch indexPath.section {
+        case 0:
+            selectedDay.swap(ProposalAdapter.shared.dayProposalList[indexPath.row])
+            myFavHidden.value = true
+        case 1:
+            myFavHidden.value = false
+        default:
+            break
+        }
     }
 }
 
 final class TrackSelectViewCell: UITableViewCell {
     let label: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 15)
-        label.textColor = .darkGray
-        label.text = "A"
+        label.font = UIFont(name: "NotoMono", size: 13)
         label.textAlignment = .center
-        label.backgroundColor = .white
+        label.backgroundColor = .clear
         return label
+    }()
+    
+    private let circleBack: CALayer = {
+        let layer = CALayer()
+        layer.backgroundColor = UIColor.hex("4A4A4A").cgColor
+        layer.isHidden = true
+        layer.applySketchShadow(color: .black, alpha: 0.15, x: 0, y: 1, blur: 6, spread: 0)
+        return layer
     }()
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         backgroundColor = .white
+        selectionStyle = .none
         separatorInset = UIEdgeInsetsMake(0, bounds.width, 0, 0)
+        layer.addSublayer(circleBack)
         addSubview(label)
+    }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        label.textColor = selected ? .white : .darkGray
+        circleBack.isHidden = selected ? false : true
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         label.frame = bounds
+        circleBack.bounds = bounds.insetBy(dx: 6, dy: 6)
+        circleBack.position = CGPoint(x: bounds.width / 2, y: bounds.height / 2)
+        circleBack.cornerRadius = circleBack.bounds.width / 2
     }
     
     required init?(coder aDecoder: NSCoder) {

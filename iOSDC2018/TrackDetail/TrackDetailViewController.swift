@@ -10,6 +10,9 @@ import Foundation
 import UIKit
 import SDWebImage
 import SafariServices
+import ReactiveCocoa
+import ReactiveSwift
+import Result
 
 fileprivate let ContainerHeight: CGFloat = UIScreen.main.bounds.width > 320 ? 330 : 400
 
@@ -39,7 +42,6 @@ class TrackDetailViewController: UIViewController {
     
     private let nameLabel: UILabel = {
         let label = UILabel()
-        label.text = " bannzai"
         label.font = UIFont.pingFang(size: 14)
         label.textColor = UIColor.hex("4A4A4A")
         return label
@@ -76,24 +78,34 @@ class TrackDetailViewController: UIViewController {
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 21
         button.titleLabel?.font = UIFont.pingFangMedium(size: 13)
+        button.isHidden = true
         return button
     }()
     
     private let removeFromListButton: UIButton = {
         let button = UIButton()
+        button.backgroundColor = .white
+        button.layer.borderColor = UIColor.hex("4A4A4A").cgColor
+        button.layer.borderWidth = 2
+        button.setTitle("リストから削除", for: .normal)
+        button.setTitleColor(UIColor.hex("4A4A4A"), for: .normal)
+        button.layer.cornerRadius = 21
+        button.titleLabel?.font = UIFont.pingFangMedium(size: 13)
+        button.isHidden = true
         return button
     }()
     
     private lazy var dismissTap: UITapGestureRecognizer = {
         let tap = UITapGestureRecognizer()
         view.addGestureRecognizer(tap)
+        tap.delegate = self
         return tap
     }()
     
-    private var proposal: Proposal
+    private let viewModel: TrackDetailViewModel
     
     init(proposal: Proposal) {
-        self.proposal = proposal
+        viewModel = TrackDetailViewModel(proposal: proposal)
         super.init(nibName: nil, bundle: nil)
         titleLabel.text = proposal.title
         detailTextView.text = proposal.abstract
@@ -117,11 +129,26 @@ class TrackDetailViewController: UIViewController {
         containerView.addSubview(twitterButton)
         autoLayout()
         setupAction()
+        bind(viewModel)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         appearAnimation()
+    }
+    
+    private func bind(_ viewModel: TrackDetailViewModel) {
+        addToListButton.reactive.pressed      = CocoaAction(viewModel.addFavAction)
+        removeFromListButton.reactive.pressed = CocoaAction(viewModel.removeFavAction)
+        twitterButton.reactive.pressed        = CocoaAction(viewModel.twitterButtonAction)
+        
+        addToListButton.reactive.isHidden      <~ viewModel.addButtonHidden.producer.take(during: reactive.lifetime)
+        removeFromListButton.reactive.isHidden <~ viewModel.removeButtonHidden.producer.take(during: reactive.lifetime)
+        
+        viewModel.twitterButtonAction.values.skipNil().take(during: reactive.lifetime).observeValues { [weak self] (url) in
+            let safariVC = SFSafariViewController(url: url, entersReaderIfAvailable: true)
+            self?.present(safariVC, animated: true, completion: nil)
+        }
     }
     
     private func autoLayout() {
@@ -165,6 +192,13 @@ class TrackDetailViewController: UIViewController {
             make.bottom.equalTo(-39)
         }
         
+        removeFromListButton.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.width.equalTo(188)
+            make.height.equalTo(42)
+            make.bottom.equalTo(-39)
+        }
+        
         twitterButton.snp.makeConstraints { (make) in
             make.width.equalTo(28)
             make.height.equalTo(29)
@@ -176,14 +210,6 @@ class TrackDetailViewController: UIViewController {
     private func setupAction() {
         dismissTap.reactive.stateChanged.take(during: reactive.lifetime).observeValues { [weak self] _ in
             self?.dismissAnimation()
-        }
-        
-        twitterButton.reactive.controlEvents(.touchUpInside).take(during: reactive.lifetime).observeValues { [weak self] (_) in
-            guard let twitterURL = self?.proposal.twitterLink else { return }
-            if let url = URL(string: twitterURL) {
-                let safariVC = SFSafariViewController(url: url, entersReaderIfAvailable: true)
-                self?.present(safariVC, animated: true, completion: nil)
-            }
         }
     }
 
@@ -221,6 +247,16 @@ extension TrackDetailViewController {
         }) { (_) in
             self.dismiss(animated: false, completion: nil)
         }
+    }
+}
+
+extension TrackDetailViewController: UIGestureRecognizerDelegate {
+   func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        guard let view = touch.view else { return false }
+        if  view.isDescendant(of: containerView) {
+            return false
+        }
+        return true
     }
 }
 

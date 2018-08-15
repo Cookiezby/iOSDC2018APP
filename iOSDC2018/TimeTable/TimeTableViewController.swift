@@ -80,15 +80,18 @@ class TimeTableViewController: UIViewController {
     }()
     
     private let trackSelectView = TrackSelectView()
-    private lazy var dayTrackCollecitonView = DayTrackCollectionView()
+    private let dayTrackCollecitonView = DayTrackCollectionView()
+    private let myFavProposalView = MyFavProposalCollectionView()
     
     private let viewModel = TimeTableViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = true
+        automaticallyAdjustsScrollViewInsets = false
         view.addSubview(trackSelectView)
         view.addSubview(dayTrackCollecitonView)
+        view.addSubview(myFavProposalView)
         view.addSubview(naviBar)
         autoLayout()
         bind(viewModel)
@@ -98,6 +101,8 @@ class TimeTableViewController: UIViewController {
         naviBar.bindInOut(viewModel)
         dayTrackCollecitonView.bind(viewModel)
         trackSelectView.bind(viewModel)
+        myFavProposalView.bind(viewModel)
+        myFavProposalView.reactive.isHidden <~ viewModel.myFavHidden.producer.take(during: reactive.lifetime)
         
         viewModel.presentVCAction.values.take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues { [weak self] (vc, animated) in
             self?.present(vc, animated: animated, completion: nil)
@@ -121,6 +126,10 @@ class TimeTableViewController: UIViewController {
             make.top.equalTo(trackSelectView)
             make.left.equalTo(trackSelectView.snp.right)
             make.right.bottom.equalToSuperview()
+        }
+        
+        myFavProposalView.snp.makeConstraints { (make) in
+            make.edges.equalTo(dayTrackCollecitonView)
         }
     }
 }

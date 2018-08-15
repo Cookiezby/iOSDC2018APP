@@ -12,12 +12,14 @@ import ReactiveCocoa
 import ReactiveSwift
 import Result
 
-final class TimeTableViewModel: NSObject, TimeTableNaviBarInOut, DayTrackCollectionViewCellInOut, TrackSelectViewInOut {
+final class TimeTableViewModel: NSObject, TimeTableNaviBarInOut, DayTrackCollectionViewCellInOut, TrackSelectViewInOut, MyFavProposalCollectionViewInOut {
     let openInfoAction: Action<Void, Void, NoError> = { Action { SignalProducer(value: $0) }}()
     let presentVCAction: Action<(UIViewController, Bool), (UIViewController, Bool), NoError>  = { Action { SignalProducer(value: $0) }}()
     let selectProposalAction: Action<Proposal, Proposal, NoError> = { Action { SignalProducer(value: $0) }}()
     
-    let selectedTrack = MutableProperty<TrackProposal>(ProposalAdapter.shared.trackProposalList[0])
+    let selectedDay = MutableProperty<NewDayProposal>(ProposalAdapter.shared.dayProposalList[0])
+    let myFavHidden = MutableProperty<Bool>(true)
+    let favProposal = MutableProperty<[FavProposal]>(FavProposalAdapter.shared.favProposalList)
     
     override init() {
         super.init()

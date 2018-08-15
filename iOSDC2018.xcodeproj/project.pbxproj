@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C3AFCAA2123C9EF003E340E /* DayTrackEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3AFCA92123C9EF003E340E /* DayTrackEmptyView.swift */; };
+		4C3AFCAC2123D812003E340E /* MyFavProposalCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3AFCAB2123D812003E340E /* MyFavProposalCollectionView.swift */; };
+		4C3AFCAF2123DC65003E340E /* MyFavProposalCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3AFCAE2123DC65003E340E /* MyFavProposalCollectionCell.swift */; };
+		4C3AFCB12123DF95003E340E /* MyFavProposal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3AFCB02123DF95003E340E /* MyFavProposal.swift */; };
+		4C3AFCB32123FDAE003E340E /* FavProposal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3AFCB22123FDAE003E340E /* FavProposal.swift */; };
+		4C3AFCB5212407C8003E340E /* MyFavProposalTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3AFCB4212407C8003E340E /* MyFavProposalTableCell.swift */; };
 		7612ED242121DA0600FAA081 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7612ED232121DA0600FAA081 /* SDWebImage.framework */; };
 		7631F524211E8BD70040BD9B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7631F523211E8BD70040BD9B /* AppDelegate.swift */; };
 		7631F529211E8BD70040BD9B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7631F527211E8BD70040BD9B /* Main.storyboard */; };
@@ -47,6 +53,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4C3AFCA92123C9EF003E340E /* DayTrackEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayTrackEmptyView.swift; sourceTree = "<group>"; };
+		4C3AFCAB2123D812003E340E /* MyFavProposalCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFavProposalCollectionView.swift; sourceTree = "<group>"; };
+		4C3AFCAE2123DC65003E340E /* MyFavProposalCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFavProposalCollectionCell.swift; sourceTree = "<group>"; };
+		4C3AFCB02123DF95003E340E /* MyFavProposal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFavProposal.swift; sourceTree = "<group>"; };
+		4C3AFCB22123FDAE003E340E /* FavProposal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavProposal.swift; sourceTree = "<group>"; };
+		4C3AFCB4212407C8003E340E /* MyFavProposalTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFavProposalTableCell.swift; sourceTree = "<group>"; };
 		592EFC58006E657042CAC7D0 /* Pods-iOSDC2018.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSDC2018.release.xcconfig"; path = "Pods/Target Support Files/Pods-iOSDC2018/Pods-iOSDC2018.release.xcconfig"; sourceTree = "<group>"; };
 		7612ED232121DA0600FAA081 /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDWebImage.framework; path = Carthage/Build/iOS/SDWebImage.framework; sourceTree = "<group>"; };
 		7631F520211E8BD70040BD9B /* iOSDC2018.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSDC2018.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -110,6 +122,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4C3AFCAD2123D81D003E340E /* MyFav */ = {
+			isa = PBXGroup;
+			children = (
+				4C3AFCB02123DF95003E340E /* MyFavProposal.swift */,
+				4C3AFCAB2123D812003E340E /* MyFavProposalCollectionView.swift */,
+				4C3AFCAE2123DC65003E340E /* MyFavProposalCollectionCell.swift */,
+				4C3AFCB4212407C8003E340E /* MyFavProposalTableCell.swift */,
+			);
+			path = MyFav;
+			sourceTree = "<group>";
+		};
 		7631F517211E8BD70040BD9B = {
 			isa = PBXGroup;
 			children = (
@@ -134,9 +157,10 @@
 			isa = PBXGroup;
 			children = (
 				767D0D0421207A05003A3730 /* GoogleService-Info.plist */,
-				767D0CFF21201813003A3730 /* TrackDetail */,
 				76A0BBBF211F306500835640 /* Info */,
 				7631F552211EC6340040BD9B /* Model */,
+				4C3AFCAD2123D81D003E340E /* MyFav */,
+				767D0CFF21201813003A3730 /* TrackDetail */,
 				7631F54F211E9A7E0040BD9B /* TimeTable */,
 				7631F523211E8BD70040BD9B /* AppDelegate.swift */,
 				7631F527211E8BD70040BD9B /* Main.storyboard */,
@@ -181,6 +205,7 @@
 				7631F557211ECFB20040BD9B /* TrackSelectView.swift */,
 				76A0BBBD211F2D7900835640 /* DayTrackCollectionView.swift */,
 				767D0CFB21200DD9003A3730 /* DayTrackCollectionViewCell.swift */,
+				4C3AFCA92123C9EF003E340E /* DayTrackEmptyView.swift */,
 				7667FC8A2121B88600D78955 /* Data.plist */,
 			);
 			path = TimeTable;
@@ -190,6 +215,7 @@
 			isa = PBXGroup;
 			children = (
 				7631F553211EC6720040BD9B /* Proposal.swift */,
+				4C3AFCB22123FDAE003E340E /* FavProposal.swift */,
 				768EF46A21231BED00A50591 /* ProposalAdapter.swift */,
 			);
 			path = Model;
@@ -235,8 +261,8 @@
 				7631F51D211E8BD70040BD9B /* Frameworks */,
 				7631F51E211E8BD70040BD9B /* Resources */,
 				7631F543211E96630040BD9B /* ShellScript */,
-				D98555AB96F02D95C1D58C5F /* [CP] Embed Pods Frameworks */,
-				C3892C3B688B7F8283D834E7 /* [CP] Copy Pods Resources */,
+				071D475F9898364E3541BBD3 /* [CP] Embed Pods Frameworks */,
+				2935860E0E310E22E4E5A8FF /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -255,8 +281,8 @@
 				7631F530211E8BD90040BD9B /* Sources */,
 				7631F531211E8BD90040BD9B /* Frameworks */,
 				7631F532211E8BD90040BD9B /* Resources */,
-				4DD485D2219A6D09D2F5DAD5 /* [CP] Embed Pods Frameworks */,
-				A5E70DF9DD5A76FF97D5B06A /* [CP] Copy Pods Resources */,
+				B89857C71FE003EF4F5415AF /* [CP] Embed Pods Frameworks */,
+				3E76562F53FE3AC1AE2631BB /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -280,15 +306,17 @@
 				TargetAttributes = {
 					7631F51F211E8BD70040BD9B = {
 						CreatedOnToolsVersion = 9.4.1;
+						ProvisioningStyle = Automatic;
 					};
 					7631F533211E8BD90040BD9B = {
 						CreatedOnToolsVersion = 9.4.1;
+						ProvisioningStyle = Automatic;
 						TestTargetID = 7631F51F211E8BD70040BD9B;
 					};
 				};
 			};
 			buildConfigurationList = 7631F51B211E8BD70040BD9B /* Build configuration list for PBXProject "iOSDC2018" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -330,6 +358,58 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		071D475F9898364E3541BBD3 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-iOSDC2018/Pods-iOSDC2018-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iOSDC2018/Pods-iOSDC2018-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2935860E0E310E22E4E5A8FF /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iOSDC2018/Pods-iOSDC2018-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3E76562F53FE3AC1AE2631BB /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iOSDC2018Tests/Pods-iOSDC2018Tests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		45F523D02FEE51A321586867 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -346,21 +426,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4DD485D2219A6D09D2F5DAD5 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iOSDC2018Tests/Pods-iOSDC2018Tests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		7631F543211E96630040BD9B /* ShellScript */ = {
@@ -382,56 +447,19 @@
 			shellPath = /bin/sh;
 			shellScript = "/usr/local/bin/carthage copy-frameworks";
 		};
-		A5E70DF9DD5A76FF97D5B06A /* [CP] Copy Pods Resources */ = {
+		B89857C71FE003EF4F5415AF /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iOSDC2018Tests/Pods-iOSDC2018Tests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C3892C3B688B7F8283D834E7 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iOSDC2018/Pods-iOSDC2018-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D98555AB96F02D95C1D58C5F /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-iOSDC2018/Pods-iOSDC2018-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
-				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
-				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iOSDC2018/Pods-iOSDC2018-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iOSDC2018Tests/Pods-iOSDC2018Tests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F61B041F026D587EF0D2445C /* [CP] Check Pods Manifest.lock */ = {
@@ -460,6 +488,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7631F554211EC6720040BD9B /* Proposal.swift in Sources */,
+				4C3AFCB12123DF95003E340E /* MyFavProposal.swift in Sources */,
 				767D0D012120182C003A3730 /* TrackDetailViewController.swift in Sources */,
 				767D0CFC21200DD9003A3730 /* DayTrackCollectionViewCell.swift in Sources */,
 				767D0D032120183D003A3730 /* TrackDetailViewModel.swift in Sources */,
@@ -467,6 +496,11 @@
 				768EF46B21231BED00A50591 /* ProposalAdapter.swift in Sources */,
 				7631F551211E9A8E0040BD9B /* TimeTableViewController.swift in Sources */,
 				7631F558211ECFB20040BD9B /* TrackSelectView.swift in Sources */,
+				4C3AFCAC2123D812003E340E /* MyFavProposalCollectionView.swift in Sources */,
+				4C3AFCAA2123C9EF003E340E /* DayTrackEmptyView.swift in Sources */,
+				4C3AFCAF2123DC65003E340E /* MyFavProposalCollectionCell.swift in Sources */,
+				4C3AFCB5212407C8003E340E /* MyFavProposalTableCell.swift in Sources */,
+				4C3AFCB32123FDAE003E340E /* FavProposal.swift in Sources */,
 				7631F55A211EE08A0040BD9B /* TimeTableViewModel.swift in Sources */,
 				7631F524211E8BD70040BD9B /* AppDelegate.swift in Sources */,
 				76A0BBC1211F307300835640 /* InfoViewController.swift in Sources */,
@@ -639,10 +673,7 @@
 				);
 				INFOPLIST_FILE = iOSDC2018/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.zhubingyi.iosdc2018;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -663,10 +694,7 @@
 				);
 				INFOPLIST_FILE = iOSDC2018/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.zhubingyi.iosdc2018;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -683,11 +711,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2RNKT55WYW;
 				INFOPLIST_FILE = iOSDC2018Tests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.zhubingyi.iOSDC2018Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -705,11 +729,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2RNKT55WYW;
 				INFOPLIST_FILE = iOSDC2018Tests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.zhubingyi.iOSDC2018Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;

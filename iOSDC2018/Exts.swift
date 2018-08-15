@@ -103,4 +103,10 @@ extension Date {
         components.minute = minute
         return Calendar.current.date(from: components)!
     }
+    
+    func dayStr() ->  String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd"
+        return dateFormatter.string(from: self)
+    }
 }
