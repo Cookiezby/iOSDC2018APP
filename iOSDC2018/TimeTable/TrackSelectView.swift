@@ -12,7 +12,7 @@ import ReactiveSwift
 import Result
 
 protocol TrackSelectViewInOut {
-    var selectedDay: MutableProperty<NewDayProposal> { get }
+    var selectedDay: MutableProperty<DayProposal> { get }
     var myFavHidden: MutableProperty<Bool> { get }
 }
 
@@ -35,7 +35,7 @@ class TrackSelectView: UIView {
         return view
     }()
     
-    private let selectedDay = MutableProperty<NewDayProposal>(ProposalAdapter.shared.dayProposalList[0])
+    private let selectedDay = MutableProperty<DayProposal>(ProposalAdapter.shared.dayProposalList[0])
     private let myFavHidden = MutableProperty<Bool>(true)
     init() {
         super.init(frame: .zero)

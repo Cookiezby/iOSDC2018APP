@@ -14,7 +14,7 @@ import Result
 
 protocol DayTrackCollectionViewCellInOut {
     var selectProposalAction: Action<Proposal, Proposal, NoError> { get }
-    var selectedDay: MutableProperty<NewDayProposal> { get }
+    var selectedDay: MutableProperty<DayProposal> { get }
 }
 
 final class DayTrackCollectionView: UIView {
@@ -33,7 +33,7 @@ final class DayTrackCollectionView: UIView {
     }()
     
     var selectProposalAction: Action<Proposal, Proposal, NoError> = { Action { SignalProducer(value: $0) }}()
-    private let selectedDay = MutableProperty<NewDayProposal>(ProposalAdapter.shared.dayProposalList[0])
+    private let selectedDay = MutableProperty<DayProposal>(ProposalAdapter.shared.dayProposalList[0])
     
     init() {
         super.init(frame: .zero)

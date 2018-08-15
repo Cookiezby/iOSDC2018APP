@@ -12,7 +12,7 @@ import ReactiveSwift
 import Result
 
 final
-class TrackDetailModel {
+class ProposalDetailModel {
     let proposal: Proposal
     init(proposal: Proposal) {
         self.proposal = proposal
@@ -20,8 +20,8 @@ class TrackDetailModel {
 }
 
 final
-class TrackDetailViewModel: NSObject {
-    private let model: TrackDetailModel
+class ProposalDetailViewModel: NSObject {
+    private let model: ProposalDetailModel
     
     let addFavAction        : Action<Void, Void, NoError> = { Action { SignalProducer(value: $0)} }()
     let removeFavAction     : Action<Void, Void, NoError> = { Action { SignalProducer(value: $0)} }()
@@ -37,7 +37,7 @@ class TrackDetailViewModel: NSObject {
     let removeButtonHidden = MutableProperty<Bool>(true)
     
     init(proposal: Proposal) {
-        model = TrackDetailModel(proposal: proposal)
+        model = ProposalDetailModel(proposal: proposal)
         isFavd = MutableProperty<Bool>(MyFavProposal.shared.contains(id: proposal.id))
         super.init()
         addButtonHidden <~ isFavd.producer.take(during: reactive.lifetime)
