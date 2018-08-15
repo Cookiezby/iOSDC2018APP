@@ -17,7 +17,7 @@ import Result
 fileprivate let ContainerHeight: CGFloat = UIScreen.main.bounds.width > 320 ? 330 : 400
 
 final
-class TrackDetailViewController: UIViewController {
+class ProposalDetailViewController: UIViewController {
     private let containerView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 20
@@ -102,10 +102,10 @@ class TrackDetailViewController: UIViewController {
         return tap
     }()
     
-    private let viewModel: TrackDetailViewModel
+    private let viewModel: ProposalDetailViewModel
     
     init(proposal: Proposal) {
-        viewModel = TrackDetailViewModel(proposal: proposal)
+        viewModel = ProposalDetailViewModel(proposal: proposal)
         super.init(nibName: nil, bundle: nil)
         titleLabel.text = proposal.title
         detailTextView.text = proposal.abstract
@@ -137,7 +137,7 @@ class TrackDetailViewController: UIViewController {
         appearAnimation()
     }
     
-    private func bind(_ viewModel: TrackDetailViewModel) {
+    private func bind(_ viewModel: ProposalDetailViewModel) {
         addToListButton.reactive.pressed      = CocoaAction(viewModel.addFavAction)
         removeFromListButton.reactive.pressed = CocoaAction(viewModel.removeFavAction)
         twitterButton.reactive.pressed        = CocoaAction(viewModel.twitterButtonAction)
@@ -226,7 +226,7 @@ class TrackDetailViewController: UIViewController {
     }
 }
 
-extension TrackDetailViewController {
+extension ProposalDetailViewController {
     func appearAnimation() {
         containerView.snp.updateConstraints { (make) in
             make.bottom.equalToSuperview().offset(20)
@@ -250,7 +250,7 @@ extension TrackDetailViewController {
     }
 }
 
-extension TrackDetailViewController: UIGestureRecognizerDelegate {
+extension ProposalDetailViewController: UIGestureRecognizerDelegate {
    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         guard let view = touch.view else { return false }
         if  view.isDescendant(of: containerView) {

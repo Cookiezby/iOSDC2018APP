@@ -17,7 +17,7 @@ final class TimeTableViewModel: NSObject, TimeTableNaviBarInOut, DayTrackCollect
     let presentVCAction: Action<(UIViewController, Bool), (UIViewController, Bool), NoError>  = { Action { SignalProducer(value: $0) }}()
     let selectProposalAction: Action<Proposal, Proposal, NoError> = { Action { SignalProducer(value: $0) }}()
     
-    let selectedDay = MutableProperty<NewDayProposal>(ProposalAdapter.shared.dayProposalList[0])
+    let selectedDay = MutableProperty<DayProposal>(ProposalAdapter.shared.dayProposalList[0])
     let myFavHidden = MutableProperty<Bool>(true)
     let favProposal = MutableProperty<[FavProposal]>(FavProposalAdapter.shared.favProposalList)
     
@@ -29,7 +29,7 @@ final class TimeTableViewModel: NSObject, TimeTableNaviBarInOut, DayTrackCollect
         }
         
         selectProposalAction.values.take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues { [weak self] (value) in
-            let vc = TrackDetailViewController(proposal: value)
+            let vc = ProposalDetailViewController(proposal: value)
             vc.modalPresentationStyle = .overCurrentContext
             self?.presentVCAction.apply((vc, false)).start()
         }

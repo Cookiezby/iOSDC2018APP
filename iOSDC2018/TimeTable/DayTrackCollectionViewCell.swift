@@ -76,13 +76,7 @@ class DayTrackCollectionViewCell: UICollectionViewCell {
         clipsToBounds = true
     }
     
-    var dayProposal = DayProposal(date: Date(), proposals: []) {
-        didSet {
-            //dateHeader.date = dayProposal.date
-        }
-    }
-    
-    var trackProposal: NewTrackProposal? = nil {
+    var trackProposal: TrackProposal? = nil {
         didSet {
             if let trackProposal = trackProposal {
                 dateHeader.track = trackProposal.track
@@ -107,7 +101,7 @@ class DayTrackCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func setTrackProposal(_ trackProposal: NewTrackProposal) {
+    func setTrackProposal(_ trackProposal: TrackProposal) {
         self.trackProposal = trackProposal
         tableView.reloadData()
     }
