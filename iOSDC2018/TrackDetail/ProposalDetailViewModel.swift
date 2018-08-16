@@ -48,18 +48,16 @@ class ProposalDetailViewModel: NSObject {
         addFavAction.values.take(during: reactive.lifetime).observeValues { [weak self] _ in
             guard let proposal = self?.model.proposal else { return }
             guard MyFavProposal.shared.overlayCurrentFavProposals(proposal) == false else {
-                self?.showMessage.apply("追加した発表の時間と衝突しました").start()
+                //self?.showMessage.apply("追加した発表の時間と衝突しました").start()
                 return
             }
             MyFavProposal.shared.add(id: proposal.id)
-            self?.showMessage.apply("見るリストに追加しました").start()
             self?.isFavd.swap(true)
         }
         
         removeFavAction.values.take(during: reactive.lifetime).observeValues { [weak self] _ in
             guard let id = self?.model.proposal.id else { return }
             MyFavProposal.shared.remove(id: id)
-            self?.showMessage.apply("見るリストから削除しました").start()
             self?.isFavd.swap(false)
         }
     }
