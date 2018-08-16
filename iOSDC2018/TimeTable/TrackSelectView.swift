@@ -122,7 +122,7 @@ final class FavSelectViewCell: UITableViewCell {
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
-        iconView.alpha = selected ? 1.0 : 0.8
+        iconView.alpha = selected ? 1.0 : 0.5
     }
     
     override func layoutSubviews() {
@@ -149,6 +149,7 @@ final class TrackSelectViewCell: UITableViewCell {
         layer.backgroundColor = UIColor.hex("4A4A4A").cgColor
         layer.isHidden = true
         layer.applySketchShadow(color: .black, alpha: 0.15, x: 0, y: 1, blur: 6, spread: 0)
+        layer.speed = 100
         return layer
     }()
     

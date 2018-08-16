@@ -115,14 +115,6 @@ class ProposalDetailViewController: UIViewController {
             let size = 40 * UIScreen.main.nativeScale
             self.profileImageView.image = image?.resize(newSize: CGSize(width: size, height: size))
         })
-        
-        viewModel.showMessage.values.take(during: reactive.lifetime).observeValues { [weak self] (text) in
-            guard let view = self?.view else { return }
-            let hud = MBProgressHUD.showAdded(to: view, animated: true)
-            hud.mode = .text
-            hud.detailsLabel.text = text
-            hud.hide(animated: true, afterDelay: 1.5)
-        }
     }
 
     override func viewDidLoad() {

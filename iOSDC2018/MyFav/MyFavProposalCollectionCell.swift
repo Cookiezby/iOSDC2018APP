@@ -48,6 +48,7 @@ final class MyFavProposalCollectionCell: UICollectionViewCell {
     
     func setFavProposal(_ favProposal: FavProposal) {
         self.favProposal = favProposal
+        tableView.reloadData()
     }
     
     private func autoLayout() {
@@ -61,6 +62,13 @@ final class MyFavProposalCollectionCell: UICollectionViewCell {
             make.top.equalTo(40)
             make.left.right.bottom.equalToSuperview()
         }
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        favProposal = nil
+        selectProposalAction = nil
+        tableView.contentOffset = .zero
     }
     
     required init?(coder aDecoder: NSCoder) {
