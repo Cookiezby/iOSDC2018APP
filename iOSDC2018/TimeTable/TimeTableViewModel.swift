@@ -19,7 +19,9 @@ final class TimeTableViewModel: NSObject, TimeTableNaviBarInOut, DayTrackCollect
     
     let selectedDay = MutableProperty<DayProposal>(ProposalAdapter.shared.dayProposalList[0])
     let myFavHidden = MutableProperty<Bool>(true)
-    let favProposal = MutableProperty<[FavProposal]>(FavProposalAdapter.shared.favProposalList)
+    let favProposal = MutableProperty<[FavProposal]>(MyFavProposal.shared.favProposalList)
+
+    let reloadDayTrackAction: Action<Void, Void, NoError> = { Action { SignalProducer(value: $0) }}()
     
     override init() {
         super.init()
@@ -33,5 +35,10 @@ final class TimeTableViewModel: NSObject, TimeTableNaviBarInOut, DayTrackCollect
             vc.modalPresentationStyle = .overCurrentContext
             self?.presentVCAction.apply((vc, false)).start()
         }
+    }
+    
+    func willAppear() {
+        favProposal.swap(MyFavProposal.shared.favProposalList)
+        reloadDayTrackAction.apply().start()
     }
 }

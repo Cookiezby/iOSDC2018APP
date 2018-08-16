@@ -31,6 +31,7 @@ class TrackSelectView: UIView {
         }()
         view.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
         view.register(TrackSelectViewCell.self, forCellReuseIdentifier: TrackSelectViewCell.description())
+        view.register(FavSelectViewCell.self, forCellReuseIdentifier: FavSelectViewCell.description())
         view.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .none)
         return view
     }()
@@ -82,8 +83,7 @@ extension TrackSelectView: UITableViewDelegate, UITableViewDataSource {
             cell.label.text = ProposalAdapter.shared.dayProposalList[indexPath.row].date.dayStr()
             return cell
         case 1:
-            let cell = UITableViewCell()
-            cell.backgroundColor = UIColor.random
+            let cell = tableView.dequeueReusableCell(withIdentifier: FavSelectViewCell.description(), for: indexPath) as! FavSelectViewCell
             return cell
         default:
             return UITableViewCell()
@@ -105,6 +105,33 @@ extension TrackSelectView: UITableViewDelegate, UITableViewDataSource {
         default:
             break
         }
+    }
+}
+
+final class FavSelectViewCell: UITableViewCell {
+    private let iconView: UIImageView = {
+        let view = UIImageView(image: UIImage(named: "MyFavOn"))
+        view.contentMode = .center
+        return view
+    }()
+    
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        separatorInset = UIEdgeInsetsMake(0, bounds.width, 0, 0)
+        addSubview(iconView)
+    }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        iconView.alpha = selected ? 1.0 : 0.8
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        iconView.frame = bounds
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 

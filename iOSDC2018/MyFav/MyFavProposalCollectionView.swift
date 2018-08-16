@@ -14,6 +14,7 @@ import Result
 
 protocol MyFavProposalCollectionViewInOut {
     var favProposal: MutableProperty<[FavProposal]> { get }
+    var selectProposalAction: Action<Proposal, Proposal, NoError> { get }
 }
 
 final class MyFavProposalCollectionView: UIView {
@@ -31,6 +32,7 @@ final class MyFavProposalCollectionView: UIView {
         return view
     }()
     
+    var selectProposalAction: Action<Proposal, Proposal, NoError> = { Action { SignalProducer(value: $0) }}()
     private let favProposal = MutableProperty<[FavProposal]>([])
     
     init() {
@@ -41,6 +43,9 @@ final class MyFavProposalCollectionView: UIView {
     
     func bind(_ inOut: MyFavProposalCollectionViewInOut) {
         favProposal <~ inOut.favProposal.producer.take(during: reactive.lifetime)
+        selectProposalAction.values.take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues{ (value) in
+            inOut.selectProposalAction.apply(value).start()
+        }
     }
     
     private func autoLayout() {
@@ -66,6 +71,7 @@ extension MyFavProposalCollectionView: UICollectionViewDelegate, UICollectionVie
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyFavProposalCollectionCell.description(), for: indexPath) as! MyFavProposalCollectionCell
         cell.setFavProposal(favProposal.value[indexPath.item])
+        cell.selectProposalAction = selectProposalAction
         return cell
     }
     

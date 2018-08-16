@@ -109,4 +109,10 @@ extension Date {
         dateFormatter.dateFormat = "dd"
         return dateFormatter.string(from: self)
     }
+    
+    func monthDayStr() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM月dd日"
+        return dateFormatter.string(from: self)
+    }
 }

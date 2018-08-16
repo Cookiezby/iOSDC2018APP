@@ -14,7 +14,7 @@ import Result
 import SDWebImage
 
 final
-class DayTrackCollectionViewCellDateHeader: UIView {
+class DayTrackCollectionViewCellTrackHeader: UIView {
     var track:Track? = nil {
         didSet {
             if let track = track {
@@ -51,7 +51,7 @@ class DayTrackCollectionViewCellDateHeader: UIView {
 
 final
 class DayTrackCollectionViewCell: UICollectionViewCell {
-    private let dateHeader = DayTrackCollectionViewCellDateHeader()
+    private let dateHeader = DayTrackCollectionViewCellTrackHeader()
     private lazy var tableView: UITableView = {
         let view = UITableView()
         view.delegate = self
@@ -59,7 +59,7 @@ class DayTrackCollectionViewCell: UICollectionViewCell {
         view.tableFooterView = UIView()
         view.separatorColor = .clear
         view.showsVerticalScrollIndicator = false
-        view.register(TrackTableViewCell.self, forCellReuseIdentifier: TrackTableViewCell.description())
+        view.register(PropodalTableViewCell.self, forCellReuseIdentifier: PropodalTableViewCell.description())
         return view
     }()
     
@@ -127,7 +127,7 @@ extension DayTrackCollectionViewCell: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: TrackTableViewCell.description(), for: indexPath) as! TrackTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: PropodalTableViewCell.description(), for: indexPath) as! PropodalTableViewCell
         if let proposal = trackProposal?.proposals[indexPath.row] {
              cell.setProposal(proposal)
         }
@@ -143,23 +143,21 @@ extension DayTrackCollectionViewCell: UITableViewDelegate, UITableViewDataSource
         if let proposal = trackProposal?.proposals[indexPath.row] {
             selectProposalAction?.apply(proposal).start()
         }
-      
     }
 }
 
-final
-class TrackTableViewCell: UITableViewCell {
-    private let timeLabel: UILabel = {
+class PropodalTableViewCell: UITableViewCell {
+    let timeLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "NotoMono", size: 11)
         label.textColor = .white
         return label
     }()
     
-    private let profileImage: UIImageView = {
+    let profileImage: UIImageView = {
         let view = UIImageView()
         view.backgroundColor = .white
-        view.layer.cornerRadius = 12.5
+        view.layer.cornerRadius = 14
         view.clipsToBounds = true
         return view
     }()
@@ -172,7 +170,7 @@ class TrackTableViewCell: UITableViewCell {
         return label
     }()
     
-    private let containerView: UIView = {
+    let containerView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 7
         view.isUserInteractionEnabled = false
@@ -186,6 +184,13 @@ class TrackTableViewCell: UITableViewCell {
         layer.startPoint = CGPoint(x: 0, y: 0.5)
         layer.endPoint   = CGPoint(x: 1, y: 0.5)
         return layer
+    }()
+    
+    private let favLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 11)
+        label.isHidden = true
+        return label
     }()
     
     private let timeFormatter: DateFormatter = {
@@ -202,6 +207,7 @@ class TrackTableViewCell: UITableViewCell {
         containerView.addSubview(timeLabel)
         containerView.addSubview(profileImage)
         containerView.addSubview(titleLabel)
+        containerView.addSubview(favLabel)
         autoLayout()
     }
     
@@ -213,6 +219,8 @@ class TrackTableViewCell: UITableViewCell {
         let startTimeStr = timeFormatter.string(from: Date(timeIntervalSince1970: Double(proposal.startTime)))
         let endTimeStr   = timeFormatter.string(from: Date(timeIntervalSince1970: Double(proposal.startTime + proposal.seconds)))
         timeLabel.text = startTimeStr + " ~ " + endTimeStr
+        
+        favLabel.isHidden = !MyFavProposal.shared.favIds.contains(proposal.id)
         
         switch proposal.track {
         case .A:
@@ -236,11 +244,11 @@ class TrackTableViewCell: UITableViewCell {
         profileImage.snp.makeConstraints { (make) in
             make.left.equalTo(timeLabel.snp.left)
             make.top.equalTo(timeLabel.snp.bottom).offset(10)
-            make.size.equalTo(25)
+            make.size.equalTo(28)
         }
         
         titleLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(profileImage.snp.top)
+            make.top.equalTo(profileImage.snp.top).offset(-1)
             make.left.equalTo(profileImage.snp.right).offset(12)
             make.bottom.lessThanOrEqualTo(-8)
             make.right.equalTo(-8)
@@ -251,6 +259,14 @@ class TrackTableViewCell: UITableViewCell {
             make.right.equalTo(-8)
             make.top.equalTo(6)
             make.bottom.equalTo(-6)
+        }
+        
+        favLabel.sizeToFit()
+        favLabel.snp.makeConstraints { (make) in
+            make.right.equalTo(-10)
+            make.centerY.equalTo(timeLabel)
+            make.width.equalTo(favLabel.bounds.width)
+            make.height.equalTo(favLabel.bounds.height)
         }
     }
     
@@ -263,6 +279,51 @@ class TrackTableViewCell: UITableViewCell {
         super.layoutSubviews()
         gradientLayer.frame = containerView.bounds
         containerView.layer.applySketchShadow(color: .black, alpha: 0.2, x: 0, y: 2, blur: 7, spread: 0)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+final
+class FavProposalTableViewCell: PropodalTableViewCell {
+    private let trackLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.font = UIFont.boldSystemFont(ofSize: 13)
+        return label
+    }()
+    
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        containerView.addSubview(trackLabel)
+        autoLayout()
+    }
+    
+    private func autoLayout() {
+        trackLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(10)
+            make.lastBaseline.equalTo(timeLabel.snp.firstBaseline)
+            make.width.equalTo(10)
+        }
+        
+        timeLabel.snp.remakeConstraints { (make) in
+            make.left.equalTo(26)
+            make.top.equalTo(7)
+            make.width.height.greaterThanOrEqualTo(0)
+        }
+        
+        profileImage.snp.remakeConstraints { (make) in
+            make.left.equalTo(trackLabel)
+            make.top.equalTo(timeLabel.snp.bottom).offset(10)
+            make.size.equalTo(28)
+        }
+    }
+    
+    override func setProposal(_ proposal: Proposal) {
+        super.setProposal(proposal)
+        trackLabel.text = proposal.track.rawValue
     }
     
     required init?(coder aDecoder: NSCoder) {

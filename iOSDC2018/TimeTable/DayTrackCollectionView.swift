@@ -15,6 +15,7 @@ import Result
 protocol DayTrackCollectionViewCellInOut {
     var selectProposalAction: Action<Proposal, Proposal, NoError> { get }
     var selectedDay: MutableProperty<DayProposal> { get }
+    var reloadDayTrackAction: Action<Void, Void, NoError> { get }
 }
 
 final class DayTrackCollectionView: UIView {
@@ -49,6 +50,10 @@ final class DayTrackCollectionView: UIView {
             self?.selectedDay.value = value
             self?.collectionView.reloadData()
             self?.collectionView.contentOffset = .zero
+        }
+        
+        inOut.reloadDayTrackAction.values.take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues { [weak self] _ in
+            self?.collectionView.reloadData()
         }
     }
     
