@@ -97,6 +97,11 @@ class TimeTableViewController: UIViewController {
         bind(viewModel)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.willAppear()
+    }
+    
     func bind(_ viewModel: TimeTableViewModel) {
         naviBar.bindInOut(viewModel)
         dayTrackCollecitonView.bind(viewModel)

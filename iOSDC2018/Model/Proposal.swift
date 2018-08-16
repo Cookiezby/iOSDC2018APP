@@ -28,7 +28,7 @@ struct Proposal {
     let twitterName: String
     
     func overlay(proposal: Proposal) -> Bool {
-        return proposal.startTime + proposal.seconds <= startTime || proposal.startTime >= (startTime + seconds)
+        return !((proposal.startTime + proposal.seconds) <= startTime || proposal.startTime >= (startTime + seconds))
     }
     
     static let all: [Proposal] = [

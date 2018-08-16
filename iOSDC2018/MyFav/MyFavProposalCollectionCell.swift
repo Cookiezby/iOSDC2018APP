@@ -8,11 +8,15 @@
 
 import Foundation
 import UIKit
+import ReactiveCocoa
+import ReactiveSwift
+import Result
 
 final class MyFavProposalCollectionCell: UICollectionViewCell {
     private var dateLabel: UILabel = {
         let label = UILabel()
         label.textColor = .darkGray
+        label.font = UIFont.systemFont(ofSize: 18)
         return label
     }()
     
@@ -23,9 +27,11 @@ final class MyFavProposalCollectionCell: UICollectionViewCell {
         view.tableFooterView = UIView()
         view.separatorColor = .clear
         view.showsVerticalScrollIndicator = false
-        view.register(UITableViewCell.self, forCellReuseIdentifier: UITableViewCell.description())
+        view.register(FavProposalTableViewCell.self, forCellReuseIdentifier: FavProposalTableViewCell.description())
         return view
     }()
+    
+    weak var selectProposalAction: Action<Proposal, Proposal, NoError>? = nil
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -36,7 +42,7 @@ final class MyFavProposalCollectionCell: UICollectionViewCell {
     
     var favProposal: FavProposal? {
         didSet {
-            dateLabel.text = favProposal?.date.dayStr()
+            dateLabel.text = favProposal?.date.monthDayStr()
         }
     }
     
@@ -46,12 +52,13 @@ final class MyFavProposalCollectionCell: UICollectionViewCell {
     
     private func autoLayout() {
         dateLabel.snp.makeConstraints { (make) in
-            make.top.left.right.equalToSuperview()
-            make.height.equalTo(45)
+            make.bottom.equalTo(tableView.snp.top).offset(-3)
+            make.left.equalTo(13)
+            make.width.height.greaterThanOrEqualTo(0)
         }
         
         tableView.snp.makeConstraints { (make) in
-            make.top.equalTo(dateLabel.snp.bottom)
+            make.top.equalTo(40)
             make.left.right.bottom.equalToSuperview()
         }
     }
@@ -67,15 +74,27 @@ extension MyFavProposalCollectionCell: UITableViewDelegate, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return favProposal?.proposals.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        
+        let cell = tableView.dequeueReusableCell(withIdentifier: FavProposalTableViewCell.description(), for: indexPath) as! FavProposalTableViewCell
+        if let proposal = favProposal?.proposals[indexPath.row] {
+            cell.setProposal(proposal)
+        }
         return cell
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 80
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let proposal = favProposal?.proposals[indexPath.row] {
+            selectProposalAction?.apply(proposal).start()
+        }
+    }
 }
+
 
 
