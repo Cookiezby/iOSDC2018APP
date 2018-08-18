@@ -13,7 +13,7 @@ import ReactiveCocoa
 import Result
 
 protocol MyFavProposalCollectionViewInOut {
-    var favProposal: MutableProperty<[FavProposal]> { get }
+    var favProposalList: MutableProperty<[FavProposal]> { get }
     var selectProposalAction: Action<Proposal, Proposal, NoError> { get }
 }
 
@@ -33,7 +33,7 @@ final class MyFavProposalCollectionView: UIView {
     }()
     
     var selectProposalAction: Action<Proposal, Proposal, NoError> = { Action { SignalProducer(value: $0) }}()
-    private let favProposal = MutableProperty<[FavProposal]>([])
+    private let favProposalList = MutableProperty<[FavProposal]>([])
     
     init() {
         super.init(frame: .zero)
@@ -42,7 +42,10 @@ final class MyFavProposalCollectionView: UIView {
     }
     
     func bind(_ inOut: MyFavProposalCollectionViewInOut) {
-        favProposal <~ inOut.favProposal.producer.take(during: reactive.lifetime)
+        inOut.favProposalList.signal.take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues { [weak self] (value) in
+            self?.favProposalList.value = value
+            self?.collectionView.reloadData()
+        }
         selectProposalAction.values.take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues{ (value) in
             inOut.selectProposalAction.apply(value).start()
         }
@@ -65,12 +68,12 @@ extension MyFavProposalCollectionView: UICollectionViewDelegate, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return favProposal.value.count
+        return favProposalList.value.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyFavProposalCollectionCell.description(), for: indexPath) as! MyFavProposalCollectionCell
-        cell.setFavProposal(favProposal.value[indexPath.item])
+        cell.setFavProposal(favProposalList.value[indexPath.item])
         cell.selectProposalAction = selectProposalAction
         return cell
     }

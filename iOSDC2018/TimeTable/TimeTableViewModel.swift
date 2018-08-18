@@ -14,6 +14,8 @@ import Result
 
 final class TimeTableModel {
     let dayProposalList = MutableProperty<[DayProposal]>([])
+    let favProposalList = MutableProperty<[FavProposal]>([])
+    
     
     func fetchAllProposal(succeed: (() -> Void)?, failed: ((Error) -> Void)?) {
         guard let url = URL(string: "https://fortee.jp/iosdc-japan-2018/api/proposals/accepted") else { return }
@@ -50,8 +52,11 @@ final class TimeTableModel {
                     result.append(Proposal(id: id, title: title, abstract: abstract, timetable: t, speaker: s))
                 }
             }
+            MyFavProposalManager.shared.proposals = result
             let proposalAdapter = ProposalAdapter(allProposals: result)
+            let favProposalAdapter = MyFavProposalAdapter(allProposals: result)
             self?.dayProposalList.swap(proposalAdapter.dayProposalList)
+            self?.favProposalList.swap(favProposalAdapter.favProposalList)
         }
         task.resume()
     }
@@ -67,11 +72,10 @@ final class TimeTableViewModel: NSObject, TimeTableNaviBarInOut, DayTrackCollect
     let selectProposalAction: Action<Proposal, Proposal, NoError> = { Action { SignalProducer(value: $0) }}()
     
     let dayProposalList = MutableProperty<[DayProposal]>([])
+    let favProposalList = MutableProperty<[FavProposal]>([])
+    
     let curDayProposal: MutableProperty<DayProposal?>
     let myFavHidden = MutableProperty<Bool>(true)
-    let favProposal = MutableProperty<[FavProposal]>(MyFavProposal.shared.favProposalList)
-
-    let reloadDayTrackAction: Action<Void, Void, NoError> = { Action { SignalProducer(value: $0) }}()
     
     override init() {
         model = TimeTableModel()
@@ -81,6 +85,8 @@ final class TimeTableViewModel: NSObject, TimeTableNaviBarInOut, DayTrackCollect
             self?.dayProposalList.swap(value)
             self?.curDayProposal.swap(value.first)
         }
+        
+        favProposalList <~ model.favProposalList.signal.take(during: reactive.lifetime)
         
         openInfoAction.values.take(during: reactive.lifetime).observeValues { [weak self] _ in
             let vc = UINavigationController(rootViewController: InfoViewController())
@@ -96,5 +102,9 @@ final class TimeTableViewModel: NSObject, TimeTableNaviBarInOut, DayTrackCollect
     
     func fetchAllProposal() {
         model.fetchAllProposal(succeed: nil, failed: nil)
+    }
+    
+    func refresh() {
+        favProposalList.swap(MyFavProposalAdapter(allProposals: MyFavProposalManager.shared.favProposals).favProposalList)
     }
 }

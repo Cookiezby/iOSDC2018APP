@@ -220,7 +220,7 @@ class PropodalTableViewCell: UITableViewCell {
         let endTimeStr   = timeFormatter.string(from: Date(timeIntervalSince1970: proposal.timetable.startsAt + Double(proposal.timetable.lengthMin * 60)))
         timeLabel.text = startTimeStr + " ~ " + endTimeStr
         
-        favLabel.isHidden = !MyFavProposal.shared.favIds.contains(proposal.id)
+        favLabel.isHidden = !MyFavProposalManager.shared.contains(id: proposal.id)
         
         switch proposal.timetable.track {
         case .A:
