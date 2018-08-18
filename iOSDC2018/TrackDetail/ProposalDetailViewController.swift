@@ -110,8 +110,8 @@ class ProposalDetailViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         titleLabel.text = proposal.title
         detailTextView.text = proposal.abstract
-        nameLabel.text = proposal.speaker
-        SDWebImageManager.shared().imageDownloader?.downloadImage(with: URL(string: proposal.profileImageURL), options: .highPriority, progress: nil, completed: { (image, data, error, finished) in
+        nameLabel.text = proposal.speaker.name
+        SDWebImageManager.shared().imageDownloader?.downloadImage(with: URL(string: proposal.speaker.avatarURL), options: .highPriority, progress: nil, completed: { (image, data, error, finished) in
             let size = 40 * UIScreen.main.nativeScale
             self.profileImageView.image = image?.resize(newSize: CGSize(width: size, height: size))
         })

@@ -14,7 +14,8 @@ import Result
 
 protocol DayTrackCollectionViewCellInOut {
     var selectProposalAction: Action<Proposal, Proposal, NoError> { get }
-    var selectedDay: MutableProperty<DayProposal> { get }
+    var dayProposalList: MutableProperty<[DayProposal]> { get }
+    var curDayProposal: MutableProperty<DayProposal?> { get }
     var reloadDayTrackAction: Action<Void, Void, NoError> { get }
 }
 
@@ -34,7 +35,7 @@ final class DayTrackCollectionView: UIView {
     }()
     
     var selectProposalAction: Action<Proposal, Proposal, NoError> = { Action { SignalProducer(value: $0) }}()
-    private let selectedDay = MutableProperty<DayProposal>(ProposalAdapter.shared.dayProposalList[0])
+    private let curDayProposal  = MutableProperty<DayProposal?>(nil)
     
     init() {
         super.init(frame: .zero)
@@ -46,8 +47,8 @@ final class DayTrackCollectionView: UIView {
             inOut.selectProposalAction.apply(value).start()
         }
         
-        inOut.selectedDay.signal.take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues { [weak self] (value) in
-            self?.selectedDay.value = value
+        inOut.curDayProposal.signal.take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues { [weak self] (value) in
+            self?.curDayProposal.value = value
             self?.collectionView.reloadData()
             self?.collectionView.contentOffset = .zero
         }
@@ -73,13 +74,15 @@ extension DayTrackCollectionView: UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return selectedDay.value.trackProposals.count
+        return curDayProposal.value?.trackProposals.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DayTrackCollectionViewCell.description(), for: indexPath) as! DayTrackCollectionViewCell
         cell.selectProposalAction = selectProposalAction
-        cell.setTrackProposal(selectedDay.value.trackProposals[indexPath.item])
+        if let trackProposal = curDayProposal.value?.trackProposals[indexPath.item] {
+            cell.setTrackProposal(trackProposal)
+        }
         return cell
     }
     

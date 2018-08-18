@@ -22,14 +22,12 @@ class ProposalDetailModel {
 final
 class ProposalDetailViewModel: NSObject {
     private let model: ProposalDetailModel
-    
     let addFavAction        : Action<Void, Void, NoError> = { Action { SignalProducer(value: $0)} }()
     let removeFavAction     : Action<Void, Void, NoError> = { Action { SignalProducer(value: $0)} }()
-    let showMessage         : Action<String, String, NoError> = { Action { SignalProducer(value: $0) }}()
-    
+
     lazy var twitterButtonAction : Action<Void, URL?, NoError> = {
         Action { _ in
-            SignalProducer(value: URL(string: self.model.proposal.twitterLink))
+            SignalProducer(value: URL(string: "https://twitter.com/" + self.model.proposal.speaker.twitter))
         }
     }()
     
