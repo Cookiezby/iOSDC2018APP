@@ -27,14 +27,17 @@ final class MyFavProposalCollectionCell: UICollectionViewCell {
         view.tableFooterView = UIView()
         view.separatorColor = .clear
         view.showsVerticalScrollIndicator = false
+        view.contentInset = UIEdgeInsetsMake(0, 0, 20, 0)
         view.register(FavProposalTableViewCell.self, forCellReuseIdentifier: FavProposalTableViewCell.description())
         return view
     }()
     
+    private let emptyView = ProposalEmptyView()
     weak var selectProposalAction: Action<Proposal, Proposal, NoError>? = nil
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        addSubview(emptyView)
         addSubview(tableView)
         addSubview(dateLabel)
         autoLayout()
@@ -43,6 +46,7 @@ final class MyFavProposalCollectionCell: UICollectionViewCell {
     var favProposal: FavProposal? {
         didSet {
             dateLabel.text = favProposal?.date.monthDayStr()
+            tableView.isHidden = favProposal?.proposals.count == 0
         }
     }
     
@@ -61,6 +65,10 @@ final class MyFavProposalCollectionCell: UICollectionViewCell {
         tableView.snp.makeConstraints { (make) in
             make.top.equalTo(40)
             make.left.right.bottom.equalToSuperview()
+        }
+        
+        emptyView.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
         }
     }
     

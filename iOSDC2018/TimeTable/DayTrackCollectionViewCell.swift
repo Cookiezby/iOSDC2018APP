@@ -59,11 +59,12 @@ class DayTrackCollectionViewCell: UICollectionViewCell {
         view.tableFooterView = UIView()
         view.separatorColor = .clear
         view.showsVerticalScrollIndicator = false
+        view.contentInset = UIEdgeInsetsMake(0, 0, 20, 0)
         view.register(PropodalTableViewCell.self, forCellReuseIdentifier: PropodalTableViewCell.description())
         return view
     }()
     
-    private let emptyView = DayTrackEmptyView()
+    private let emptyView = ProposalEmptyView()
     
     weak var selectProposalAction: Action<Proposal, Proposal, NoError>? = nil
    
@@ -156,7 +157,6 @@ class PropodalTableViewCell: UITableViewCell {
     
     let profileImage: UIImageView = {
         let view = UIImageView()
-        view.backgroundColor = .white
         view.layer.cornerRadius = 14
         view.clipsToBounds = true
         return view
@@ -270,11 +270,6 @@ class PropodalTableViewCell: UITableViewCell {
         }
     }
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        profileImage.image = nil
-    }
-    
     override func layoutSubviews() {
         super.layoutSubviews()
         gradientLayer.frame = containerView.bounds
@@ -323,7 +318,17 @@ class FavProposalTableViewCell: PropodalTableViewCell {
     
     override func setProposal(_ proposal: Proposal) {
         super.setProposal(proposal)
-        trackLabel.text = proposal.timetable.track.rawValue
+        switch proposal.timetable.track {
+        case .A:
+            trackLabel.text = "A"
+        case .B:
+            trackLabel.text = "B"
+        case .C:
+            trackLabel.text = "C"
+        case .D:
+            trackLabel.text = "D"
+        }
+       
     }
     
     required init?(coder aDecoder: NSCoder) {

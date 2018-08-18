@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4C3AFCAA2123C9EF003E340E /* DayTrackEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3AFCA92123C9EF003E340E /* DayTrackEmptyView.swift */; };
+		4C3AFCAA2123C9EF003E340E /* ProposalEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3AFCA92123C9EF003E340E /* ProposalEmptyView.swift */; };
 		4C3AFCAC2123D812003E340E /* MyFavProposalCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3AFCAB2123D812003E340E /* MyFavProposalCollectionView.swift */; };
 		4C3AFCAF2123DC65003E340E /* MyFavProposalCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3AFCAE2123DC65003E340E /* MyFavProposalCollectionCell.swift */; };
 		4C3AFCB12123DF95003E340E /* MyFavProposalAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3AFCB02123DF95003E340E /* MyFavProposalAdapter.swift */; };
@@ -27,6 +27,7 @@
 		7631F556211ECAB60040BD9B /* Exts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7631F555211ECAB60040BD9B /* Exts.swift */; };
 		7631F558211ECFB20040BD9B /* TrackSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7631F557211ECFB20040BD9B /* TrackSelectView.swift */; };
 		7631F55A211EE08A0040BD9B /* TimeTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7631F559211EE08A0040BD9B /* TimeTableViewModel.swift */; };
+		76566B3A21280F5E002FCD22 /* InfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76566B3921280F5E002FCD22 /* InfoTableViewCell.swift */; };
 		7667FC8B2121B88600D78955 /* Data.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7667FC8A2121B88600D78955 /* Data.plist */; };
 		767D0CFC21200DD9003A3730 /* DayTrackCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767D0CFB21200DD9003A3730 /* DayTrackCollectionViewCell.swift */; };
 		767D0CFE2120125F003A3730 /* NotoMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 767D0CFD2120125E003A3730 /* NotoMono-Regular.ttf */; };
@@ -51,7 +52,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4C3AFCA92123C9EF003E340E /* DayTrackEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayTrackEmptyView.swift; sourceTree = "<group>"; };
+		4C3AFCA92123C9EF003E340E /* ProposalEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProposalEmptyView.swift; sourceTree = "<group>"; };
 		4C3AFCAB2123D812003E340E /* MyFavProposalCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFavProposalCollectionView.swift; sourceTree = "<group>"; };
 		4C3AFCAE2123DC65003E340E /* MyFavProposalCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFavProposalCollectionCell.swift; sourceTree = "<group>"; };
 		4C3AFCB02123DF95003E340E /* MyFavProposalAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFavProposalAdapter.swift; sourceTree = "<group>"; };
@@ -76,6 +77,7 @@
 		7631F555211ECAB60040BD9B /* Exts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exts.swift; sourceTree = "<group>"; };
 		7631F557211ECFB20040BD9B /* TrackSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectView.swift; sourceTree = "<group>"; };
 		7631F559211EE08A0040BD9B /* TimeTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTableViewModel.swift; sourceTree = "<group>"; };
+		76566B3921280F5E002FCD22 /* InfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoTableViewCell.swift; sourceTree = "<group>"; };
 		7667FC8A2121B88600D78955 /* Data.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Data.plist; sourceTree = "<group>"; };
 		767D0CFB21200DD9003A3730 /* DayTrackCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayTrackCollectionViewCell.swift; sourceTree = "<group>"; };
 		767D0CFD2120125E003A3730 /* NotoMono-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoMono-Regular.ttf"; sourceTree = "<group>"; };
@@ -199,7 +201,7 @@
 				7631F550211E9A8E0040BD9B /* TimeTableViewController.swift */,
 				76A0BBBD211F2D7900835640 /* DayTrackCollectionView.swift */,
 				767D0CFB21200DD9003A3730 /* DayTrackCollectionViewCell.swift */,
-				4C3AFCA92123C9EF003E340E /* DayTrackEmptyView.swift */,
+				4C3AFCA92123C9EF003E340E /* ProposalEmptyView.swift */,
 				7667FC8A2121B88600D78955 /* Data.plist */,
 			);
 			path = TimeTable;
@@ -228,6 +230,7 @@
 			isa = PBXGroup;
 			children = (
 				76A0BBC0211F307300835640 /* InfoViewController.swift */,
+				76566B3921280F5E002FCD22 /* InfoTableViewCell.swift */,
 			);
 			path = Info;
 			sourceTree = "<group>";
@@ -487,11 +490,12 @@
 				767D0CFC21200DD9003A3730 /* DayTrackCollectionViewCell.swift in Sources */,
 				767D0D032120183D003A3730 /* ProposalDetailViewModel.swift in Sources */,
 				7631F556211ECAB60040BD9B /* Exts.swift in Sources */,
+				76566B3A21280F5E002FCD22 /* InfoTableViewCell.swift in Sources */,
 				768EF46B21231BED00A50591 /* ProposalAdapter.swift in Sources */,
 				7631F551211E9A8E0040BD9B /* TimeTableViewController.swift in Sources */,
 				7631F558211ECFB20040BD9B /* TrackSelectView.swift in Sources */,
 				4C3AFCAC2123D812003E340E /* MyFavProposalCollectionView.swift in Sources */,
-				4C3AFCAA2123C9EF003E340E /* DayTrackEmptyView.swift in Sources */,
+				4C3AFCAA2123C9EF003E340E /* ProposalEmptyView.swift in Sources */,
 				4C3AFCAF2123DC65003E340E /* MyFavProposalCollectionCell.swift in Sources */,
 				7631F55A211EE08A0040BD9B /* TimeTableViewModel.swift in Sources */,
 				7631F524211E8BD70040BD9B /* AppDelegate.swift in Sources */,
