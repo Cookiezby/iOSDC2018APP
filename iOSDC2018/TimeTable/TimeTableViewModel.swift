@@ -31,7 +31,6 @@ final class TimeTableModel {
             var result = [Proposal]()
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZ"
-            //dateFormatter.timeZone = TimeZone(secondsFromGMT: 3600 * 9)
             for proposal in allProposals {
                 if let timetable = proposal["timetable"] as? [String: Any],
                     let speaker = proposal["speaker"] as? [String: Any],

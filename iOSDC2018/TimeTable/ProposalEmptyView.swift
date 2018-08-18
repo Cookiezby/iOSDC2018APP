@@ -9,12 +9,12 @@
 import Foundation
 import UIKit
 
-final class DayTrackEmptyView: UIView {
+final class ProposalEmptyView: UIView {
     private let label: UILabel = {
         let label = UILabel()
-        label.tintColor = .darkGray
-        label.font = UIFont.boldSystemFont(ofSize: 12)
-        label.text = "Proposal is Empty"
+        label.textColor = UIColor.hex("B7B7B7")
+        label.font = UIFont.pingFangMedium(size: 13)
+        label.text = "プロポーザルがありません"
         label.textAlignment = .center
         return label
     }()
