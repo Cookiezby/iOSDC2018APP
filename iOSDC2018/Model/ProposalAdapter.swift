@@ -21,7 +21,7 @@ struct DayProposal {
     }
     
     mutating func insertProposal(_ proposal: Proposal) {
-        switch proposal.track {
+        switch proposal.timetable.track {
         case .A:
             trackProposals[0].proposals.append(proposal)
         case .B:
@@ -40,21 +40,20 @@ struct TrackProposal {
 }
 
 final class ProposalAdapter {
-    static let shared = ProposalAdapter()
-    var dayProposalList = [DayProposal]()
+    let dayProposalList: [DayProposal]
 
-    init() {
-        let sorted = Proposal.all.sorted { (l, r) -> Bool in
-            return l.startTime < r.startTime
+    init(allProposals: [Proposal]) {
+        let sorted = allProposals.sorted { (l, r) -> Bool in
+            return l.timetable.startsAt < r.timetable.startsAt
         }
-        
+
         var day1 = DayProposal(date: Date.createBy(year: 2018, month: 8, day: 30))
         var day2 = DayProposal(date: Date.createBy(year: 2018, month: 8, day: 31))
         var day3 = DayProposal(date: Date.createBy(year: 2018, month: 9, day: 1))
         var day4 = DayProposal(date: Date.createBy(year: 2018, month: 9, day: 2))
         
         sorted.forEach {
-            switch Double($0.startTime) {
+            switch $0.timetable.startsAt {
             case day1.date.timeIntervalSince1970 ..< day1.date.timeIntervalSince1970 + 3600 * 24:
                 day1.insertProposal($0)
             case day2.date.timeIntervalSince1970 ..< day2.date.timeIntervalSince1970 + 3600 * 24:
@@ -69,8 +68,6 @@ final class ProposalAdapter {
         }
         dayProposalList = [day1, day2, day3, day4]
     }
-    
-   
 }
 
 

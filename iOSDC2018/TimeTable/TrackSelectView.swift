@@ -12,8 +12,9 @@ import ReactiveSwift
 import Result
 
 protocol TrackSelectViewInOut {
-    var selectedDay: MutableProperty<DayProposal> { get }
-    var myFavHidden: MutableProperty<Bool> { get }
+    var dayProposalList : MutableProperty<[DayProposal]> { get }
+    var curDayProposal  : MutableProperty<DayProposal?> { get }
+    var myFavHidden     : MutableProperty<Bool> { get }
 }
 
 final
@@ -36,7 +37,8 @@ class TrackSelectView: UIView {
         return view
     }()
     
-    private let selectedDay = MutableProperty<DayProposal>(ProposalAdapter.shared.dayProposalList[0])
+    private let dayProposalList = MutableProperty<[DayProposal]>([])
+    private let selectedDay = MutableProperty<DayProposal?>(nil)
     private let myFavHidden = MutableProperty<Bool>(true)
     init() {
         super.init(frame: .zero)
@@ -45,8 +47,12 @@ class TrackSelectView: UIView {
     }
     
     func bind(_ inOut: TrackSelectViewInOut) {
-        inOut.selectedDay <~ selectedDay.signal.take(during: reactive.lifetime)
+        inOut.curDayProposal <~ selectedDay.signal.take(during: reactive.lifetime)
         inOut.myFavHidden <~ myFavHidden.signal.take(during: reactive.lifetime)
+        inOut.dayProposalList.signal.take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues{ [weak self] (value) in
+            self?.dayProposalList.swap(value)
+            self?.tableView.reloadData()
+        }
     }
     
     private func autoLayout() {
@@ -68,7 +74,7 @@ extension TrackSelectView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return ProposalAdapter.shared.dayProposalList.count
+            return dayProposalList.value.count
         case 1:
             return 1
         default:
@@ -80,7 +86,7 @@ extension TrackSelectView: UITableViewDelegate, UITableViewDataSource {
         switch indexPath.section {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: TrackSelectViewCell.description(), for: indexPath) as! TrackSelectViewCell
-            cell.label.text = ProposalAdapter.shared.dayProposalList[indexPath.row].date.dayStr()
+            cell.label.text = dayProposalList.value[indexPath.row].date.dayStr()
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: FavSelectViewCell.description(), for: indexPath) as! FavSelectViewCell
@@ -98,7 +104,7 @@ extension TrackSelectView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.section {
         case 0:
-            selectedDay.swap(ProposalAdapter.shared.dayProposalList[indexPath.row])
+            selectedDay.swap(dayProposalList.value[indexPath.row])
             myFavHidden.value = true
         case 1:
             myFavHidden.value = false

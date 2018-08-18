@@ -212,17 +212,17 @@ class PropodalTableViewCell: UITableViewCell {
     }
     
     func setProposal(_ proposal: Proposal) {
-        SDWebImageManager.shared().imageDownloader?.downloadImage(with: URL(string: proposal.profileImageURL), options: .lowPriority, progress: nil) { (image, data, error, fiished) in
+        SDWebImageManager.shared().imageDownloader?.downloadImage(with: URL(string: proposal.speaker.avatarURL), options: .lowPriority, progress: nil) { (image, data, error, fiished) in
             self.profileImage.image = image?.resize(newSize: CGSize(width: 50, height: 50))
         }
         titleLabel.text = proposal.title
-        let startTimeStr = timeFormatter.string(from: Date(timeIntervalSince1970: Double(proposal.startTime)))
-        let endTimeStr   = timeFormatter.string(from: Date(timeIntervalSince1970: Double(proposal.startTime + proposal.seconds)))
+        let startTimeStr = timeFormatter.string(from: Date(timeIntervalSince1970: proposal.timetable.startsAt))
+        let endTimeStr   = timeFormatter.string(from: Date(timeIntervalSince1970: proposal.timetable.startsAt + Double(proposal.timetable.lengthMin * 60)))
         timeLabel.text = startTimeStr + " ~ " + endTimeStr
         
         favLabel.isHidden = !MyFavProposal.shared.favIds.contains(proposal.id)
         
-        switch proposal.track {
+        switch proposal.timetable.track {
         case .A:
             gradientLayer.colors = [UIColor.hex("02aab0").cgColor, UIColor.hex("00cdac").cgColor]
         case .B:
@@ -323,7 +323,7 @@ class FavProposalTableViewCell: PropodalTableViewCell {
     
     override func setProposal(_ proposal: Proposal) {
         super.setProposal(proposal)
-        trackLabel.text = proposal.track.rawValue
+        trackLabel.text = proposal.timetable.track.rawValue
     }
     
     required init?(coder aDecoder: NSCoder) {

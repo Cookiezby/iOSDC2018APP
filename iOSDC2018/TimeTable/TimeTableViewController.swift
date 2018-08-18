@@ -99,7 +99,11 @@ class TimeTableViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel.willAppear()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        viewModel.fetchAllProposal()
     }
     
     func bind(_ viewModel: TimeTableViewModel) {
