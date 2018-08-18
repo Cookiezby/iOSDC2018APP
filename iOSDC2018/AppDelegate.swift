@@ -8,16 +8,20 @@
 
 import UIKit
 import Firebase
+import UserNotifications
+import FirebaseMessaging
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        // Override point for customization after application launch
+        Messaging.messaging().delegate = self
         FirebaseApp.configure()
+        registerForPushNotification()
         return true
     }
 
@@ -42,7 +46,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        Messaging.messaging().apnsToken = deviceToken
+    }
 
+    func registerForPushNotification() {
+        let center  = UNUserNotificationCenter.current()
+        center.delegate = self
+        center.requestAuthorization(options: [.sound, .alert, .badge]) { (granted, error) in
+            if error == nil{
+                DispatchQueue.main.async {
+                    UIApplication.shared.registerForRemoteNotifications()
+                }
+            }
+        }
+    }
+}
 
+extension AppDelegate: MessagingDelegate {
+    func application(received remoteMessage: MessagingRemoteMessage) {
+    }
+    
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
+        print("Firebase registration token: \(fcmToken)")
+    }
 }
 

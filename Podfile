@@ -6,6 +6,7 @@ target 'iOSDC2018' do
   use_frameworks!
   pod 'Firebase/Core'
   pod 'Firebase/Database'
+  pod 'Firebase/Messaging'
   # Pods for iOSDC2018
 
   target 'iOSDC2018Tests' do
