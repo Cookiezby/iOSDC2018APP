@@ -41,7 +41,7 @@ class TimeTableNaivBar: UIView {
         autoLayout()
     }
     
-    func bindInOut(_ inOut: TimeTableNaviBarInOut) {
+    func bind(_ inOut: TimeTableNaviBarInOut) {
         infoButton.reactive.pressed = CocoaAction(inOut.openInfoAction)
     }
     
@@ -71,6 +71,10 @@ class TimeTableNaivBar: UIView {
     }
 }
 
+protocol TimeTableViewControllerDelegate: class {
+    func refresh()
+}
+
 final
 class TimeTableViewController: UIViewController {
     private let naviBar: TimeTableNaivBar = {
@@ -88,7 +92,6 @@ class TimeTableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = true
-        automaticallyAdjustsScrollViewInsets = false
         view.addSubview(trackSelectView)
         view.addSubview(dayTrackCollecitonView)
         view.addSubview(myFavProposalView)
@@ -107,13 +110,16 @@ class TimeTableViewController: UIViewController {
     }
     
     func bind(_ viewModel: TimeTableViewModel) {
-        naviBar.bindInOut(viewModel)
+        naviBar.bind(viewModel)
         dayTrackCollecitonView.bind(viewModel)
         trackSelectView.bind(viewModel)
         myFavProposalView.bind(viewModel)
         myFavProposalView.reactive.isHidden <~ viewModel.myFavHidden.producer.take(during: reactive.lifetime)
         
         viewModel.presentVCAction.values.take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues { [weak self] (vc, animated) in
+            if let vc  = vc as? ProposalDetailViewController {
+                vc.delegate = self
+            }
             self?.present(vc, animated: animated, completion: nil)
         }
     }
@@ -140,5 +146,11 @@ class TimeTableViewController: UIViewController {
         myFavProposalView.snp.makeConstraints { (make) in
             make.edges.equalTo(dayTrackCollecitonView)
         }
+    }
+}
+
+extension TimeTableViewController: TimeTableViewControllerDelegate{
+    func refresh() {
+        viewModel.refresh()
     }
 }

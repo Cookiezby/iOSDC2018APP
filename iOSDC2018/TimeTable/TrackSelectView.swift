@@ -52,6 +52,7 @@ class TrackSelectView: UIView {
         inOut.dayProposalList.signal.take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues{ [weak self] (value) in
             self?.dayProposalList.swap(value)
             self?.tableView.reloadData()
+            self?.tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .none)
         }
     }
     
@@ -73,12 +74,9 @@ extension TrackSelectView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
-        case 0:
-            return dayProposalList.value.count
-        case 1:
-            return 1
-        default:
-            return 0
+        case 0:  return dayProposalList.value.count
+        case 1:  return 1
+        default: return 0
         }
     }
     

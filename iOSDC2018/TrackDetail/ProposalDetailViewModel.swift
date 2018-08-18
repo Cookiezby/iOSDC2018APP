@@ -38,24 +38,23 @@ class ProposalDetailViewModel: NSObject {
     
     init(proposal: Proposal) {
         model = ProposalDetailModel(proposal: proposal)
-        isFavd = MutableProperty<Bool>(MyFavProposal.shared.contains(id: proposal.id))
+        isFavd = MutableProperty<Bool>(MyFavProposalManager.shared.contains(id: proposal.id))
         super.init()
         addButtonHidden <~ isFavd.producer.take(during: reactive.lifetime)
         removeButtonHidden <~ isFavd.producer.map { return !$0 }.take(during: reactive.lifetime)
         
         addFavAction.values.take(during: reactive.lifetime).observeValues { [weak self] _ in
             guard let proposal = self?.model.proposal else { return }
-            guard MyFavProposal.shared.overlayCurrentFavProposals(proposal) == false else {
-                //self?.showMessage.apply("追加した発表の時間と衝突しました").start()
+            guard MyFavProposalManager.shared.overlayCurrentFavProposals(proposal) == false else {
                 return
             }
-            MyFavProposal.shared.add(id: proposal.id)
+            MyFavProposalManager.shared.add(id: proposal.id)
             self?.isFavd.swap(true)
         }
         
         removeFavAction.values.take(during: reactive.lifetime).observeValues { [weak self] _ in
             guard let id = self?.model.proposal.id else { return }
-            MyFavProposal.shared.remove(id: id)
+            MyFavProposalManager.shared.remove(id: id)
             self?.isFavd.swap(false)
         }
     }

@@ -10,7 +10,7 @@
 		4C3AFCAA2123C9EF003E340E /* DayTrackEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3AFCA92123C9EF003E340E /* DayTrackEmptyView.swift */; };
 		4C3AFCAC2123D812003E340E /* MyFavProposalCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3AFCAB2123D812003E340E /* MyFavProposalCollectionView.swift */; };
 		4C3AFCAF2123DC65003E340E /* MyFavProposalCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3AFCAE2123DC65003E340E /* MyFavProposalCollectionCell.swift */; };
-		4C3AFCB12123DF95003E340E /* MyFavProposal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3AFCB02123DF95003E340E /* MyFavProposal.swift */; };
+		4C3AFCB12123DF95003E340E /* MyFavProposalAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3AFCB02123DF95003E340E /* MyFavProposalAdapter.swift */; };
 		7612ED242121DA0600FAA081 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7612ED232121DA0600FAA081 /* SDWebImage.framework */; };
 		7631F524211E8BD70040BD9B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7631F523211E8BD70040BD9B /* AppDelegate.swift */; };
 		7631F529211E8BD70040BD9B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7631F527211E8BD70040BD9B /* Main.storyboard */; };
@@ -54,7 +54,7 @@
 		4C3AFCA92123C9EF003E340E /* DayTrackEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayTrackEmptyView.swift; sourceTree = "<group>"; };
 		4C3AFCAB2123D812003E340E /* MyFavProposalCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFavProposalCollectionView.swift; sourceTree = "<group>"; };
 		4C3AFCAE2123DC65003E340E /* MyFavProposalCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFavProposalCollectionCell.swift; sourceTree = "<group>"; };
-		4C3AFCB02123DF95003E340E /* MyFavProposal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFavProposal.swift; sourceTree = "<group>"; };
+		4C3AFCB02123DF95003E340E /* MyFavProposalAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFavProposalAdapter.swift; sourceTree = "<group>"; };
 		592EFC58006E657042CAC7D0 /* Pods-iOSDC2018.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSDC2018.release.xcconfig"; path = "Pods/Target Support Files/Pods-iOSDC2018/Pods-iOSDC2018.release.xcconfig"; sourceTree = "<group>"; };
 		7612ED232121DA0600FAA081 /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDWebImage.framework; path = Carthage/Build/iOS/SDWebImage.framework; sourceTree = "<group>"; };
 		7631F520211E8BD70040BD9B /* iOSDC2018.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSDC2018.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -121,7 +121,6 @@
 		4C3AFCAD2123D81D003E340E /* MyFav */ = {
 			isa = PBXGroup;
 			children = (
-				4C3AFCB02123DF95003E340E /* MyFavProposal.swift */,
 				4C3AFCAB2123D812003E340E /* MyFavProposalCollectionView.swift */,
 				4C3AFCAE2123DC65003E340E /* MyFavProposalCollectionCell.swift */,
 			);
@@ -211,6 +210,7 @@
 			children = (
 				7631F553211EC6720040BD9B /* Proposal.swift */,
 				768EF46A21231BED00A50591 /* ProposalAdapter.swift */,
+				4C3AFCB02123DF95003E340E /* MyFavProposalAdapter.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -482,7 +482,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7631F554211EC6720040BD9B /* Proposal.swift in Sources */,
-				4C3AFCB12123DF95003E340E /* MyFavProposal.swift in Sources */,
+				4C3AFCB12123DF95003E340E /* MyFavProposalAdapter.swift in Sources */,
 				767D0D012120182C003A3730 /* ProposalDetailViewController.swift in Sources */,
 				767D0CFC21200DD9003A3730 /* DayTrackCollectionViewCell.swift in Sources */,
 				767D0D032120183D003A3730 /* ProposalDetailViewModel.swift in Sources */,

@@ -105,6 +105,8 @@ class ProposalDetailViewController: UIViewController {
     
     private let viewModel: ProposalDetailViewModel
     
+    weak var delegate: TimeTableViewControllerDelegate? = nil
+    
     init(proposal: Proposal) {
         viewModel = ProposalDetailViewModel(proposal: proposal)
         super.init(nibName: nil, bundle: nil)
@@ -147,7 +149,7 @@ class ProposalDetailViewController: UIViewController {
         removeFromListButton.reactive.isHidden <~ viewModel.removeButtonHidden.producer.take(during: reactive.lifetime)
         
         viewModel.twitterButtonAction.values.skipNil().take(during: reactive.lifetime).observeValues { [weak self] (url) in
-            let safariVC = SFSafariViewController(url: url, entersReaderIfAvailable: true)
+            let safariVC = SFSafariViewController(url: url)
             self?.present(safariVC, animated: true, completion: nil)
         }
     }
@@ -246,6 +248,7 @@ extension ProposalDetailViewController {
             self.view.layoutIfNeeded()
             self.view.backgroundColor = UIColor(white: 0.0, alpha: 0.0)
         }) { (_) in
+            self.delegate?.refresh()
             self.dismiss(animated: false, completion: nil)
         }
     }

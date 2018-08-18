@@ -36,7 +36,7 @@ struct Proposal {
     let speaker: Speaker
     
     func overlay(proposal: Proposal) -> Bool {
-        return false
-        //return !((proposal.startTime + proposal.minute) <= startTime || proposal.startTime >= (startTime + minute))
+        return !((proposal.timetable.startsAt + Double(proposal.timetable.lengthMin * 60)) <= timetable.startsAt
+                 || proposal.timetable.startsAt >= (timetable.startsAt + Double(timetable.lengthMin)))
     }
 }
