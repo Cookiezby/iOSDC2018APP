@@ -12,6 +12,7 @@ import ReactiveCocoa
 import ReactiveSwift
 import Result
 import SnapKit
+import MBProgressHUD
 
 protocol TimeTableNaviBarInOut {
     var openInfoAction: Action<Void, Void, NoError> { get }
@@ -88,6 +89,7 @@ class TimeTableViewController: UIViewController {
     private let myFavProposalView = MyFavProposalCollectionView()
     
     private let viewModel = TimeTableViewModel()
+    private var hud: MBProgressHUD?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -105,11 +107,6 @@ class TimeTableViewController: UIViewController {
         super.viewWillAppear(animated)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-       
-    }
-    
     func bind(_ viewModel: TimeTableViewModel) {
         naviBar.bind(viewModel)
         dayTrackCollecitonView.bind(viewModel)
@@ -122,6 +119,23 @@ class TimeTableViewController: UIViewController {
                 vc.delegate = self
             }
             self?.present(vc, animated: animated, completion: nil)
+        }
+        
+        viewModel.hudHidden.signal.take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues { [weak self] (hidden) in
+            guard let view = self?.view else { return }
+            if hidden {
+                self?.hud?.hide(animated: true)
+            } else {
+                self?.hud = MBProgressHUD.showAdded(to: view, animated: true)
+            }
+        }
+        
+        viewModel.errorMessageAction.values.take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues { [weak self] (message) in
+            guard let view = self?.view else { return }
+            let hud = MBProgressHUD.showAdded(to: view, animated: true)
+            hud.label.text = message
+            hud.mode = .text
+            hud.hide(animated: true, afterDelay: 1.0)
         }
     }
     

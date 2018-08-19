@@ -12,14 +12,17 @@ import ReactiveCocoa
 import ReactiveSwift
 import Result
 
-final class TimeTableModel {
+final class TimeTableModel: NSObject {
     let dayProposalList = MutableProperty<[DayProposal]>([])
     let favProposalList = MutableProperty<[FavProposal]>([])
     
     
     func fetchAllProposal(succeed: (() -> Void)?, failed: ((Error) -> Void)?) {
         guard let url = URL(string: "https://fortee.jp/iosdc-japan-2018/api/proposals/accepted") else { return }
-        let task = URLSession.shared.dataTask(with: url) { [weak self ] (data, response, error) in
+        let config = URLSessionConfiguration.default
+        let session = URLSession(configuration: config)
+        let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 20)
+        let task = session.dataTask(with: request) { [weak self ] (data, response, error) in
             guard let data = data else { return }
             guard error == nil else {
                 failed?(error!)
@@ -56,12 +59,11 @@ final class TimeTableModel {
             let favProposalAdapter = MyFavProposalAdapter(allProposals: result)
             self?.dayProposalList.swap(proposalAdapter.dayProposalList)
             self?.favProposalList.swap(favProposalAdapter.favProposalList)
+            succeed?()
         }
         task.resume()
     }
 }
-
-
 
 final class TimeTableViewModel: NSObject, TimeTableNaviBarInOut, DayTrackCollectionViewCellInOut, TrackSelectViewInOut, MyFavProposalCollectionViewInOut {
     private let model: TimeTableModel
@@ -75,6 +77,8 @@ final class TimeTableViewModel: NSObject, TimeTableNaviBarInOut, DayTrackCollect
     
     let curDayProposal: MutableProperty<DayProposal?>
     let myFavHidden = MutableProperty<Bool>(true)
+    let hudHidden = MutableProperty<Bool>(true)
+    let errorMessageAction: Action<String, String, NoError> = { Action { SignalProducer(value: $0) }}()
     
     override init() {
         model = TimeTableModel()
@@ -100,7 +104,13 @@ final class TimeTableViewModel: NSObject, TimeTableNaviBarInOut, DayTrackCollect
     }
     
     func fetchAllProposal() {
-        model.fetchAllProposal(succeed: nil, failed: nil)
+        hudHidden.swap(false)
+        model.fetchAllProposal(succeed: {
+            self.hudHidden.swap(true)
+        }) { (error) in
+            self.hudHidden.swap(true)
+            self.errorMessageAction.apply("通信エラー").start()
+        }
     }
     
     func refresh() {

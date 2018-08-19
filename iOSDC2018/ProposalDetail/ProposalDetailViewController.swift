@@ -103,6 +103,8 @@ class ProposalDetailViewController: UIViewController {
         return tap
     }()
     
+    private let impactGenerator = UIImpactFeedbackGenerator()
+    
     private let viewModel: ProposalDetailViewModel
     weak var delegate: TimeTableViewControllerDelegate? = nil
     
@@ -140,9 +142,25 @@ class ProposalDetailViewController: UIViewController {
     }
     
     private func bind(_ viewModel: ProposalDetailViewModel) {
-        addToListButton.reactive.pressed      = CocoaAction(viewModel.addFavAction)
-        removeFromListButton.reactive.pressed = CocoaAction(viewModel.removeFavAction)
-        twitterButton.reactive.pressed        = CocoaAction(viewModel.twitterButtonAction)
+        twitterButton.reactive.controlEvents(.touchUpInside).take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues { [weak self] (button) in
+            self?.scaleButton(button, completed: {
+                viewModel.twitterButtonAction.apply().start()
+            })
+        }
+        
+        addToListButton.reactive.controlEvents(.touchUpInside).take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues { [weak self] (button) in
+            self?.impactGenerator.impactOccurred()
+            self?.scaleButton(button, completed: {
+                viewModel.addFavAction.apply().start()
+            })
+        }
+        
+        removeFromListButton.reactive.controlEvents(.touchUpInside).take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues { [weak self] (button) in
+            self?.impactGenerator.impactOccurred()
+            self?.scaleButton(button, completed: {
+                viewModel.removeFavAction.apply().start()
+            })
+        }
         
         addToListButton.reactive.isHidden      <~ viewModel.addButtonHidden.producer.take(during: reactive.lifetime)
         removeFromListButton.reactive.isHidden <~ viewModel.removeButtonHidden.producer.take(during: reactive.lifetime)
@@ -263,6 +281,18 @@ extension ProposalDetailViewController {
             self.dismiss(animated: false, completion: nil)
         }
     }
+    
+    func scaleButton(_ button: UIButton, completed: @escaping () -> Void) {
+        UIView.animate(withDuration: 0.125, animations: {
+            button.transform = CGAffineTransform.identity.scaledBy(x: 1.035, y: 1.035)
+        }) { (finished) in
+            UIView.animate(withDuration: 0.125, animations: {
+                button.transform = CGAffineTransform.identity
+            }, completion: { (finished) in
+                completed()
+            })
+        }
+    }
 }
 
 extension ProposalDetailViewController: UIGestureRecognizerDelegate {
@@ -274,4 +304,3 @@ extension ProposalDetailViewController: UIGestureRecognizerDelegate {
         return true
     }
 }
-

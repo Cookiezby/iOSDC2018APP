@@ -15,8 +15,8 @@ import Result
 final class MyFavProposalCollectionCell: UICollectionViewCell {
     private var dateLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .darkGray
-        label.font = UIFont.systemFont(ofSize: 18)
+        label.textColor = UIColor.mainTextColor
+        label.font = UIFont.pingFang(size: 17)
         return label
     }()
     
