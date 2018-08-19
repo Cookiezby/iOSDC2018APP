@@ -21,7 +21,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Override point for customization after application launch
         Messaging.messaging().delegate = self
         FirebaseApp.configure()
-        registerForPushNotification()
+        if AppDelegate.notificaitonEnable() {
+            registerForPushNotification()
+        }
         return true
     }
 
@@ -50,7 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Messaging.messaging().apnsToken = deviceToken
     }
-
+    
     func registerForPushNotification() {
         let center  = UNUserNotificationCenter.current()
         center.delegate = self
@@ -60,6 +62,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     UIApplication.shared.registerForRemoteNotifications()
                 }
             }
+        }
+    }
+    
+    static func notificaitonEnable() ->  Bool {
+        let ud = UserDefaults.standard
+        if let value = ud.value(forKey: UDNotificationEnableKey) {
+            return value as! Bool
+        } else {
+            ud.setValue(true, forKey: UDNotificationEnableKey)
+            return true
         }
     }
 }

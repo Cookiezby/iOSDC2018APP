@@ -28,6 +28,9 @@
 		7631F558211ECFB20040BD9B /* TrackSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7631F557211ECFB20040BD9B /* TrackSelectView.swift */; };
 		7631F55A211EE08A0040BD9B /* TimeTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7631F559211EE08A0040BD9B /* TimeTableViewModel.swift */; };
 		76566B3A21280F5E002FCD22 /* InfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76566B3921280F5E002FCD22 /* InfoTableViewCell.swift */; };
+		766373FC2129644F00B123DB /* InfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766373FB2129644F00B123DB /* InfoViewModel.swift */; };
+		766373FF21296C2900B123DB /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766373FE21296C2900B123DB /* WebViewController.swift */; };
+		7663740321296F4600B123DB /* NofiticationInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7663740221296F4600B123DB /* NofiticationInfoViewController.swift */; };
 		7667FC8B2121B88600D78955 /* Data.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7667FC8A2121B88600D78955 /* Data.plist */; };
 		767D0CFC21200DD9003A3730 /* DayTrackCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767D0CFB21200DD9003A3730 /* DayTrackCollectionViewCell.swift */; };
 		767D0CFE2120125F003A3730 /* NotoMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 767D0CFD2120125E003A3730 /* NotoMono-Regular.ttf */; };
@@ -79,6 +82,9 @@
 		7631F559211EE08A0040BD9B /* TimeTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTableViewModel.swift; sourceTree = "<group>"; };
 		76566B3921280F5E002FCD22 /* InfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoTableViewCell.swift; sourceTree = "<group>"; };
 		76566B3B21286AFD002FCD22 /* iOSDC2018.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iOSDC2018.entitlements; sourceTree = "<group>"; };
+		766373FB2129644F00B123DB /* InfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewModel.swift; sourceTree = "<group>"; };
+		766373FE21296C2900B123DB /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		7663740221296F4600B123DB /* NofiticationInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NofiticationInfoViewController.swift; sourceTree = "<group>"; };
 		7667FC8A2121B88600D78955 /* Data.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Data.plist; sourceTree = "<group>"; };
 		767D0CFB21200DD9003A3730 /* DayTrackCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayTrackCollectionViewCell.swift; sourceTree = "<group>"; };
 		767D0CFD2120125E003A3730 /* NotoMono-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoMono-Regular.ttf"; sourceTree = "<group>"; };
@@ -158,8 +164,9 @@
 				76A0BBBF211F306500835640 /* Info */,
 				7631F552211EC6340040BD9B /* Model */,
 				4C3AFCAD2123D81D003E340E /* MyFav */,
-				767D0CFF21201813003A3730 /* TrackDetail */,
+				767D0CFF21201813003A3730 /* ProposalDetail */,
 				7631F54F211E9A7E0040BD9B /* TimeTable */,
+				766373FD21296C1900B123DB /* WebVC */,
 				7631F523211E8BD70040BD9B /* AppDelegate.swift */,
 				7631F527211E8BD70040BD9B /* Main.storyboard */,
 				7631F52A211E8BD90040BD9B /* Assets.xcassets */,
@@ -219,20 +226,30 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		767D0CFF21201813003A3730 /* TrackDetail */ = {
+		766373FD21296C1900B123DB /* WebVC */ = {
+			isa = PBXGroup;
+			children = (
+				766373FE21296C2900B123DB /* WebViewController.swift */,
+			);
+			path = WebVC;
+			sourceTree = "<group>";
+		};
+		767D0CFF21201813003A3730 /* ProposalDetail */ = {
 			isa = PBXGroup;
 			children = (
 				767D0D022120183D003A3730 /* ProposalDetailViewModel.swift */,
 				767D0D002120182C003A3730 /* ProposalDetailViewController.swift */,
 			);
-			path = TrackDetail;
+			path = ProposalDetail;
 			sourceTree = "<group>";
 		};
 		76A0BBBF211F306500835640 /* Info */ = {
 			isa = PBXGroup;
 			children = (
+				766373FB2129644F00B123DB /* InfoViewModel.swift */,
 				76A0BBC0211F307300835640 /* InfoViewController.swift */,
 				76566B3921280F5E002FCD22 /* InfoTableViewCell.swift */,
+				7663740221296F4600B123DB /* NofiticationInfoViewController.swift */,
 			);
 			path = Info;
 			sourceTree = "<group>";
@@ -494,6 +511,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7631F554211EC6720040BD9B /* Proposal.swift in Sources */,
+				7663740321296F4600B123DB /* NofiticationInfoViewController.swift in Sources */,
 				4C3AFCB12123DF95003E340E /* MyFavProposalAdapter.swift in Sources */,
 				767D0D012120182C003A3730 /* ProposalDetailViewController.swift in Sources */,
 				767D0CFC21200DD9003A3730 /* DayTrackCollectionViewCell.swift in Sources */,
@@ -507,8 +525,10 @@
 				4C3AFCAA2123C9EF003E340E /* ProposalEmptyView.swift in Sources */,
 				4C3AFCAF2123DC65003E340E /* MyFavProposalCollectionCell.swift in Sources */,
 				7631F55A211EE08A0040BD9B /* TimeTableViewModel.swift in Sources */,
+				766373FC2129644F00B123DB /* InfoViewModel.swift in Sources */,
 				7631F524211E8BD70040BD9B /* AppDelegate.swift in Sources */,
 				76A0BBC1211F307300835640 /* InfoViewController.swift in Sources */,
+				766373FF21296C2900B123DB /* WebViewController.swift in Sources */,
 				76A0BBBE211F2D7900835640 /* DayTrackCollectionView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
