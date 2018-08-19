@@ -36,6 +36,7 @@ struct Proposal {
     let speaker: Speaker
     
     func overlay(proposal: Proposal) -> Bool {
+        guard proposal.id != id else { return false }
         return !((proposal.timetable.startsAt + Double(proposal.timetable.lengthMin * 60)) <= timetable.startsAt
                  || proposal.timetable.startsAt >= (timetable.startsAt + Double(timetable.lengthMin)))
     }

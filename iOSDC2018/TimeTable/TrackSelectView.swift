@@ -27,10 +27,10 @@ class TrackSelectView: UIView {
         view.tableFooterView = UIView()
         view.backgroundView = {
             let view = UIView()
-            view.backgroundColor = UIColor.hex("F8F8F8")
+            view.backgroundColor = .white
             return view
         }()
-        //view.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
+        view.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
         view.register(TrackSelectViewCell.self, forCellReuseIdentifier: TrackSelectViewCell.description())
         view.register(FavSelectViewCell.self, forCellReuseIdentifier: FavSelectViewCell.description())
         view.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .none)
