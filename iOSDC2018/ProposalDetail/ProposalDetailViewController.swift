@@ -28,7 +28,7 @@ class ProposalDetailViewController: UIViewController {
     
     private let profileImageView: UIImageView = {
         let view = UIImageView()
-        view.backgroundColor = .darkGray
+        view.backgroundColor = .white
         view.layer.cornerRadius = 20
         view.clipsToBounds = true
         return view
@@ -72,7 +72,7 @@ class ProposalDetailViewController: UIViewController {
         return button
     }()
     
-    private let addToListButton: UIButton = {
+    private lazy var addToListButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor.hex("4A4A4A")
         button.setTitle("リストに追加", for: .normal)
@@ -104,7 +104,6 @@ class ProposalDetailViewController: UIViewController {
     }()
     
     private let viewModel: ProposalDetailViewModel
-    
     weak var delegate: TimeTableViewControllerDelegate? = nil
     
     init(proposal: Proposal) {
@@ -148,9 +147,23 @@ class ProposalDetailViewController: UIViewController {
         addToListButton.reactive.isHidden      <~ viewModel.addButtonHidden.producer.take(during: reactive.lifetime)
         removeFromListButton.reactive.isHidden <~ viewModel.removeButtonHidden.producer.take(during: reactive.lifetime)
         
-        viewModel.twitterButtonAction.values.skipNil().take(during: reactive.lifetime).observeValues { [weak self] (url) in
+        viewModel.twitterButtonAction.values.skipNil().take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues { [weak self] (url) in
             let safariVC = SFSafariViewController(url: url)
             self?.present(safariVC, animated: true, completion: nil)
+        }
+        
+        viewModel.presentVCAction.values.take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues { [weak self] (vc, animated) in
+            self?.present(vc, animated: animated, completion: nil)
+        }
+        
+        viewModel.addButtonEnable.producer.take(first: 1).observe(on: UIScheduler()).startWithValues { [weak self] (enable) in
+            if enable {
+                return
+            } else {
+                self?.addToListButton.isEnabled = false
+                self?.addToListButton.setTitle("時間が重なってます😣", for: .normal)
+                self?.addToListButton.backgroundColor = UIColor.hex("E0E0E0")
+            }
         }
     }
     
@@ -218,8 +231,6 @@ class ProposalDetailViewController: UIViewController {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        containerView.layer.applySketchShadow(color: .black, alpha: 0.4, x: 0, y: 1, blur: 10, spread: 3)
-        addToListButton.layer.applySketchShadow(color: .black, alpha: 0.2, x: 0, y: 1, blur: 7, spread: 0)
         profileBack.frame = profileImageView.frame.insetBy(dx: -2, dy: -2)
         profileBack.cornerRadius = profileBack.bounds.width / 2
     }
