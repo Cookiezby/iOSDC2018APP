@@ -104,7 +104,7 @@ class ProposalDetailViewController: UIViewController {
         return tap
     }()
     
-    private let impactGenerator = UIImpactFeedbackGenerator()
+    private let impactGenerator = UIImpactFeedbackGenerator(style: .light)
     
     private let viewModel: ProposalDetailViewModel
     weak var delegate: TimeTableViewControllerDelegate? = nil
