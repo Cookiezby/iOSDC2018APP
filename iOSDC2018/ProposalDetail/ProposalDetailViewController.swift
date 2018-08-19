@@ -15,7 +15,8 @@ import ReactiveSwift
 import Result
 import MBProgressHUD
 
-fileprivate let ContainerHeight: CGFloat = UIScreen.main.bounds.width > 320 ? 330 : 400
+
+fileprivate let ContainerHeight: CGFloat = UIScreen.main.bounds.width > 320 ? 350 : 400
 
 final
 class ProposalDetailViewController: UIViewController {
@@ -216,21 +217,21 @@ class ProposalDetailViewController: UIViewController {
             make.left.equalTo(17)
             make.right.equalTo(-17)
             make.top.equalTo(titleLabel.snp.bottom).offset(5)
-            make.bottom.equalTo(-90)
+            make.bottom.equalTo(addToListButton.snp.top).offset(-10)
         }
         
         addToListButton.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
             make.width.equalTo(188)
             make.height.equalTo(42)
-            make.bottom.equalTo(-39)
+            make.bottom.equalTo(-40)
         }
         
         removeFromListButton.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
             make.width.equalTo(188)
             make.height.equalTo(42)
-            make.bottom.equalTo(-39)
+            make.bottom.equalTo(-40)
         }
         
         twitterButton.snp.makeConstraints { (make) in
@@ -251,6 +252,10 @@ class ProposalDetailViewController: UIViewController {
         super.viewDidLayoutSubviews()
         profileBack.frame = profileImageView.frame.insetBy(dx: -2, dy: -2)
         profileBack.cornerRadius = profileBack.bounds.width / 2
+    }
+    
+    override func prefersHomeIndicatorAutoHidden() -> Bool {
+        return true
     }
     
     required init?(coder aDecoder: NSCoder) {
