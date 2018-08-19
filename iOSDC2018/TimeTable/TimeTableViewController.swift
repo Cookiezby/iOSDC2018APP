@@ -98,6 +98,7 @@ class TimeTableViewController: UIViewController {
         view.addSubview(naviBar)
         autoLayout()
         bind(viewModel)
+        viewModel.fetchAllProposal()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -106,7 +107,7 @@ class TimeTableViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        viewModel.fetchAllProposal()
+       
     }
     
     func bind(_ viewModel: TimeTableViewModel) {

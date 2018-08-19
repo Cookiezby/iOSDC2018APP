@@ -25,7 +25,7 @@ class DayTrackCollectionViewCellTrackHeader: UIView {
 
     private let trackLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "NotoMono", size: 19)
+        label.font = UIFont.pingFang(size: 18)
         label.textColor = .darkGray
         return label
     }()

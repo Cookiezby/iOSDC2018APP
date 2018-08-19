@@ -33,6 +33,11 @@ extension CALayer {
 }
 
 extension UIColor {
+    static var mainTextColor: UIColor {
+        return UIColor.hex("212121")
+    }
+    
+    
     static func hex (_ hexString: String) -> UIColor {
         var cString:String = hexString.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
         
