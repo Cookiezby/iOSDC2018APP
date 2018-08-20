@@ -71,6 +71,7 @@ final class TimeTableViewModel: NSObject, TimeTableNaviBarInOut, DayTrackCollect
     let openInfoAction: Action<Void, Void, NoError> = { Action { SignalProducer(value: $0) }}()
     let presentVCAction: Action<(UIViewController, Bool), (UIViewController, Bool), NoError>  = { Action { SignalProducer(value: $0) }}()
     let selectProposalAction: Action<Proposal, Proposal, NoError> = { Action { SignalProducer(value: $0) }}()
+    let reloadDayTrackAction: Action<Void, Void, NoError> = { Action { SignalProducer(value: $0) }}()
     
     let dayProposalList = MutableProperty<[DayProposal]>([])
     let favProposalList = MutableProperty<[FavProposal]>([])
@@ -79,11 +80,14 @@ final class TimeTableViewModel: NSObject, TimeTableNaviBarInOut, DayTrackCollect
     let myFavHidden = MutableProperty<Bool>(true)
     let hudHidden = MutableProperty<Bool>(true)
     let errorMessageAction: Action<String, String, NoError> = { Action { SignalProducer(value: $0) }}()
+    var timerDispose: Disposable? = nil
     
     override init() {
         model = TimeTableModel()
         curDayProposal = MutableProperty<DayProposal?>(model.dayProposalList.value.first)
         super.init()
+        setupNotificaitonObserver()
+        
         model.dayProposalList.signal.take(during: reactive.lifetime).observeValues { [weak self] (value) in
             self?.dayProposalList.swap(value)
             self?.curDayProposal.swap(value.first)
@@ -103,17 +107,49 @@ final class TimeTableViewModel: NSObject, TimeTableNaviBarInOut, DayTrackCollect
         }
     }
     
+    func setupNotificaitonObserver() {
+        NotificationCenter.default.addObserver(self,
+                                               selector:#selector(applicationWillEnterForground),
+                                               name:NSNotification.Name.UIApplicationWillEnterForeground,
+                                               object: nil)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector:#selector(applicationWillResignActive),
+                                               name:NSNotification.Name.UIApplicationWillResignActive,
+                                               object: nil)
+    }
+    
     func fetchAllProposal() {
         hudHidden.swap(false)
         model.fetchAllProposal(succeed: {
             self.hudHidden.swap(true)
+            self.setupTimer()
         }) { (error) in
             self.hudHidden.swap(true)
             self.errorMessageAction.apply("通信エラー").start()
         }
     }
     
-    func refresh() {
+    @objc
+    func applicationWillEnterForground() {
+        reloadDayTrackAction.apply().start()
+        reloadFav()
+        setupTimer()
+    }
+    
+    @objc
+    func applicationWillResignActive() {
+        timerDispose?.dispose()
+    }
+    
+    private func setupTimer() {
+        timerDispose = SignalProducer.timer(interval: .seconds(120), on: QueueScheduler.main).producer.startWithValues { [weak self] (_) in
+            self?.reloadDayTrackAction.apply().start()
+            self?.reloadFav()
+        }
+    }
+    
+    func reloadFav() {
         favProposalList.swap(MyFavProposalAdapter(allProposals: MyFavProposalManager.shared.favProposals).favProposalList)
     }
 }

@@ -16,7 +16,7 @@ import Result
 import MBProgressHUD
 
 
-fileprivate let ContainerHeight: CGFloat = UIScreen.main.bounds.width > 320 ? 350 : 400
+fileprivate let ContainerHeight: CGFloat = UIScreen.main.bounds.width > 320 ? 350 : 370
 
 final
 class ProposalDetailViewController: UIViewController {
@@ -282,16 +282,16 @@ extension ProposalDetailViewController {
             self.view.layoutIfNeeded()
             self.view.backgroundColor = UIColor(white: 0.0, alpha: 0.0)
         }) { (_) in
-            self.delegate?.refresh()
+            self.delegate?.reloadFav()
             self.dismiss(animated: false, completion: nil)
         }
     }
     
     func scaleButton(_ button: UIButton, completed: @escaping () -> Void) {
-        UIView.animate(withDuration: 0.125, animations: {
-            button.transform = CGAffineTransform.identity.scaledBy(x: 1.035, y: 1.035)
+        UIView.animate(withDuration: 0.1, animations: {
+            button.transform = CGAffineTransform.identity.scaledBy(x: 1.025, y: 1.025)
         }) { (finished) in
-            UIView.animate(withDuration: 0.125, animations: {
+            UIView.animate(withDuration: 0.1, animations: {
                 button.transform = CGAffineTransform.identity
             }, completion: { (finished) in
                 completed()

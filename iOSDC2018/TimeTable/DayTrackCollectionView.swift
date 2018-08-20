@@ -16,6 +16,7 @@ protocol DayTrackCollectionViewCellInOut {
     var selectProposalAction: Action<Proposal, Proposal, NoError> { get }
     var dayProposalList: MutableProperty<[DayProposal]> { get }
     var curDayProposal: MutableProperty<DayProposal?> { get }
+    var reloadDayTrackAction: Action<Void, Void, NoError> { get }
 }
 
 final class DayTrackCollectionView: UIView {
@@ -35,6 +36,7 @@ final class DayTrackCollectionView: UIView {
     
     var selectProposalAction: Action<Proposal, Proposal, NoError> = { Action { SignalProducer(value: $0) }}()
     private let curDayProposal  = MutableProperty<DayProposal?>(nil)
+    private var isScrolling: Bool = false
     
     init() {
         super.init(frame: .zero)
@@ -50,6 +52,12 @@ final class DayTrackCollectionView: UIView {
             self?.curDayProposal.value = value
             self?.collectionView.reloadData()
             self?.collectionView.contentOffset = .zero
+        }
+        
+        inOut.reloadDayTrackAction.values.take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues { [weak self] (value) in
+            guard let isScrolling = self?.isScrolling else { return }
+            guard isScrolling == false else { return }
+            self?.collectionView.reloadData()
         }
     }
     
@@ -83,6 +91,14 @@ extension DayTrackCollectionView: UICollectionViewDelegate, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return collectionView.bounds.size
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        isScrolling = true
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        isScrolling = false
     }
 }
 
