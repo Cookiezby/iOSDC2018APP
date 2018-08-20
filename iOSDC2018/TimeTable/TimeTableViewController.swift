@@ -73,7 +73,7 @@ class TimeTableNaivBar: UIView {
 }
 
 protocol TimeTableViewControllerDelegate: class {
-    func refresh()
+    func reloadFav()
 }
 
 final
@@ -101,10 +101,6 @@ class TimeTableViewController: UIViewController {
         autoLayout()
         bind(viewModel)
         viewModel.fetchAllProposal()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
     }
     
     func bind(_ viewModel: TimeTableViewModel) {
@@ -165,7 +161,7 @@ class TimeTableViewController: UIViewController {
 }
 
 extension TimeTableViewController: TimeTableViewControllerDelegate{
-    func refresh() {
-        viewModel.refresh()
+    func reloadFav() {
+        viewModel.reloadFav()
     }
 }
