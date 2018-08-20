@@ -186,10 +186,10 @@ class PropodalTableViewCell: UITableViewCell {
         return layer
     }()
     
-    private let favLabel: UILabel = {
+    private let stateLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 11)
-        label.isHidden = true
+        label.font = UIFont.pingFangMedium(size: 11)
+        label.textColor = .white
         return label
     }()
     
@@ -198,7 +198,7 @@ class PropodalTableViewCell: UITableViewCell {
         formatter.dateFormat = "HH:mm"
         return formatter
     }()
-    
+
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         selectionStyle = .none
@@ -207,7 +207,7 @@ class PropodalTableViewCell: UITableViewCell {
         containerView.addSubview(timeLabel)
         containerView.addSubview(profileImage)
         containerView.addSubview(titleLabel)
-        containerView.addSubview(favLabel)
+        containerView.addSubview(stateLabel)
         autoLayout()
     }
     
@@ -220,8 +220,6 @@ class PropodalTableViewCell: UITableViewCell {
         let endTimeStr   = timeFormatter.string(from: Date(timeIntervalSince1970: proposal.timetable.startsAt + Double(proposal.timetable.lengthMin * 60)))
         timeLabel.text = startTimeStr + " ~ " + endTimeStr
         
-        favLabel.isHidden = !MyFavProposalManager.shared.contains(id: proposal.id)
-        
         switch proposal.timetable.track {
         case .A:
             gradientLayer.colors = [UIColor.hex("02aab0").cgColor, UIColor.hex("00cdac").cgColor]
@@ -231,6 +229,19 @@ class PropodalTableViewCell: UITableViewCell {
             gradientLayer.colors = [UIColor.hex("F76B1C").cgColor, UIColor.hex("FEAD3F").cgColor]
         case .D:
             gradientLayer.colors = [UIColor.hex("56ab2f").cgColor, UIColor.hex("a8e063").cgColor]
+        }
+        
+        
+        let now = Date().timeIntervalSince1970
+        let endTime = proposal.timetable.startsAt + Double(proposal.timetable.lengthMin * 60)
+        
+        if endTime < now {
+            stateLabel.text = "終了"
+            gradientLayer.colors = [UIColor.hex("c9c9c9").cgColor, UIColor.hex("c9c9c9").cgColor]
+        } else if proposal.timetable.startsAt ... endTime ~= now {
+            stateLabel.text = "発表中"
+        } else {
+            stateLabel.text = ""
         }
     }
     
@@ -261,12 +272,10 @@ class PropodalTableViewCell: UITableViewCell {
             make.bottom.equalTo(-6)
         }
         
-        favLabel.sizeToFit()
-        favLabel.snp.makeConstraints { (make) in
+        stateLabel.snp.makeConstraints { (make) in
             make.right.equalTo(-10)
             make.centerY.equalTo(timeLabel)
-            make.width.equalTo(favLabel.bounds.width)
-            make.height.equalTo(favLabel.bounds.height)
+            make.width.height.greaterThanOrEqualTo(0)
         }
     }
     
