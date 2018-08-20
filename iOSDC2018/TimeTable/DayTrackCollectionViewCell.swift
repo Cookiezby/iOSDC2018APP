@@ -279,6 +279,11 @@ class PropodalTableViewCell: UITableViewCell {
         }
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imageView?.image = nil
+    }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         gradientLayer.frame = containerView.bounds
