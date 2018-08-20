@@ -8,6 +8,11 @@
 
 import Foundation
 
+struct TrackProposal {
+    var track: Track
+    var proposals: [Proposal]
+}
+
 struct DayProposal {
     var date: Date
     var trackProposals: [TrackProposal]
@@ -32,11 +37,6 @@ struct DayProposal {
             trackProposals[3].proposals.append(proposal)
         }
     }
-}
-
-struct TrackProposal {
-    var track: Track
-    var proposals: [Proposal]
 }
 
 final class ProposalAdapter {
