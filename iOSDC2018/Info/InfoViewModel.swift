@@ -23,6 +23,7 @@ final class InfoViewModel: NSObject {
     let openHomePageAciton      : Action<Void, Void, NoError> = { Action { SignalProducer(value: $0)} }()
     let openAccessAction        : Action<Void, Void, NoError> = { Action { SignalProducer(value: $0)} }()
     let openNotificationAction  : Action<Void, Void, NoError> = { Action { SignalProducer(value: $0)} }()
+    let openStaffAction         : Action<Void, Void, NoError> = { Action { SignalProducer(value: $0)} }()
    
     let pushVCAction: Action<(UIViewController, Bool), (UIViewController, Bool), NoError> = { Action { SignalProducer(value: $0)} }()
     
@@ -33,6 +34,7 @@ final class InfoViewModel: NSObject {
         let homePageInfo = Info(iconImage: UIImage(named: "HomeIcon"), title: "公式サイト", action: openHomePageAciton)
         let accessInfo = Info(iconImage: UIImage(named: "AccessIcon"), title: "会場アクセス", action: openAccessAction)
         let notificaitonInfo = Info(iconImage: UIImage(named: "NotificationIcon"), title: "通知設定", action: openNotificationAction)
+        let staffInfo = Info(iconImage: UIImage(named: "StaffIcon"), title: "スタッフ", action: openStaffAction)
         
         let openHomePageSignal: Signal<(UIViewController, Bool), NoError> = openHomePageAciton.values.map {
             let vc = WebInfoViewController(url: URL(string: "https://iosdc.jp/2018/")!)
@@ -49,14 +51,19 @@ final class InfoViewModel: NSObject {
             return (vc, true)
         }
         
+        let openStaffSignal: Signal<(UIViewController, Bool), NoError> = openStaffAction.values.map {
+            let vc = StaffViewController()
+            return (vc, true)
+        }
         
         Signal.merge(openHomePageSignal,
                      accessSignal,
-                     notificationSignal).take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues { [weak self] value in
+                     notificationSignal,
+                     openStaffSignal).take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues { [weak self] value in
             self?.pushVCAction.apply(value).start()
         }
         
-        infoList = [homePageInfo, accessInfo, notificaitonInfo]
+        infoList = [homePageInfo, accessInfo, notificaitonInfo, staffInfo]
     }
     
 }
