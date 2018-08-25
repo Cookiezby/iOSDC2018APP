@@ -17,6 +17,7 @@ import MBProgressHUD
 final class StaffViewController: UIViewController {
     private lazy var tableView: UITableView = {
         let view = UITableView()
+        view.separatorColor = .clear
         view.delegate = self
         view.dataSource = self
         view.tableFooterView = UIView()
@@ -134,7 +135,6 @@ final class StaffTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        separatorInset = UIEdgeInsetsMake(0, bounds.width, 0, 0)
         selectionStyle = .none
         backgroundColor = .clear
         addSubview(container)

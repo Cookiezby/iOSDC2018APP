@@ -18,7 +18,16 @@ class DayTrackCollectionViewCellTrackHeader: UIView {
     var track:Track? = nil {
         didSet {
             if let track = track {
-                trackLabel.text = track.rawValue
+                switch track {
+                case .A:
+                    trackLabel.text = "A"
+                case .B:
+                    trackLabel.text = "B"
+                case .C:
+                    trackLabel.text = "C"
+                case .D:
+                    trackLabel.text = "D"
+                }
             }
         }
     }

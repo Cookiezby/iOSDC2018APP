@@ -13,7 +13,7 @@ final class ProposalEmptyView: UIView {
     private let label: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.hex("B7B7B7")
-        label.font = UIFont.pingFangMedium(size: 13)
+        label.font = UIFont.pingFangMedium(size: 11)
         label.text = "プロポーザルがありません"
         label.textAlignment = .center
         return label
@@ -28,7 +28,7 @@ final class ProposalEmptyView: UIView {
     private func autoLayout() {
         label.snp.makeConstraints { (make) in
             make.left.right.equalToSuperview()
-            make.centerY.equalToSuperview()
+            make.top.equalTo(60)
             make.height.greaterThanOrEqualTo(0)
         }
     }

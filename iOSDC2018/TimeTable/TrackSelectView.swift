@@ -114,24 +114,40 @@ extension TrackSelectView: UITableViewDelegate, UITableViewDataSource {
 
 final class FavSelectViewCell: UITableViewCell {
     private let iconView: UIImageView = {
-        let view = UIImageView(image: UIImage(named: "MyFavOn"))
+        let view = UIImageView(image: UIImage(named: "LikeIcon")?.withRenderingMode(.alwaysTemplate))
+        view.tintColor = .darkGray
         view.contentMode = .center
         return view
+    }()
+    
+    private let circleBack: CALayer = {
+        let layer = CALayer()
+        layer.backgroundColor = UIColor.hex("4A4A4A").cgColor
+        layer.isHidden = true
+        layer.applySketchShadow(color: .black, alpha: 0.15, x: 0, y: 1, blur: 6, spread: 0)
+        layer.speed = 100
+        return layer
     }()
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         separatorInset = UIEdgeInsetsMake(0, bounds.width, 0, 0)
+        selectionStyle = .none
+        layer.addSublayer(circleBack)
         addSubview(iconView)
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
-        iconView.alpha = selected ? 1.0 : 0.5
+        iconView.tintColor = selected ? .white : .darkGray
+        circleBack.isHidden = selected ? false : true
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        iconView.frame = bounds
+        iconView.frame = bounds.offsetBy(dx: 0, dy: 1)
+        circleBack.bounds = bounds.insetBy(dx: 6, dy: 6)
+        circleBack.position = CGPoint(x: bounds.width / 2, y: bounds.height / 2)
+        circleBack.cornerRadius = circleBack.bounds.width / 2
     }
     
     required init?(coder aDecoder: NSCoder) {

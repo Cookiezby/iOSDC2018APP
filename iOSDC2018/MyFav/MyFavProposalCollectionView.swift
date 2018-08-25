@@ -79,6 +79,10 @@ extension MyFavProposalCollectionView: UICollectionViewDelegate, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return collectionView.bounds.size
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            return CGSize(width: collectionView.bounds.width / 4, height: collectionView.bounds.height)
+        } else {
+            return collectionView.bounds.size
+        }
     }
 }

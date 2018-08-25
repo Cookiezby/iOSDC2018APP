@@ -29,6 +29,7 @@
 		7631F55A211EE08A0040BD9B /* TimeTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7631F559211EE08A0040BD9B /* TimeTableViewModel.swift */; };
 		763588D7212C555000581426 /* StaffViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763588D6212C555000581426 /* StaffViewController.swift */; };
 		763588D9212C58FD00581426 /* StaffViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763588D8212C58FD00581426 /* StaffViewModel.swift */; };
+		763588DB212C699A00581426 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763588DA212C699A00581426 /* FeedbackViewController.swift */; };
 		76566B3A21280F5E002FCD22 /* InfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76566B3921280F5E002FCD22 /* InfoTableViewCell.swift */; };
 		766373FC2129644F00B123DB /* InfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766373FB2129644F00B123DB /* InfoViewModel.swift */; };
 		766373FF21296C2900B123DB /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766373FE21296C2900B123DB /* WebViewController.swift */; };
@@ -84,6 +85,7 @@
 		7631F559211EE08A0040BD9B /* TimeTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTableViewModel.swift; sourceTree = "<group>"; };
 		763588D6212C555000581426 /* StaffViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaffViewController.swift; sourceTree = "<group>"; };
 		763588D8212C58FD00581426 /* StaffViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaffViewModel.swift; sourceTree = "<group>"; };
+		763588DA212C699A00581426 /* FeedbackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
 		76566B3921280F5E002FCD22 /* InfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoTableViewCell.swift; sourceTree = "<group>"; };
 		76566B3B21286AFD002FCD22 /* iOSDC2018.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iOSDC2018.entitlements; sourceTree = "<group>"; };
 		766373FB2129644F00B123DB /* InfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewModel.swift; sourceTree = "<group>"; };
@@ -256,6 +258,7 @@
 				7663740221296F4600B123DB /* NofiticationInfoViewController.swift */,
 				763588D6212C555000581426 /* StaffViewController.swift */,
 				763588D8212C58FD00581426 /* StaffViewModel.swift */,
+				763588DA212C699A00581426 /* FeedbackViewController.swift */,
 			);
 			path = Info;
 			sourceTree = "<group>";
@@ -525,6 +528,7 @@
 				767D0D032120183D003A3730 /* ProposalDetailViewModel.swift in Sources */,
 				7631F556211ECAB60040BD9B /* Exts.swift in Sources */,
 				76566B3A21280F5E002FCD22 /* InfoTableViewCell.swift in Sources */,
+				763588DB212C699A00581426 /* FeedbackViewController.swift in Sources */,
 				768EF46B21231BED00A50591 /* ProposalAdapter.swift in Sources */,
 				7631F551211E9A8E0040BD9B /* TimeTableViewController.swift in Sources */,
 				7631F558211ECFB20040BD9B /* TrackSelectView.swift in Sources */,
