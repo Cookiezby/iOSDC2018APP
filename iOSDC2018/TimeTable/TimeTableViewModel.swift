@@ -70,6 +70,8 @@ final class TimeTableViewModel: NSObject, TimeTableNaviBarInOut, DayTrackCollect
     
     let openInfoAction: Action<Void, Void, NoError> = { Action { SignalProducer(value: $0) }}()
     let presentVCAction: Action<(UIViewController, Bool), (UIViewController, Bool), NoError>  = { Action { SignalProducer(value: $0) }}()
+    let refreshCollectionView: Action<Void, Void, NoError> = { Action { SignalProducer(value: $0) }}()
+    
     let selectProposalAction: Action<Proposal, Proposal, NoError> = { Action { SignalProducer(value: $0) }}()
     let reloadDayTrackAction: Action<Void, Void, NoError> = { Action { SignalProducer(value: $0) }}()
     
@@ -133,7 +135,7 @@ final class TimeTableViewModel: NSObject, TimeTableNaviBarInOut, DayTrackCollect
     @objc
     func applicationWillEnterForground() {
         reloadDayTrackAction.apply().start()
-        reloadFav()
+        refresh()
         setupTimer()
     }
     
@@ -145,11 +147,12 @@ final class TimeTableViewModel: NSObject, TimeTableNaviBarInOut, DayTrackCollect
     private func setupTimer() {
         timerDispose = SignalProducer.timer(interval: .seconds(120), on: QueueScheduler.main).producer.startWithValues { [weak self] (_) in
             self?.reloadDayTrackAction.apply().start()
-            self?.reloadFav()
+            self?.refresh()
         }
     }
     
-    func reloadFav() {
+    func refresh() {
         favProposalList.swap(MyFavProposalAdapter(allProposals: MyFavProposalManager.shared.favProposals).favProposalList)
+        refreshCollectionView.apply().start()
     }
 }

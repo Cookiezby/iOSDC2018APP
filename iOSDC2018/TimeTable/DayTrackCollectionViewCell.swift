@@ -207,6 +207,14 @@ class PropodalTableViewCell: UITableViewCell {
         formatter.dateFormat = "HH:mm"
         return formatter
     }()
+    
+    private let favedLabel: UILabel = {
+        let label = UILabel()
+        label.text = "🤩"
+        label.font = UIFont.systemFont(ofSize: 11)
+        label.isHidden = true
+        return label
+    }()
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -217,6 +225,7 @@ class PropodalTableViewCell: UITableViewCell {
         containerView.addSubview(profileImage)
         containerView.addSubview(titleLabel)
         containerView.addSubview(stateLabel)
+        containerView.addSubview(favedLabel)
         autoLayout()
     }
     
@@ -240,17 +249,19 @@ class PropodalTableViewCell: UITableViewCell {
             gradientLayer.colors = [UIColor.hex("56ab2f").cgColor, UIColor.hex("a8e063").cgColor]
         }
         
-        
         let now = Date().timeIntervalSince1970
         let endTime = proposal.timetable.startsAt + Double(proposal.timetable.lengthMin * 60)
         
         if endTime < now {
             stateLabel.text = "終了"
             gradientLayer.colors = [UIColor.hex("c9c9c9").cgColor, UIColor.hex("c9c9c9").cgColor]
+            favedLabel.isHidden = true
         } else if proposal.timetable.startsAt ... endTime ~= now {
             stateLabel.text = "発表中"
+            favedLabel.isHidden = true
         } else {
             stateLabel.text = ""
+            favedLabel.isHidden = !MyFavProposalManager.shared.contains(id: proposal.id)
         }
     }
     
@@ -285,6 +296,13 @@ class PropodalTableViewCell: UITableViewCell {
             make.right.equalTo(-10)
             make.centerY.equalTo(timeLabel)
             make.width.height.greaterThanOrEqualTo(0)
+        }
+        
+        favedLabel.snp.makeConstraints { (make) in
+            make.right.equalTo(-5)
+            make.centerY.equalTo(timeLabel)
+            make.height.greaterThanOrEqualTo(0)
+            make.width.equalTo(20)
         }
     }
     

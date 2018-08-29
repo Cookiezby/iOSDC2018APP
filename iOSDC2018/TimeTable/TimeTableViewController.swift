@@ -162,6 +162,6 @@ class TimeTableViewController: UIViewController {
 
 extension TimeTableViewController: TimeTableViewControllerDelegate{
     func reloadFav() {
-        viewModel.reloadFav()
+        viewModel.refresh()
     }
 }

@@ -17,6 +17,7 @@ protocol DayTrackCollectionViewCellInOut {
     var dayProposalList: MutableProperty<[DayProposal]> { get }
     var curDayProposal: MutableProperty<DayProposal?> { get }
     var reloadDayTrackAction: Action<Void, Void, NoError> { get }
+    var refreshCollectionView: Action<Void, Void, NoError> { get }
 }
 
 final class DayTrackCollectionView: UIView {
@@ -57,6 +58,10 @@ final class DayTrackCollectionView: UIView {
         inOut.reloadDayTrackAction.values.take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues { [weak self] (value) in
             guard let isScrolling = self?.isScrolling else { return }
             guard isScrolling == false else { return }
+            self?.collectionView.reloadData()
+        }
+        
+        inOut.refreshCollectionView.values.take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues { [weak self] (value) in
             self?.collectionView.reloadData()
         }
     }
