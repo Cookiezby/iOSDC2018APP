@@ -115,10 +115,14 @@ class ProposalDetailViewController: UIViewController {
         titleLabel.text = proposal.title
         detailTextView.text = proposal.abstract
         nameLabel.text = proposal.speaker.name
-        SDWebImageManager.shared().imageDownloader?.downloadImage(with: URL(string: proposal.speaker.avatarURL), options: .highPriority, progress: nil, completed: { (image, data, error, finished) in
-            let size = 40 * UIScreen.main.nativeScale
-            self.profileImageView.image = image?.resize(newSize: CGSize(width: size, height: size))
-        })
+        let size = 40 * UIScreen.main.nativeScale
+        if let image = SDImageCache.shared().imageFromDiskCache(forKey: proposal.speaker.avatarURL) {
+            profileImageView.image = image.resize(newSize: CGSize(width: size, height: size))
+        } else {
+            SDWebImageManager.shared().imageDownloader?.downloadImage(with: URL(string: proposal.speaker.avatarURL), options: .highPriority, progress: nil, completed: { (image, data, error, finished) in
+                self.profileImageView.image = image?.resize(newSize: CGSize(width: size, height: size))
+            })
+        }
     }
 
     override func viewDidLoad() {

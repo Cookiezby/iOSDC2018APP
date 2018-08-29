@@ -179,8 +179,13 @@ final class StaffTableViewCell: UITableViewCell {
     
     func setStaff(_ staff: Staff) {
         label.text = staff.name
-        SDWebImageManager.shared().imageDownloader?.downloadImage(with: URL(string: staff.avatarURL), options: .lowPriority, progress: nil) { (image, data, error, fiished) in
-            self.avatarView.image = image?.resize(newSize: CGSize(width: 64, height: 64))
+        let size = 40 * UIScreen.main.nativeScale
+        if let image = SDImageCache.shared().imageFromDiskCache(forKey: staff.avatarURL) {
+            avatarView.image = image.resize(newSize: CGSize(width: size, height: size))
+        } else {
+            SDWebImageManager.shared().imageDownloader?.downloadImage(with: URL(string: staff.avatarURL), options: .highPriority, progress: nil, completed: { (image, data, error, finished) in
+                self.avatarView.image = image?.resize(newSize: CGSize(width: size, height: size))
+            })
         }
     }
     

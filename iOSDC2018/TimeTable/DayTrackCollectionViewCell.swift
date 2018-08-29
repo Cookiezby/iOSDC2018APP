@@ -61,7 +61,7 @@ class DayTrackCollectionViewCellTrackHeader: UIView {
 final
 class DayTrackCollectionViewCell: UICollectionViewCell {
     private let dateHeader = DayTrackCollectionViewCellTrackHeader()
-    private lazy var tableView: UITableView = {
+    lazy var tableView: UITableView = {
         let view = UITableView()
         view.delegate = self
         view.dataSource = self
@@ -230,8 +230,13 @@ class PropodalTableViewCell: UITableViewCell {
     }
     
     func setProposal(_ proposal: Proposal) {
-        SDWebImageManager.shared().imageDownloader?.downloadImage(with: URL(string: proposal.speaker.avatarURL), options: .lowPriority, progress: nil) { (image, data, error, fiished) in
-            self.profileImage.image = image?.resize(newSize: CGSize(width: 50, height: 50))
+        let size = 40 * UIScreen.main.nativeScale
+        if let image = SDImageCache.shared().imageFromDiskCache(forKey: proposal.speaker.avatarURL) {
+            profileImage.image = image.resize(newSize: CGSize(width: size, height: size))
+        } else {
+            SDWebImageManager.shared().imageDownloader?.downloadImage(with: URL(string: proposal.speaker.avatarURL), options: .highPriority, progress: nil, completed: { (image, data, error, finished) in
+                self.profileImage.image = image?.resize(newSize: CGSize(width: size, height: size))
+            })
         }
         titleLabel.text = proposal.title
         let startTimeStr = timeFormatter.string(from: Date(timeIntervalSince1970: proposal.timetable.startsAt))

@@ -62,7 +62,14 @@ final class DayTrackCollectionView: UIView {
         }
         
         inOut.refreshCollectionView.values.take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues { [weak self] (value) in
-            self?.collectionView.reloadData()
+            guard let sSelf = self else { return }
+            for ccell in sSelf.collectionView.visibleCells {
+                let dayTrackCell = ccell as! DayTrackCollectionViewCell
+                let tableView = dayTrackCell.tableView
+                let contentOffset = tableView.contentOffset
+                tableView.reloadData()
+                tableView.setContentOffset(contentOffset, animated: false)
+            }
         }
     }
     
