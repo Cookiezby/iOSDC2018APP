@@ -17,6 +17,7 @@ import MBProgressHUD
 
 
 fileprivate let ContainerHeight: CGFloat = UIScreen.main.bounds.width > 320 ? 350 : 370
+fileprivate let OverlapHeight: CGFloat = 130
 
 final
 class ProposalDetailViewController: UIViewController {
@@ -104,10 +105,14 @@ class ProposalDetailViewController: UIViewController {
         return tap
     }()
     
+    private let overlapView = ProposalOverlapView()
+    private var overlapHeight: CGFloat = 0
+    
     private let impactGenerator = UIImpactFeedbackGenerator(style: .light)
     
     private let viewModel: ProposalDetailViewModel
     weak var delegate: TimeTableViewControllerDelegate? = nil
+    
     
     init(proposal: Proposal) {
         viewModel = ProposalDetailViewModel(proposal: proposal)
@@ -135,6 +140,7 @@ class ProposalDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(containerView)
+        view.addSubview(overlapView)
         containerView.layer.addSublayer(profileBack)
         containerView.addSubview(nameLabel)
         containerView.addSubview(titleLabel)
@@ -154,15 +160,22 @@ class ProposalDetailViewController: UIViewController {
     }
     
     private func bind(_ viewModel: ProposalDetailViewModel) {
+        overlapView.bind(viewModel)
+        
         twitterButton.reactive.controlEvents(.touchUpInside).take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues { [weak self] (button) in
             self?.scaleButton(button, completed: {
+                
                 viewModel.twitterButtonAction.apply().start()
             })
         }
         
         addToListButton.reactive.controlEvents(.touchUpInside).take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues { [weak self] (button) in
-            self?.impactGenerator.impactOccurred()
-            self?.scaleButton(button, completed: {
+            guard let sSelf = self else { return }
+            sSelf.impactGenerator.impactOccurred()
+            sSelf.scaleButton(button, completed: {
+                if sSelf.viewModel.isOverlap.value {
+                    sSelf.hideOverlapView()
+                }
                 viewModel.addFavAction.apply().start()
             })
         }
@@ -186,13 +199,11 @@ class ProposalDetailViewController: UIViewController {
             self?.present(vc, animated: animated, completion: nil)
         }
         
-        viewModel.addButtonEnable.producer.take(first: 1).observe(on: UIScheduler()).startWithValues { [weak self] (enable) in
-            if enable {
-                return
+        viewModel.isOverlap.producer.take(during: reactive.lifetime).observe(on: UIScheduler()).startWithValues { [weak self] (value) in
+            if value {
+                self?.addToListButton.setTitle("やっぱこれ見る🤔", for: .normal)
             } else {
-                self?.addToListButton.isEnabled = false
-                self?.addToListButton.setTitle("時間が重なってます😣", for: .normal)
-                self?.addToListButton.backgroundColor = UIColor.hex("E0E0E0")
+                self?.addToListButton.setTitle("リストに追加", for: .normal)
             }
         }
     }
@@ -202,6 +213,12 @@ class ProposalDetailViewController: UIViewController {
             make.left.right.equalToSuperview()
             make.height.equalTo(ContainerHeight)
             make.bottom.equalToSuperview().offset(ContainerHeight)
+        }
+        
+        overlapView.snp.makeConstraints { (make) in
+            make.left.right.equalToSuperview()
+            make.top.equalTo(containerView.snp.bottom).offset(-20)
+            make.height.equalTo(OverlapHeight)
         }
         
         profileImageView.snp.makeConstraints { (make) in
@@ -277,7 +294,8 @@ class ProposalDetailViewController: UIViewController {
 extension ProposalDetailViewController {
     func appearAnimation() {
         containerView.snp.updateConstraints { (make) in
-            make.bottom.equalToSuperview().offset(20)
+            let offset = 20 - (viewModel.isOverlap.value ? OverlapHeight : 0)
+            make.bottom.equalToSuperview().offset(offset)
         }
         UIView.animate(withDuration: 0.12, delay: 0, options: UIViewAnimationOptions(rawValue: 7 << 16 | UIViewAnimationOptions.allowAnimatedContent.rawValue), animations: {
             self.view.backgroundColor = UIColor(white: 0.0, alpha: 0.7)
@@ -289,7 +307,9 @@ extension ProposalDetailViewController {
         containerView.snp.updateConstraints { (make) in
             make.bottom.equalToSuperview().offset(ContainerHeight)
         }
-        UIView.animate(withDuration: 0.12, delay: 0.0, options: .curveEaseOut, animations: {
+
+        let duration = viewModel.isOverlap.value ? 0.2 : 0.12
+        UIView.animate(withDuration: duration, delay: 0.0, options: .curveEaseOut, animations: {
             self.view.layoutIfNeeded()
             self.view.backgroundColor = UIColor(white: 0.0, alpha: 0.0)
         }) { (_) in
@@ -309,6 +329,16 @@ extension ProposalDetailViewController {
             })
         }
     }
+    
+    func hideOverlapView() {
+        containerView.snp.updateConstraints { (make) in
+            make.bottom.equalToSuperview().offset(20)
+        }
+        
+        UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseInOut, animations: {
+            self.view.layoutIfNeeded()
+        }, completion: nil)
+    }
 }
 
 extension ProposalDetailViewController: UIGestureRecognizerDelegate {
@@ -318,5 +348,100 @@ extension ProposalDetailViewController: UIGestureRecognizerDelegate {
             return false
         }
         return true
+    }
+}
+
+protocol ProposalOverlapViewInOut {
+    var overlapProposals: MutableProperty<[Proposal]> { get }
+}
+
+final class ProposalOverlapView: UIView {
+    private let backLayer: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.hex("F2F2F2")
+        view.layer.cornerRadius = 8
+        view.clipsToBounds = true
+        return view
+    }()
+    
+    private let label: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor.hex("B8B8B8")
+        label.font = UIFont.pingFangMedium(size: 10)
+        label.text = "時間が重なるプロポーザル"
+        return label
+    }()
+    
+    private lazy var tableView: UITableView = {
+        let view = UITableView()
+        view.delegate = self
+        view.dataSource = self
+        view.separatorStyle = .none
+        view.register(FavProposalTableViewCell.self, forCellReuseIdentifier: FavProposalTableViewCell.description())
+        view.backgroundColor = UIColor.hex("F2F2F2")
+        return view
+    }()
+    
+    private let overlapProposals = MutableProperty<[Proposal]>([])
+
+    init() {
+        super.init(frame: .zero)
+        backgroundColor = .white
+        addSubview(backLayer)
+        backLayer.addSubview(label)
+        backLayer.addSubview(tableView)
+        autolayout()
+    }
+    
+    func bind(_ inOut: ProposalOverlapViewInOut) {
+        inOut.overlapProposals.producer.take(during: reactive.lifetime).observe(on: UIScheduler()).startWithValues { [weak self] (value) in
+            self?.overlapProposals.swap(value)
+            self?.tableView.reloadData()
+        }
+    }
+    
+    private func autolayout() {
+        backLayer.snp.makeConstraints { (make) in
+            make.top.equalTo(0)
+            make.left.equalTo(17)
+            make.right.equalTo(-17)
+            make.bottom.equalTo(-20)
+        }
+        
+        tableView.snp.makeConstraints { (make) in
+            make.top.equalTo(25)
+            make.left.right.bottom.equalToSuperview()
+        }
+        
+        label.snp.makeConstraints { (make) in
+            make.top.right.equalToSuperview()
+            make.left.equalTo(10)
+            make.height.equalTo(30)
+        }
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension ProposalOverlapView: UITableViewDelegate, UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return overlapProposals.value.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: FavProposalTableViewCell.description(), for: indexPath) as! FavProposalTableViewCell
+        cell.setProposal(overlapProposals.value[indexPath.row])
+        cell.backgroundColor = .clear
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 80
     }
 }

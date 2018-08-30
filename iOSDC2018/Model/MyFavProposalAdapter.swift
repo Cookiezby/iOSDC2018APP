@@ -75,13 +75,14 @@ final class MyFavProposalManager {
         }
     }
     
-    func overlayCurrentFavProposals(_ proposal: Proposal) -> Bool {
+    func overlayCurrentFavProposals(_ proposal: Proposal) -> [Proposal] {
+        var overlapProposals = [Proposal]()
         for p in favProposals {
             if p.overlay(proposal: proposal) {
-                return true
+                overlapProposals.append(p)
             }
         }
-        return false
+        return overlapProposals
     }
 }
 

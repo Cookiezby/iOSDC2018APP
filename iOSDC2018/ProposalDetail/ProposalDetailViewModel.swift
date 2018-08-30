@@ -19,14 +19,15 @@ final class ProposalDetailModel {
     }
 }
 
-final class ProposalDetailViewModel: NSObject {
+final class ProposalDetailViewModel: NSObject, ProposalOverlapViewInOut {
     private let model: ProposalDetailModel
     let addFavAction     : Action<Void, Void, NoError> = { Action { SignalProducer(value: $0)} }()
     let removeFavAction  : Action<Void, Void, NoError> = { Action { SignalProducer(value: $0)} }()
     let presentVCAction  : Action<(UIViewController, Bool), (UIViewController, Bool), NoError> = { Action { SignalProducer(value: $0)} }()
     
-    let addButtonEnable  : MutableProperty<Bool>
-   
+
+    let overlapProposals: MutableProperty<[Proposal]>
+    
     lazy var twitterButtonAction : Action<Void, URL?, NoError> = { [weak self] in
         Action { _ in
             if let twitter = self?.model.proposal.speaker.twitter {
@@ -37,6 +38,7 @@ final class ProposalDetailViewModel: NSObject {
         }
     }()
     
+    let isOverlap: MutableProperty<Bool>
     let isFavd: MutableProperty<Bool>
     let addButtonHidden = MutableProperty<Bool>(true)
     let removeButtonHidden = MutableProperty<Bool>(true)
@@ -44,14 +46,22 @@ final class ProposalDetailViewModel: NSObject {
     init(proposal: Proposal) {
         model = ProposalDetailModel(proposal: proposal)
         isFavd = MutableProperty<Bool>(MyFavProposalManager.shared.contains(id: proposal.id))
-        addButtonEnable = MutableProperty<Bool>(!MyFavProposalManager.shared.overlayCurrentFavProposals(proposal))
+    
+        overlapProposals = MutableProperty<[Proposal]>(MyFavProposalManager.shared.overlayCurrentFavProposals(proposal))
+        isOverlap = MutableProperty<Bool>(overlapProposals.value.count > 0)
         super.init()
         addButtonHidden <~ isFavd.producer.take(during: reactive.lifetime)
         removeButtonHidden <~ isFavd.producer.map { return !$0 }.take(during: reactive.lifetime)
         
         addFavAction.values.take(during: reactive.lifetime).observeValues { [weak self] _ in
+            guard let sSelf = self else { return }
             guard let proposal = self?.model.proposal else { return }
+            for op in sSelf.overlapProposals.value {
+                MyFavProposalManager.shared.remove(id: op.id)
+            }
             MyFavProposalManager.shared.add(id: proposal.id)
+            self?.overlapProposals.swap([])
+            self?.isOverlap.swap(false)
             self?.isFavd.swap(true)
         }
         

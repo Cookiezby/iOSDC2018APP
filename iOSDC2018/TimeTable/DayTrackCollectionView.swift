@@ -109,6 +109,14 @@ extension DayTrackCollectionView: UICollectionViewDelegate, UICollectionViewData
         }
     }
     
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        let cell = cell as! DayTrackCollectionViewCell
+        let tableView = cell.tableView
+        let contentOffset = tableView.contentOffset
+        tableView.reloadData()
+        tableView.setContentOffset(contentOffset, animated: false)
+    }
+    
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         isScrolling = true
     }
