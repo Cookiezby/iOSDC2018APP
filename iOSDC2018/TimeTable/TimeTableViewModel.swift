@@ -44,11 +44,12 @@ final class TimeTableModel: NSObject {
                     let startsAtStr = timetable["starts_at"] as? String,
                     let lengthMin = timetable["length_min"] as? Int,
                     let name = speaker["name"] as? String,
-                    let avatarURL = speaker["avatar_url"] as? String,
-                    let twitter = speaker["twitter"] as? String,
                     let track = Track(rawValue: trackStr),
                     let startsAt = dateFormatter.date(from: startsAtStr)?.timeIntervalSince1970 {
                 
+                    let avatarURL = speaker["avatar_url"] as? String
+                    let twitter = speaker["twitter"] as? String
+                    
                     let s = Speaker(name: name, avatarURL: avatarURL, twitter: twitter)
                     let t = Timetable(track: track, startsAt: startsAt, lengthMin: lengthMin)
                     result.append(Proposal(id: id, title: title, abstract: abstract, timetable: t, speaker: s))

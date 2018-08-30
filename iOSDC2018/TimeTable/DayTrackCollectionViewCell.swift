@@ -230,14 +230,23 @@ class PropodalTableViewCell: UITableViewCell {
     }
     
     func setProposal(_ proposal: Proposal) {
-        let size = 40 * UIScreen.main.nativeScale
-        if let image = SDImageCache.shared().imageFromDiskCache(forKey: proposal.speaker.avatarURL) {
-            profileImage.image = image.resize(newSize: CGSize(width: size, height: size))
+        if let avatarURL = proposal.speaker.avatarURL {
+            
+            if let image = SDImageCache.shared().imageFromCache(forKey: avatarURL) {
+                profileImage.image = image
+            } else {
+                
+                SDWebImageManager.shared().imageDownloader?.downloadImage(with: URL(string: avatarURL), options: .highPriority, progress: nil, completed: { (image, data, error, finished) in
+                    let size = 40 * UIScreen.main.nativeScale
+                    let resizedImage = image?.resize(newSize: CGSize(width: size, height: size))
+                    self.profileImage.image = resizedImage
+                    SDImageCache.shared().store(resizedImage, forKey: avatarURL, completion: nil)
+                })
+            }
         } else {
-            SDWebImageManager.shared().imageDownloader?.downloadImage(with: URL(string: proposal.speaker.avatarURL), options: .highPriority, progress: nil, completed: { (image, data, error, finished) in
-                self.profileImage.image = image?.resize(newSize: CGSize(width: size, height: size))
-            })
+            profileImage.image = UIImage(named: "Placeholder")
         }
+       
         titleLabel.text = proposal.title
         let startTimeStr = timeFormatter.string(from: Date(timeIntervalSince1970: proposal.timetable.startsAt))
         let endTimeStr   = timeFormatter.string(from: Date(timeIntervalSince1970: proposal.timetable.startsAt + Double(proposal.timetable.lengthMin * 60)))

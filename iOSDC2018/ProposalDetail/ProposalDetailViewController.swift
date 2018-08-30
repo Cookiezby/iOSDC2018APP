@@ -115,13 +115,20 @@ class ProposalDetailViewController: UIViewController {
         titleLabel.text = proposal.title
         detailTextView.text = proposal.abstract
         nameLabel.text = proposal.speaker.name
-        let size = 40 * UIScreen.main.nativeScale
-        if let image = SDImageCache.shared().imageFromDiskCache(forKey: proposal.speaker.avatarURL) {
-            profileImageView.image = image.resize(newSize: CGSize(width: size, height: size))
+        if let avatarURL = proposal.speaker.avatarURL {
+            if let image = SDImageCache.shared().imageFromCache(forKey: avatarURL) {
+                profileImageView.image = image
+            } else {
+                SDWebImageManager.shared().imageDownloader?.downloadImage(with: URL(string: avatarURL), options: .highPriority, progress: nil, completed: { (image, data, error, finished) in
+                    let size = 64 * UIScreen.main.nativeScale
+                    let resizedImage = image?.resize(newSize: CGSize(width: size, height: size))
+                    self.profileImageView.image = resizedImage
+                    SDImageCache.shared().store(resizedImage, forKey: avatarURL, completion: nil)
+                })
+            }
         } else {
-            SDWebImageManager.shared().imageDownloader?.downloadImage(with: URL(string: proposal.speaker.avatarURL), options: .highPriority, progress: nil, completed: { (image, data, error, finished) in
-                self.profileImageView.image = image?.resize(newSize: CGSize(width: size, height: size))
-            })
+            twitterButton.isHidden = true
+            profileImageView.image = UIImage(named: "Placeholder")
         }
     }
 

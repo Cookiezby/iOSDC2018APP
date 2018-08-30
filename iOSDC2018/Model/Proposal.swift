@@ -23,8 +23,8 @@ struct Timetable {
 
 struct Speaker {
     let name: String
-    let avatarURL: String
-    let twitter: String
+    let avatarURL: String?
+    let twitter: String?
 }
 
 

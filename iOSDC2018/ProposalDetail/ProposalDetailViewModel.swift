@@ -27,9 +27,13 @@ final class ProposalDetailViewModel: NSObject {
     
     let addButtonEnable  : MutableProperty<Bool>
    
-    lazy var twitterButtonAction : Action<Void, URL?, NoError> = {
+    lazy var twitterButtonAction : Action<Void, URL?, NoError> = { [weak self] in
         Action { _ in
-            SignalProducer(value: URL(string: "https://twitter.com/" + self.model.proposal.speaker.twitter))
+            if let twitter = self?.model.proposal.speaker.twitter {
+                return SignalProducer(value: URL(string: "https://twitter.com/" + twitter))
+            } else {
+                return SignalProducer(value: URL(string: "https://iosdc.jp/2018/"))
+            }
         }
     }()
     

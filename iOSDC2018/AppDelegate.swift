@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import UserNotifications
 import FirebaseMessaging
+import SDWebImage
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
@@ -24,6 +25,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         if AppDelegate.notificaitonEnable() {
             registerForPushNotification()
         }
+        
+        clearOldImage()
         return true
     }
 
@@ -76,6 +79,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         } else {
             ud.setValue(true, forKey: UDNotificationEnableKey)
             return true
+        }
+    }
+    
+    private func clearOldImage() {
+        let ud = UserDefaults.standard
+        if ud.value(forKey: "BigImageRemoved") == nil{
+            SDImageCache.shared().clearDisk(onCompletion: nil)
+            ud.setValue(true, forKey: "BigImageRemoved")
+            ud.synchronize()
         }
     }
 }
