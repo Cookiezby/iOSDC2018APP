@@ -344,7 +344,8 @@ extension ProposalDetailViewController {
 extension ProposalDetailViewController: UIGestureRecognizerDelegate {
    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         guard let view = touch.view else { return false }
-        if  view.isDescendant(of: containerView) {
+        if  view.isDescendant(of: containerView) ||
+            view.isDescendant(of: overlapView) {
             return false
         }
         return true

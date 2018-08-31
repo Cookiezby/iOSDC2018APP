@@ -32,8 +32,7 @@ final class TimeTableModel: NSObject {
             guard let dict = json as? [String: Any] else { return }
             guard let allProposals = dict["proposals"] as? [[String: Any]] else { return }
             var result = [Proposal]()
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZ"
+            let dateFormatter = ISO8601DateFormatter()
             for proposal in allProposals {
                 if let timetable = proposal["timetable"] as? [String: Any],
                     let speaker = proposal["speaker"] as? [String: Any],

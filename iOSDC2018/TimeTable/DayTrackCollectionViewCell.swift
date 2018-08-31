@@ -204,7 +204,13 @@ class PropodalTableViewCell: UITableViewCell {
     
     private let timeFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm"
+        let locale = Locale.current
+        if let dateFormat = DateFormatter.dateFormat(fromTemplate: "j", options: 0, locale: locale), dateFormat.contains("a") {
+            formatter.locale = Locale(identifier: "ja_JP")
+            formatter.dateFormat = "ahh:mm"
+        } else {
+            formatter.dateFormat = "hh:mm"
+        }
         return formatter
     }()
     
