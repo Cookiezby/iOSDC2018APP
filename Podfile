@@ -6,12 +6,14 @@ target 'iOSDC2018' do
   use_frameworks!
   pod 'Firebase/Core'
   pod 'Firebase/Database'
-  pod 'Firebase/Messaging'
+  pod 'Firebase/Messaging' 
+  pod 'Firebase/InAppMessagingDisplay'
   # Pods for iOSDC2018
 
   target 'iOSDC2018Tests' do
     inherit! :search_paths
     # Pods for testing
   end
+
 
 end

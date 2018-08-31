@@ -396,7 +396,9 @@ final class ProposalOverlapView: UIView {
     
     func bind(_ inOut: ProposalOverlapViewInOut) {
         inOut.overlapProposals.producer.take(during: reactive.lifetime).observe(on: UIScheduler()).startWithValues { [weak self] (value) in
-            self?.overlapProposals.swap(value)
+            self?.overlapProposals.swap(value.sorted { (l, r) -> Bool in
+                return l.timetable.startsAt < r.timetable.startsAt
+            })
             self?.tableView.reloadData()
         }
     }

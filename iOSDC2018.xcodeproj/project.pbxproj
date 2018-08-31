@@ -418,9 +418,12 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-iOSDC2018/Pods-iOSDC2018-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseInAppMessaging/InAppMessagingResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/InAppMessagingResources.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
