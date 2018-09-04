@@ -8,6 +8,7 @@ target 'iOSDC2018' do
   pod 'Firebase/Database'
   pod 'Firebase/Messaging' 
   pod 'Firebase/InAppMessagingDisplay'
+  pod 'Firebase/Firestore'
   # Pods for iOSDC2018
 
   target 'iOSDC2018Tests' do

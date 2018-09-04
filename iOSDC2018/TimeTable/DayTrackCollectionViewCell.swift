@@ -209,7 +209,7 @@ class PropodalTableViewCell: UITableViewCell {
             formatter.locale = Locale(identifier: "ja_JP")
             formatter.dateFormat = "ahh:mm"
         } else {
-            formatter.dateFormat = "hh:mm"
+            formatter.dateFormat = "HH:mm"
         }
         return formatter
     }()

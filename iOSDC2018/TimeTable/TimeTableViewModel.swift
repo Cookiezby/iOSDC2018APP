@@ -11,6 +11,7 @@ import UIKit
 import ReactiveCocoa
 import ReactiveSwift
 import Result
+import FirebaseFirestore
 
 final class TimeTableModel: NSObject {
     let dayProposalList = MutableProperty<[DayProposal]>([])
@@ -18,50 +19,43 @@ final class TimeTableModel: NSObject {
     
     
     func fetchAllProposal(succeed: (() -> Void)?, failed: ((Error) -> Void)?) {
-        guard let url = URL(string: "https://fortee.jp/iosdc-japan-2018/api/proposals/accepted") else { return }
-        let config = URLSessionConfiguration.default
-        let session = URLSession(configuration: config)
-        let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 20)
-        let task = session.dataTask(with: request) { [weak self ] (data, response, error) in
-            guard let data = data else { return }
-            guard error == nil else {
-                failed?(error!)
-                return
-            }
-            guard let json = try? JSONSerialization.jsonObject(with: data, options: []) else { return }
-            guard let dict = json as? [String: Any] else { return }
-            guard let allProposals = dict["proposals"] as? [[String: Any]] else { return }
-            var result = [Proposal]()
-            let dateFormatter = ISO8601DateFormatter()
-            for proposal in allProposals {
-                if let timetable = proposal["timetable"] as? [String: Any],
-                    let speaker = proposal["speaker"] as? [String: Any],
-                    let id = proposal["uuid"] as? String,
-                    let title = proposal["title"] as? String,
-                    let abstract = proposal["abstract"] as? String,
-                    let trackStr = timetable["track"] as? String,
-                    let startsAtStr = timetable["starts_at"] as? String,
-                    let lengthMin = timetable["length_min"] as? Int,
-                    let name = speaker["name"] as? String,
-                    let track = Track(rawValue: trackStr),
-                    let startsAt = dateFormatter.date(from: startsAtStr)?.timeIntervalSince1970 {
-                
-                    let avatarURL = speaker["avatar_url"] as? String
-                    let twitter = speaker["twitter"] as? String
-                    
-                    let s = Speaker(name: name, avatarURL: avatarURL, twitter: twitter)
-                    let t = Timetable(track: track, startsAt: startsAt, lengthMin: lengthMin)
-                    result.append(Proposal(id: id, title: title, abstract: abstract, timetable: t, speaker: s))
+        let db = Firestore.firestore()
+        db.collection("proposals").getDocuments { [weak self] (querySnapshot, err) in
+            if let err = err {
+                failed?(err)
+            } else {
+                var result = [Proposal]()
+                let dateFormatter = ISO8601DateFormatter()
+                for document in querySnapshot!.documents {
+                    let proposal = document.data()
+                    if let timetable = proposal["timetable"] as? [String: Any],
+                        let speaker = proposal["speaker"] as? [String: Any],
+                        let id = proposal["uuid"] as? String,
+                        let title = proposal["title"] as? String,
+                        let abstract = proposal["abstract"] as? String,
+                        let trackStr = timetable["track"] as? String,
+                        let startsAtStr = timetable["starts_at"] as? String,
+                        let lengthMin = timetable["length_min"] as? Int,
+                        let name = speaker["name"] as? String,
+                        let track = Track(rawValue: trackStr),
+                        let startsAt = dateFormatter.date(from: startsAtStr)?.timeIntervalSince1970 {
+                        
+                        let avatarURL = speaker["avatar_url"] as? String
+                        let twitter = speaker["twitter"] as? String
+                        
+                        let s = Speaker(name: name, avatarURL: avatarURL, twitter: twitter)
+                        let t = Timetable(track: track, startsAt: startsAt, lengthMin: lengthMin)
+                        result.append(Proposal(id: id, title: title, abstract: abstract, timetable: t, speaker: s))
+                    }
                 }
+                MyFavProposalManager.shared.proposals = result
+                let proposalAdapter = ProposalAdapter(allProposals: result)
+                let favProposalAdapter = MyFavProposalAdapter(allProposals: result)
+                self?.dayProposalList.swap(proposalAdapter.dayProposalList)
+                self?.favProposalList.swap(favProposalAdapter.favProposalList)
+                succeed?()
             }
-            MyFavProposalManager.shared.proposals = result
-            let proposalAdapter = ProposalAdapter(allProposals: result)
-            let favProposalAdapter = MyFavProposalAdapter(allProposals: result)
-            self?.dayProposalList.swap(proposalAdapter.dayProposalList)
-            self?.favProposalList.swap(favProposalAdapter.favProposalList)
-            succeed?()
         }
-        task.resume()
     }
 }
 
