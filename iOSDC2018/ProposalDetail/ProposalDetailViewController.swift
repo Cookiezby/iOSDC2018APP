@@ -74,6 +74,13 @@ class ProposalDetailViewController: UIViewController {
         return button
     }()
     
+    private let slideButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "SlideIcon"), for: .normal)
+        button.layer.applySketchShadow(color: .black, alpha: 0.15, x: 0, y: 1, blur: 7, spread: 0)
+        return button
+    }()
+    
     private lazy var addToListButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor.hex("4A4A4A")
@@ -135,6 +142,8 @@ class ProposalDetailViewController: UIViewController {
             twitterButton.isHidden = true
             profileImageView.image = UIImage(named: "Placeholder")
         }
+        
+        slideButton.isHidden = (proposal.slide == nil)
     }
 
     override func viewDidLoad() {
@@ -149,6 +158,7 @@ class ProposalDetailViewController: UIViewController {
         containerView.addSubview(addToListButton)
         containerView.addSubview(removeFromListButton)
         containerView.addSubview(twitterButton)
+        containerView.addSubview(slideButton)
         autoLayout()
         setupAction()
         bind(viewModel)
@@ -161,14 +171,9 @@ class ProposalDetailViewController: UIViewController {
     
     private func bind(_ viewModel: ProposalDetailViewModel) {
         overlapView.bind(viewModel)
-        
-        twitterButton.reactive.controlEvents(.touchUpInside).take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues { [weak self] (button) in
-            self?.scaleButton(button, completed: {
-                
-                viewModel.twitterButtonAction.apply().start()
-            })
-        }
-        
+        twitterButton.reactive.pressed = CocoaAction(viewModel.twitterButtonAction)
+        slideButton.reactive.pressed = CocoaAction(viewModel.slideButtonAction)
+    
         addToListButton.reactive.controlEvents(.touchUpInside).take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues { [weak self] (button) in
             guard let sSelf = self else { return }
             sSelf.impactGenerator.impactOccurred()
@@ -190,7 +195,8 @@ class ProposalDetailViewController: UIViewController {
         addToListButton.reactive.isHidden      <~ viewModel.addButtonHidden.producer.take(during: reactive.lifetime)
         removeFromListButton.reactive.isHidden <~ viewModel.removeButtonHidden.producer.take(during: reactive.lifetime)
         
-        viewModel.twitterButtonAction.values.skipNil().take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues { [weak self] (url) in
+        Signal.merge(viewModel.twitterButtonAction.values.skipNil(),
+                     viewModel.slideButtonAction.values.skipNil()).take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues { [weak self] (url) in
             let safariVC = SFSafariViewController(url: url)
             self?.present(safariVC, animated: true, completion: nil)
         }
@@ -230,7 +236,7 @@ class ProposalDetailViewController: UIViewController {
         nameLabel.snp.makeConstraints { (make) in
             make.centerY.equalTo(profileImageView)
             make.left.equalTo(profileImageView.snp.right).offset(10)
-            make.right.equalTo(-18)
+            make.right.equalTo(slideButton.snp.left).offset(-3)
             make.height.greaterThanOrEqualTo(0)
         }
         
@@ -265,8 +271,15 @@ class ProposalDetailViewController: UIViewController {
         twitterButton.snp.makeConstraints { (make) in
             make.width.equalTo(28)
             make.height.equalTo(29)
-            make.right.equalTo(-25)
-            make.centerY.equalTo(profileImageView)
+            make.right.equalTo(-20)
+            make.centerY.equalTo(profileImageView).offset(-2)
+        }
+        
+        slideButton.snp.makeConstraints { (make) in
+            make.width.equalTo(28)
+            make.height.equalTo(29)
+            make.right.equalTo(twitterButton.snp.left).offset(-14)
+            make.centerY.equalTo(profileImageView).offset(-2)
         }
     }
     

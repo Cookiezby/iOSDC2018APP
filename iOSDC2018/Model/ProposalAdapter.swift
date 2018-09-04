@@ -22,7 +22,8 @@ struct DayProposal {
         self.trackProposals = [TrackProposal(track: Track.A, proposals: []),
                                TrackProposal(track: Track.B, proposals: []),
                                TrackProposal(track: Track.C, proposals: []),
-                               TrackProposal(track: Track.D, proposals: [])]
+                               TrackProposal(track: Track.D, proposals: []),
+                               TrackProposal(track: Track.E, proposals: [])]
     }
     
     mutating func insertProposal(_ proposal: Proposal) {
@@ -35,6 +36,8 @@ struct DayProposal {
             trackProposals[2].proposals.append(proposal)
         case .D:
             trackProposals[3].proposals.append(proposal)
+        case .E:
+            trackProposals[4].proposals.append(proposal)
         }
     }
 }

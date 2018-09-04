@@ -13,6 +13,7 @@ enum Track: String  {
     case B = "Track B"
     case C = "Track C"
     case D = "Track D"
+    case E = "Track E"
 }
 
 struct Timetable {
@@ -34,6 +35,7 @@ struct Proposal {
     let abstract: String
     let timetable: Timetable
     let speaker: Speaker
+    let slide: String?
     
     func overlay(proposal: Proposal) -> Bool {
         guard proposal.id != id else { return false }

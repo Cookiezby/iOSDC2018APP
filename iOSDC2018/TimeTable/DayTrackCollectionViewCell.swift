@@ -27,6 +27,8 @@ class DayTrackCollectionViewCellTrackHeader: UIView {
                     trackLabel.text = "C"
                 case .D:
                     trackLabel.text = "D"
+                case .E:
+                    trackLabel.text = "E"
                 }
             }
         }
@@ -267,6 +269,8 @@ class PropodalTableViewCell: UITableViewCell {
             gradientLayer.colors = [UIColor.hex("F76B1C").cgColor, UIColor.hex("FEAD3F").cgColor]
         case .D:
             gradientLayer.colors = [UIColor.hex("56ab2f").cgColor, UIColor.hex("a8e063").cgColor]
+        case .E:
+            gradientLayer.colors = [UIColor.hex("56ab2f").cgColor, UIColor.hex("a8e063").cgColor]
         }
         
         let now = Date().timeIntervalSince1970
@@ -388,6 +392,8 @@ class FavProposalTableViewCell: PropodalTableViewCell {
             trackLabel.text = "C"
         case .D:
             trackLabel.text = "D"
+        case .E:
+            trackLabel.text = "E"
         }
        
     }

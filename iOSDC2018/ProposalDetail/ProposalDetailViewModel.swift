@@ -33,7 +33,17 @@ final class ProposalDetailViewModel: NSObject, ProposalOverlapViewInOut {
             if let twitter = self?.model.proposal.speaker.twitter {
                 return SignalProducer(value: URL(string: "https://twitter.com/" + twitter))
             } else {
-                return SignalProducer(value: URL(string: "https://iosdc.jp/2018/"))
+                return SignalProducer(value: nil)
+            }
+        }
+    }()
+    
+    lazy var slideButtonAction : Action<Void, URL?, NoError> = { [weak self] in
+        Action { _ in
+            if let slide = self?.model.proposal.slide {
+                return SignalProducer(value: URL(string: slide))
+            } else {
+                return SignalProducer(value: nil)
             }
         }
     }()

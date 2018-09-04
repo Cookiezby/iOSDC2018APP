@@ -24,7 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         if AppDelegate.notificaitonEnable() {
             registerForPushNotification()
         }
-        
         clearOldImage()
         return true
     }
