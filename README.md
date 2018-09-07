@@ -2,7 +2,7 @@
 
 <center>
 
-![DC2018](https://github.com/iOSDC2018APP/images/DC2018.png)
+![DC2018](https://github.com/Cookiezby/iOSDC2018APP/blob/master/images/DC2018.png)
 
 </center>
 
