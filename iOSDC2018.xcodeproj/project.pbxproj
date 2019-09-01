@@ -306,8 +306,6 @@
 				7631F530211E8BD90040BD9B /* Sources */,
 				7631F531211E8BD90040BD9B /* Frameworks */,
 				7631F532211E8BD90040BD9B /* Resources */,
-				B89857C71FE003EF4F5415AF /* [CP] Embed Pods Frameworks */,
-				3E76562F53FE3AC1AE2631BB /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -440,21 +438,6 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iOSDC2018/Pods-iOSDC2018-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		3E76562F53FE3AC1AE2631BB /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iOSDC2018Tests/Pods-iOSDC2018Tests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		45F523D02FEE51A321586867 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -491,21 +474,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "/usr/local/bin/carthage copy-frameworks";
-		};
-		B89857C71FE003EF4F5415AF /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iOSDC2018Tests/Pods-iOSDC2018Tests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 		F61B041F026D587EF0D2445C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

@@ -29,7 +29,7 @@ PODS:
     - GoogleUtilities/AppDelegateSwizzler (~> 5.2.0)
     - GoogleUtilities/MethodSwizzler (~> 5.2.0)
     - GoogleUtilities/Network (~> 5.2)
-    - GoogleUtilities/NSData+zlib (~> 5.2)
+    - "GoogleUtilities/NSData+zlib (~> 5.2)"
     - nanopb (~> 0.3)
   - FirebaseAuthInterop (1.0.0)
   - FirebaseCore (5.1.2):
@@ -69,7 +69,7 @@ PODS:
     - GoogleUtilities/AppDelegateSwizzler (~> 5.2.0)
     - GoogleUtilities/MethodSwizzler (~> 5.2.0)
     - GoogleUtilities/Network (~> 5.2)
-    - GoogleUtilities/NSData+zlib (~> 5.2)
+    - "GoogleUtilities/NSData+zlib (~> 5.2)"
     - nanopb (~> 0.3)
   - GoogleUtilities/AppDelegateSwizzler (5.2.2):
     - GoogleUtilities/Environment
@@ -82,9 +82,9 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/Network (5.2.2):
     - GoogleUtilities/Logger
-    - GoogleUtilities/NSData+zlib
+    - "GoogleUtilities/NSData+zlib"
     - GoogleUtilities/Reachability
-  - GoogleUtilities/NSData+zlib (5.2.2)
+  - "GoogleUtilities/NSData+zlib (5.2.2)"
   - GoogleUtilities/Reachability (5.2.2):
     - GoogleUtilities/Logger
   - gRPC (1.14.1):
@@ -123,6 +123,28 @@ DEPENDENCIES:
   - Firebase/InAppMessagingDisplay
   - Firebase/Messaging
 
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - BoringSSL
+    - Firebase
+    - FirebaseAnalytics
+    - FirebaseAuthInterop
+    - FirebaseCore
+    - FirebaseDatabase
+    - FirebaseFirestore
+    - FirebaseInAppMessaging
+    - FirebaseInstanceID
+    - FirebaseMessaging
+    - GoogleAppMeasurement
+    - GoogleUtilities
+    - gRPC
+    - gRPC-Core
+    - gRPC-ProtoRPC
+    - gRPC-RxLibrary
+    - leveldb-library
+    - nanopb
+    - Protobuf
+
 SPEC CHECKSUMS:
   BoringSSL: e10f92a27043805c01071fe815a5cd98ae8212e7
   Firebase: 734a4f92957aa6c40e7ae3fda3d9359e1890aa87
@@ -146,4 +168,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: b3555e59978f2d04811168874ac11afbb9c681e0
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.5.3
