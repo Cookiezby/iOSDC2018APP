@@ -19,36 +19,48 @@ struct iOSDCJapanDays {
                          Date.createBy(year: 2019, month: 9, day: 7)]
 }
 
-struct TrackProposal {
+final class TrackProposal {
     var track: Track
     var proposals: [Proposal]
+    
+    init(track: Track) {
+        self.track = track
+        self.proposals = []
+    }
+    
+    func insert(proposal: Proposal) {
+        self.proposals.append(proposal)
+        self.proposals = proposals.sorted { (l, r) -> Bool in
+            return l.timetable.startsAt < r.timetable.startsAt
+        }
+    }
 }
 
-class DayProposal {
+final class DayProposal {
     var date: Date
     var trackProposals: [TrackProposal]
     
     init(date: Date) {
         self.date = date
-        self.trackProposals = [TrackProposal(track: Track.A, proposals: []),
-                               TrackProposal(track: Track.B, proposals: []),
-                               TrackProposal(track: Track.C, proposals: []),
-                               TrackProposal(track: Track.D, proposals: []),
-                               TrackProposal(track: Track.E, proposals: [])]
+        self.trackProposals = [TrackProposal(track: Track.A),
+                               TrackProposal(track: Track.B),
+                               TrackProposal(track: Track.C),
+                               TrackProposal(track: Track.D),
+                               TrackProposal(track: Track.E)]
     }
     
     func insertProposal(_ proposal: Proposal) {
         switch proposal.timetable.track {
         case .A:
-            trackProposals[0].proposals.append(proposal)
+            trackProposals[0].insert(proposal: proposal)
         case .B:
-            trackProposals[1].proposals.append(proposal)
+            trackProposals[1].insert(proposal: proposal)
         case .C:
-            trackProposals[2].proposals.append(proposal)
+            trackProposals[2].insert(proposal: proposal)
         case .D:
-            trackProposals[3].proposals.append(proposal)
+            trackProposals[3].insert(proposal: proposal)
         case .E:
-            trackProposals[4].proposals.append(proposal)
+            trackProposals[4].insert(proposal: proposal)
         }
     }
 }

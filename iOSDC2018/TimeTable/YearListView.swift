@@ -20,6 +20,7 @@ protocol YearListViewModel {
 final class YearListView: UIView {
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
+        tableView.isScrollEnabled = false
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
