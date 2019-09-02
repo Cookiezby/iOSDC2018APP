@@ -8,12 +8,17 @@
 
 import Foundation
 
-struct FavProposal {
+final class FavProposal {
     var date: Date
     var proposals: [Proposal]
     
+    init(date: Date) {
+        self.date = date
+        self.proposals = []
+    }
+    
     @discardableResult
-    mutating func insertProposal(_ proposal: Proposal) -> Bool {
+    func insertProposal(_ proposal: Proposal) -> Bool {
         for p in proposals {
             if p.overlay(proposal: proposal) {
                 return false
@@ -28,21 +33,32 @@ struct FavProposal {
     }
 }
 
-fileprivate let MyFavProposalKey = "MY_FAV_PROPOSAL"
-
 final class MyFavProposalManager {
-    static let shared = MyFavProposalManager()
-    var proposals: [Proposal] = []
+    
+    static var shared: MyFavProposalManager {
+        switch iOSDCJapanYear.current {
+        case .year18: return shared18
+        case .year19: return shared19
+        }
+    }
+    
+    private static let shared18 = MyFavProposalManager(key: "MY_FAV_PROPOSAL")
+    private static let shared19 = MyFavProposalManager(key: "MY_FAV_PROPOSAL19")
+    
+    private let key: String
     private(set) var favIds: [String] = []
     
+    var proposals: [Proposal] = []
+        
     var favProposals: [Proposal] {
         get {
             return proposals.filter{ favIds.contains($0.id) }
         }
     }
     
-    init() {
-        favIds = getFavId()
+    init(key: String) {
+        self.key = key
+        self.favIds = getFavId()
     }
     
     func add(id: String) {
@@ -62,13 +78,13 @@ final class MyFavProposalManager {
     
     private func updateFavId(ids: [String]) {
         let ud = UserDefaults.standard
-        ud.set(favIds, forKey: MyFavProposalKey)
+        ud.set(favIds, forKey: key)
     }
     
 
     private func getFavId() -> [String] {
         let ud = UserDefaults.standard
-        if let favIds = ud.value(forKey: MyFavProposalKey) as? [String] {
+        if let favIds = ud.value(forKey: key) as? [String] {
             return favIds
         } else {
             return []
@@ -90,33 +106,34 @@ final class MyFavProposalManager {
 final class MyFavProposalAdapter {
     private(set) var favProposalList: [FavProposal] = []
     private(set) var proposals: [Proposal]
-    init(allProposals: [Proposal]) {
-        self.proposals = allProposals
-        updateFavProposals()
-    }
     
-    func updateFavProposals() {
-        var day1 = FavProposal(date: Date.createBy(year: 2018, month: 8, day: 30), proposals: [])
-        var day2 = FavProposal(date: Date.createBy(year: 2018, month: 8, day: 31), proposals: [])
-        var day3 = FavProposal(date: Date.createBy(year: 2018, month: 9, day: 1), proposals: [])
-        var day4 = FavProposal(date: Date.createBy(year: 2018, month: 9, day: 2), proposals: [])
+    convenience init(proposals: [Proposal]) {
+        switch iOSDCJapanYear.current {
+        case .year18:
+            self.init(proposals: proposals, days: iOSDCJapanDays.year18)
+        case .year19:
+           self.init(proposals: proposals, days: iOSDCJapanDays.year19)
+        }
+    }
 
+    init(proposals: [Proposal], days: [Date]) {
+        self.proposals = proposals
+        self.favProposalList = []
+        for day in days {
+            self.favProposalList.append(FavProposal(date: day))
+        }
+        
         let favProposals = proposals.filter{ return MyFavProposalManager.shared.contains(id: $0.id) }
-        favProposals.forEach {
-            switch $0.timetable.startsAt {
-            case day1.date.timeIntervalSince1970 ..< day1.date.timeIntervalSince1970 + 3600 * 24:
-                day1.insertProposal($0)
-            case day2.date.timeIntervalSince1970 ..< day2.date.timeIntervalSince1970 + 3600 * 24:
-                day2.insertProposal($0)
-            case day3.date.timeIntervalSince1970 ..< day3.date.timeIntervalSince1970 + 3600 * 24:
-                day3.insertProposal($0)
-            case day4.date.timeIntervalSince1970 ..< day4.date.timeIntervalSince1970 + 3600 * 24:
-                day4.insertProposal($0)
-            default:
-                break
+        for proposal in favProposals {
+            for favDayProposal in favProposalList {
+                let startTime = proposal.timetable.startsAt
+                let dayTime = favDayProposal.date.timeIntervalSince1970
+                
+                if startTime >= dayTime && startTime < dayTime + 3600 * 24 {
+                    favDayProposal.insertProposal(proposal)
+                }
             }
         }
-        favProposalList = [day1, day2, day3, day4]
     }
 }
 

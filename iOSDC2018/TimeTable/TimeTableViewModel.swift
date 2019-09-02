@@ -20,7 +20,7 @@ final class TimeTableModel: NSObject {
     
     func fetchAllProposal(succeed: (() -> Void)?, failed: ((Error) -> Void)?) {
         let db = Firestore.firestore()
-        db.collection("proposals").getDocuments { [weak self] (querySnapshot, err) in
+        db.collection("proposals19").getDocuments { [weak self] (querySnapshot, err) in
             if let err = err {
                 failed?(err)
             } else {
@@ -51,8 +51,8 @@ final class TimeTableModel: NSObject {
                     }
                 }
                 MyFavProposalManager.shared.proposals = result
-                let proposalAdapter = ProposalAdapter(proposals18: result)
-                let favProposalAdapter = MyFavProposalAdapter(allProposals: result)
+                let proposalAdapter = ProposalAdapter(proposals: result)
+                let favProposalAdapter = MyFavProposalAdapter(proposals: result)
                 self?.dayProposalList.swap(proposalAdapter.dayProposalList)
                 self?.favProposalList.swap(favProposalAdapter.favProposalList)
                 succeed?()
@@ -115,7 +115,7 @@ final class TimeTableViewModel: NSObject, TimeTableNaviBarInOut, DayTrackCollect
     
     
     func refresh() {
-        favProposalList.swap(MyFavProposalAdapter(allProposals: MyFavProposalManager.shared.favProposals).favProposalList)
+        favProposalList.swap(MyFavProposalAdapter(proposals: MyFavProposalManager.shared.favProposals).favProposalList)
         refreshCollectionView.apply().start()
     }
 }

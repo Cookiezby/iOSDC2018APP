@@ -56,12 +56,13 @@ class DayProposal {
 final class ProposalAdapter {
     var dayProposalList: [DayProposal]
     
-    convenience init(proposals18: [Proposal]) {
-        self.init(proposals: proposals18, days: iOSDCJapanDays.year18)
-    }
-    
-    convenience init(proposals19: [Proposal]) {
-        self.init(proposals: proposals19, days: iOSDCJapanDays.year19)
+    convenience init(proposals: [Proposal]) {
+        switch iOSDCJapanYear.current {
+        case .year18:
+            self.init(proposals: proposals, days: iOSDCJapanDays.year18)
+        case .year19:
+            self.init(proposals: proposals, days: iOSDCJapanDays.year19)
+        }
     }
     
     init(proposals: [Proposal], days: [Date]) {
