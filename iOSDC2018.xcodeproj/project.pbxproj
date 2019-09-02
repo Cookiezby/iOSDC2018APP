@@ -46,6 +46,7 @@
 		977F7FC82AB2FEFE30F3C4D0 /* Pods_iOSDC2018Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E72FC361D325E4844FFB8F8C /* Pods_iOSDC2018Tests.framework */; };
 		B86BEED8F37012C6084610CE /* Pods_iOSDC2018.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBF4A64F67710AC98B34E773 /* Pods_iOSDC2018.framework */; };
 		FA66A457231D420100F02C67 /* iOSDCJapan.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA66A456231D420100F02C67 /* iOSDCJapan.swift */; };
+		FA66A459231D52C100F02C67 /* YearListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA66A458231D52C100F02C67 /* YearListView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,6 +108,7 @@
 		DBF4A64F67710AC98B34E773 /* Pods_iOSDC2018.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOSDC2018.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E72FC361D325E4844FFB8F8C /* Pods_iOSDC2018Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOSDC2018Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA66A456231D420100F02C67 /* iOSDCJapan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSDCJapan.swift; sourceTree = "<group>"; };
+		FA66A458231D52C100F02C67 /* YearListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -213,6 +215,7 @@
 		7631F54F211E9A7E0040BD9B /* TimeTable */ = {
 			isa = PBXGroup;
 			children = (
+				FA66A458231D52C100F02C67 /* YearListView.swift */,
 				7631F557211ECFB20040BD9B /* TrackSelectView.swift */,
 				7631F559211EE08A0040BD9B /* TimeTableViewModel.swift */,
 				7631F550211E9A8E0040BD9B /* TimeTableViewController.swift */,
@@ -508,6 +511,7 @@
 				4C3AFCB12123DF95003E340E /* MyFavProposalAdapter.swift in Sources */,
 				767D0D012120182C003A3730 /* ProposalDetailViewController.swift in Sources */,
 				763588D7212C555000581426 /* StaffViewController.swift in Sources */,
+				FA66A459231D52C100F02C67 /* YearListView.swift in Sources */,
 				767D0CFC21200DD9003A3730 /* DayTrackCollectionViewCell.swift in Sources */,
 				767D0D032120183D003A3730 /* ProposalDetailViewModel.swift in Sources */,
 				7631F556211ECAB60040BD9B /* Exts.swift in Sources */,

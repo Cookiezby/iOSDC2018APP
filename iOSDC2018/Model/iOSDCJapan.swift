@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import UIKit
+
 
 enum iOSDCJapan {
     static var current: iOSDCJapan = .year19
@@ -39,4 +41,24 @@ enum iOSDCJapan {
             return "https://fortee.jp/iosdc-japan-2018/api/staff"
         }
     }
+    
+    static var collectionKey: String {
+        switch iOSDCJapan.current {
+        case .year19:
+            return "proposals19"
+        case .year18:
+            return "proposals"
+        }
+    }
+    
+    var logoImage: UIImage? {
+        switch self {
+        case .year19:
+            return UIImage(named: "iOSDCLogo19")
+        case .year18:
+            return UIImage(named: "iOSDCLogo")
+        }
+    }
+    
+    static let all: [iOSDCJapan] = [.year18, .year19]
 }

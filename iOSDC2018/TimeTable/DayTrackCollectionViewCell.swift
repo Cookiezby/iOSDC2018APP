@@ -238,7 +238,7 @@ class PropodalTableViewCell: UITableViewCell {
     }
     
     func setProposal(_ proposal: Proposal) {
-        if let avatarURL = proposal.speaker.avatarURL {
+        if let avatarURL = proposal.speaker.avatarURL, avatarURL.count > 0 {
             
             if let image = SDImageCache.shared().imageFromCache(forKey: avatarURL) {
                 profileImage.image = image

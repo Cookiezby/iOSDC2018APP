@@ -127,7 +127,7 @@ class ProposalDetailViewController: UIViewController {
         titleLabel.text = proposal.title
         detailTextView.text = proposal.abstract
         nameLabel.text = proposal.speaker.name
-        if let avatarURL = proposal.speaker.avatarURL {
+        if let avatarURL = proposal.speaker.avatarURL, avatarURL.count > 0 {
             if let image = SDImageCache.shared().imageFromCache(forKey: avatarURL) {
                 profileImageView.image = image
             } else {
@@ -139,11 +139,21 @@ class ProposalDetailViewController: UIViewController {
                 })
             }
         } else {
-            twitterButton.isHidden = true
             profileImageView.image = UIImage(named: "Placeholder")
         }
         
-        slideButton.isHidden = (proposal.slide == nil)
+        
+        if let twitter = proposal.speaker.twitter, twitter.count > 0 {
+            twitterButton.isHidden = false
+        } else {
+            twitterButton.isHidden = true
+        }
+        
+        if let slide = proposal.slide, slide.count > 0 {
+            slideButton.isHidden = false
+        } else {
+            slideButton.isHidden = true
+        }
     }
 
     override func viewDidLoad() {

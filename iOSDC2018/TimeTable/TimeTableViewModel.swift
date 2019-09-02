@@ -20,7 +20,7 @@ final class TimeTableModel: NSObject {
     
     func fetchAllProposal(succeed: (() -> Void)?, failed: ((Error) -> Void)?) {
         let db = Firestore.firestore()
-        db.collection("proposals19").getDocuments { [weak self] (querySnapshot, err) in
+        db.collection(iOSDCJapan.collectionKey).getDocuments { [weak self] (querySnapshot, err) in
             if let err = err {
                 failed?(err)
             } else {
@@ -61,7 +61,7 @@ final class TimeTableModel: NSObject {
     }
 }
 
-final class TimeTableViewModel: NSObject, TimeTableNaviBarInOut, DayTrackCollectionViewCellInOut, TrackSelectViewInOut, MyFavProposalCollectionViewInOut {
+final class TimeTableViewModel: NSObject, TimeTableNaviBarInOut, DayTrackCollectionViewCellInOut, TrackSelectViewInOut, MyFavProposalCollectionViewInOut, YearListViewModel {
     private let model: TimeTableModel
     
     let openInfoAction: Action<Void, Void, NoError> = { Action { SignalProducer(value: $0) }}()
@@ -78,6 +78,11 @@ final class TimeTableViewModel: NSObject, TimeTableNaviBarInOut, DayTrackCollect
     let myFavHidden = MutableProperty<Bool>(true)
     let hudHidden = MutableProperty<Bool>(true)
     let errorMessageAction: Action<String, String, NoError> = { Action { SignalProducer(value: $0) }}()
+    
+    let toggleYearListAction: Action<Void, Void, NoError> = { Action { SignalProducer(value: $0) }}()
+    let selectYearAction: Action<iOSDCJapan, iOSDCJapan, NoError> = { Action { SignalProducer(value: $0) }}()
+    
+    let yearListViewHidden = MutableProperty<Bool>(true)
     
     override init() {
         model = TimeTableModel()
@@ -100,6 +105,12 @@ final class TimeTableViewModel: NSObject, TimeTableNaviBarInOut, DayTrackCollect
             let vc = ProposalDetailViewController(proposal: value)
             vc.modalPresentationStyle = .overCurrentContext
             self?.presentVCAction.apply((vc, false)).start()
+        }
+        
+        selectYearAction.values.take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues { [weak self] (value) in
+            iOSDCJapan.current = value
+            self?.yearListViewHidden.swap(true)
+            self?.fetchAllProposal()
         }
     }
     
