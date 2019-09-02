@@ -41,7 +41,7 @@ final class StaffModel: NSObject {
     let sections = MutableProperty<[StaffSection]>([])
     
     func fetchStaff(succeed: (() -> Void)?, failed: ((Error?) -> Void)?) {
-        guard let url = URL(string: "https://fortee.jp/iosdc-japan-2018/api/staff") else { return }
+        guard let url = URL(string: iOSDCJapan.staffApi) else { return }
         let config = URLSessionConfiguration.default
         let session = URLSession(configuration: config)
         let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 20)

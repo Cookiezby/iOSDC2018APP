@@ -37,12 +37,12 @@ final class InfoViewModel: NSObject {
         let staffInfo = Info(iconImage: UIImage(named: "StaffIcon"), title: "スタッフ", action: openStaffAction)
         
         let openHomePageSignal: Signal<(UIViewController, Bool), NoError> = openHomePageAciton.values.map {
-            let vc = WebInfoViewController(url: URL(string: "https://iosdc.jp/2018/")!)
+            let vc = WebInfoViewController(url: URL(string: iOSDCJapan.homeUrl)!)
             return (vc, true)
         }
         
         let accessSignal: Signal<(UIViewController, Bool), NoError> = openAccessAction.values.map {
-            let vc = WebInfoViewController(url: URL(string: "https://iosdc.jp/2018/access")!)
+            let vc = WebInfoViewController(url: URL(string: iOSDCJapan.accessUrl)!)
             return (vc, true)
         }
         
