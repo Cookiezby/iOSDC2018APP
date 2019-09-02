@@ -51,7 +51,7 @@ final class TimeTableModel: NSObject {
                     }
                 }
                 MyFavProposalManager.shared.proposals = result
-                let proposalAdapter = ProposalAdapter(allProposals: result)
+                let proposalAdapter = ProposalAdapter(proposals18: result)
                 let favProposalAdapter = MyFavProposalAdapter(allProposals: result)
                 self?.dayProposalList.swap(proposalAdapter.dayProposalList)
                 self?.favProposalList.swap(favProposalAdapter.favProposalList)
