@@ -17,9 +17,15 @@ final class TimeTableModel: NSObject {
     let dayProposalList = MutableProperty<[DayProposal]>([])
     let favProposalList = MutableProperty<[FavProposal]>([])
     
+    private let settings: FirestoreSettings = {
+        let settings = FirestoreSettings()
+        settings.isPersistenceEnabled = true
+        return settings
+    }()
     
     func fetchAllProposal(succeed: (() -> Void)?, failed: ((Error) -> Void)?) {
         let db = Firestore.firestore()
+        db.settings = self.settings
         db.collection(iOSDCJapan.collectionKey).getDocuments { [weak self] (querySnapshot, err) in
             if let err = err {
                 failed?(err)
@@ -85,10 +91,13 @@ final class TimeTableViewModel: NSObject, TimeTableNaviBarInOut, DayTrackCollect
     let yearListViewHidden = MutableProperty<Bool>(true)
     let logoImage = MutableProperty<UIImage?>(iOSDCJapan.current.logoImage)
     
+    var timerDispose: Disposable? = nil
+    
     override init() {
         model = TimeTableModel()
         curDayProposal = MutableProperty<DayProposal?>(model.dayProposalList.value.first)
         super.init()
+        setupNotificaitonObserver()
         
         model.dayProposalList.signal.take(during: reactive.lifetime).observeValues { [weak self] (value) in
             self?.dayProposalList.swap(value)
@@ -125,6 +134,7 @@ final class TimeTableViewModel: NSObject, TimeTableNaviBarInOut, DayTrackCollect
         hudHidden.swap(false)
         model.fetchAllProposal(succeed: {
             self.hudHidden.swap(true)
+            self.setupTimer()
         }) { (error) in
             self.hudHidden.swap(true)
             self.errorMessageAction.apply("通信エラー").start()
@@ -135,5 +145,38 @@ final class TimeTableViewModel: NSObject, TimeTableNaviBarInOut, DayTrackCollect
     func refresh() {
         favProposalList.swap(MyFavProposalAdapter(proposals: MyFavProposalManager.shared.favProposals).favProposalList)
         refreshCollectionView.apply().start()
+    }
+    
+    func setupNotificaitonObserver() {
+        NotificationCenter.default.addObserver(self,
+                                               selector:#selector(applicationWillEnterForground),
+                                               name:NSNotification.Name.UIApplicationWillEnterForeground,
+                                               object: nil)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector:#selector(applicationWillResignActive),
+                                               name:NSNotification.Name.UIApplicationWillResignActive,
+                                               object: nil)
+    }
+    
+    @objc
+    func applicationWillEnterForground() {
+        reloadDayTrackAction.apply().start()
+        refresh()
+        setupTimer()
+    }
+    
+    @objc
+    func applicationWillResignActive() {
+        timerDispose?.dispose()
+    }
+    
+    private func setupTimer() {
+        timerDispose?.dispose()
+        timerDispose = nil
+        timerDispose = SignalProducer.timer(interval: .seconds(120), on: QueueScheduler.main).producer.startWithValues { [weak self] (_) in
+            self?.reloadDayTrackAction.apply().start()
+            self?.refresh()
+        }
     }
 }
