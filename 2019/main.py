@@ -1,9 +1,12 @@
 from bs4 import BeautifulSoup
 from requests import request
 import re
-from datetime import datetime
+from datetime import datetime, timedelta
 import json
 import os
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
 
 base_domain = "https://fortee.jp/"
 
@@ -24,11 +27,10 @@ class Proposal:
     def __init__(self, soup):
         start_time_text = soup.find("span", {"class": "schedule"}).text[:-1]
         staret_datetime = datetime.strptime(start_time_text, '%Y/%m/%d %H:%M')
-        self.schedule = staret_datetime.isoformat()
-
+        self.schedule = staret_datetime.isoformat() + "+09:00"
         self.track = soup.find("span", {"class": "track"}).text
         time_text = soup.find("span", {"class": "name"}).text
-        self.time_length = re.search(r'\d{1,2}', time_text)[0]
+        self.time_length = int(re.search(r'\d{1,2}', time_text)[0])
         self.title = soup.findAll("a")[0].text
         
         speaker_soup = soup.find("div", {"class": "speaker"})
@@ -79,34 +81,44 @@ def get_headers():
     }
     return headers
 
-def get_proposals(url):
+def get_proposals(url, db_ref):
     headers = get_headers()
     html_text = request(method = "get", url = url, headers = headers).text
     soup = BeautifulSoup(html_text)
     proposals = soup.findAll("div", {"class": "list-proposal proposal-detail"})
     result = []
     for proposal in proposals:
-        result.append(Proposal(soup = proposal).to_dict())
-    
+        proposal_dict = Proposal(soup = proposal).to_dict()
+        result.append(proposal_dict)
+        db_ref.document(proposal_dict["uuid"]).set(proposal_dict)
+
     return result
+
+def get_db():
+    cred = credentials.Certificate("key.json")
+    firebase_admin.initialize_app(cred)
+    db = firestore.client()
+    db_ref = db.collection("proposals19")
+    return db_ref
+    
 
 def main():
     base_url = "https://fortee.jp/iosdc-japan-2019/proposal?page="
     pages = [1,2,3,4]
     all_proposals = []
 
+    db_ref = get_db()
+
     for page in pages:
         print(page)
         url = base_url + str(page)
-        proposals = get_proposals(url)
+        proposals = get_proposals(url, db_ref)
         all_proposals += proposals
 
-    json_str = json.dumps({"proposals": all_proposals}, ensure_ascii=False)
-
-    file_object = open("proposals_2019.json", "w")
-    file_object.write(json_str)
-    file_object.close()
-
+    # json_str = json.dumps({"proposals": all_proposals}, ensure_ascii=False)
+    # file_object = open("proposals_2019.json", "w")
+    # file_object.write(json_str)
+    # file_object.close()
 
 
 if __name__ == "__main__":
