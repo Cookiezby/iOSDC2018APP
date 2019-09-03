@@ -29,7 +29,7 @@ enum iOSDCJapan {
         case .year19:
             return "https://iosdc.jp/2019/access.html"
         case .year18:
-            return "https://iosdc.jp/2018/access.html"
+            return "https://iosdc.jp/2018/access"
         }
     }
     
