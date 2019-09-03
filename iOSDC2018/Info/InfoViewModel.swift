@@ -24,6 +24,7 @@ final class InfoViewModel: NSObject {
     let openAccessAction        : Action<Void, Void, NoError> = { Action { SignalProducer(value: $0)} }()
     let openNotificationAction  : Action<Void, Void, NoError> = { Action { SignalProducer(value: $0)} }()
     let openStaffAction         : Action<Void, Void, NoError> = { Action { SignalProducer(value: $0)} }()
+    let openGithubLinkAction    : Action<Void, Void, NoError> = { Action { SignalProducer(value: $0)} }()
    
     let pushVCAction: Action<(UIViewController, Bool), (UIViewController, Bool), NoError> = { Action { SignalProducer(value: $0)} }()
     
@@ -35,6 +36,7 @@ final class InfoViewModel: NSObject {
         let accessInfo = Info(iconImage: UIImage(named: "AccessIcon"), title: "会場アクセス", action: openAccessAction)
         let notificaitonInfo = Info(iconImage: UIImage(named: "NotificationIcon"), title: "通知設定", action: openNotificationAction)
         let staffInfo = Info(iconImage: UIImage(named: "StaffIcon"), title: "スタッフ", action: openStaffAction)
+        let githubInfo = Info(iconImage: UIImage(named: "GithubCat"), title: "リポジトリ", action: openGithubLinkAction)
         
         let openHomePageSignal: Signal<(UIViewController, Bool), NoError> = openHomePageAciton.values.map {
             let vc = WebInfoViewController(url: URL(string: iOSDCJapan.homeUrl)!)
@@ -43,6 +45,11 @@ final class InfoViewModel: NSObject {
         
         let accessSignal: Signal<(UIViewController, Bool), NoError> = openAccessAction.values.map {
             let vc = WebInfoViewController(url: URL(string: iOSDCJapan.accessUrl)!)
+            return (vc, true)
+        }
+        
+        let githubSignal: Signal<(UIViewController, Bool), NoError> = openGithubLinkAction.values.map {
+            let vc = WebInfoViewController(url: URL(string: "https://github.com/Cookiezby/iOSDC2018APP")!)
             return (vc, true)
         }
         
@@ -59,11 +66,12 @@ final class InfoViewModel: NSObject {
         Signal.merge(openHomePageSignal,
                      accessSignal,
                      notificationSignal,
-                     openStaffSignal).take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues { [weak self] value in
+                     openStaffSignal,
+                     githubSignal).take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues { [weak self] value in
             self?.pushVCAction.apply(value).start()
         }
         
-        infoList = [homePageInfo, accessInfo, notificaitonInfo, staffInfo]
+        infoList = [homePageInfo, accessInfo, notificaitonInfo, staffInfo, githubInfo]
     }
     
 }
