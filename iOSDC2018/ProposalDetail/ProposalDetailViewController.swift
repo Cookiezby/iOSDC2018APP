@@ -23,7 +23,7 @@ final
 class ProposalDetailViewController: UIViewController {
     private let containerView: UIView = {
         let view = UIView()
-        view.layer.cornerRadius = 20
+        view.layer.cornerRadius = 10
         view.backgroundColor = .white
         return view
     }()

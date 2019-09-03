@@ -83,6 +83,7 @@ final class TimeTableViewModel: NSObject, TimeTableNaviBarInOut, DayTrackCollect
     let selectYearAction: Action<iOSDCJapan, iOSDCJapan, NoError> = { Action { SignalProducer(value: $0) }}()
     
     let yearListViewHidden = MutableProperty<Bool>(true)
+    let logoImage = MutableProperty<UIImage?>(iOSDCJapan.current.logoImage)
     
     override init() {
         model = TimeTableModel()
@@ -108,7 +109,13 @@ final class TimeTableViewModel: NSObject, TimeTableNaviBarInOut, DayTrackCollect
         }
         
         selectYearAction.values.take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues { [weak self] (value) in
+            guard iOSDCJapan.current != value else {
+                self?.yearListViewHidden.swap(true)
+                return
+            }
+            
             iOSDCJapan.current = value
+            self?.logoImage.swap(iOSDCJapan.current.logoImage)
             self?.yearListViewHidden.swap(true)
             self?.fetchAllProposal()
         }

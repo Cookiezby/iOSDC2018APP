@@ -24,8 +24,10 @@ final class YearListView: UIView {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
-        tableView.separatorColor = UIColor.red
+        tableView.separatorInset.left = UIScreen.main.bounds.width
         tableView.showsVerticalScrollIndicator = false
+        tableView.layer.cornerRadius = 5
+        tableView.clipsToBounds = true
         tableView.register(YearListTableViewCell.self, forCellReuseIdentifier: YearListTableViewCell.description())
         return tableView
     }()
@@ -38,7 +40,7 @@ final class YearListView: UIView {
             autoLayout()
         }
         super.init(frame: .zero)
-        self.layer.cornerRadius = 5
+        backgroundColor = .clear
         self.layer.applySketchShadow(color: .black, alpha: 0.15, x: 0, y: 1, blur: 10, spread: 0)
         addSubview(tableView)
     }
@@ -106,7 +108,6 @@ final class YearListTableViewCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         selectionStyle = .none
-        separatorInset = UIEdgeInsets.zero
         addSubview(logoImageView)
         addSubview(effectView)
         autoLayout()
@@ -114,10 +115,9 @@ final class YearListTableViewCell: UITableViewCell {
     
     private func autoLayout() {
         logoImageView.snp.makeConstraints { (make) in
-            make.top.equalTo(8)
-            make.left.equalTo(10)
-            make.right.equalTo(-10)
-            make.bottom.equalTo(-8)
+            make.center.equalToSuperview()
+            make.width.lessThanOrEqualTo(100)
+            make.height.equalTo(28)
         }
         
         effectView.snp.makeConstraints { (make) in

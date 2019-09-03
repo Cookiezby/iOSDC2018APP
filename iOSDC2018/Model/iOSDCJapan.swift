@@ -60,5 +60,14 @@ enum iOSDCJapan {
         }
     }
     
+    var yearText: String {
+        switch self {
+        case .year19:
+            return "2019"
+        case .year18:
+            return "2018"
+        }
+    }
+    
     static let all: [iOSDCJapan] = [.year18, .year19]
 }

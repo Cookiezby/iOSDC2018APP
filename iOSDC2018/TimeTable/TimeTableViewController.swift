@@ -17,14 +17,22 @@ import MBProgressHUD
 protocol TimeTableNaviBarInOut {
     var openInfoAction: Action<Void, Void, NoError> { get }
     var toggleYearListAction: Action<Void, Void, NoError> { get }
+    var logoImage: MutableProperty<UIImage?> { get }
 }
 
 fileprivate final
 class TimeTableNaivBar: UIView {
-    private let logoButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setBackgroundImage(UIImage(named: "iOSDCLogo"), for: .normal)
-        button.setBackgroundImage(UIImage(named: "iOSDCLogo"), for: .highlighted)
+    private let logoImageView: UIImageView = {
+        let view = UIImageView()
+        view.contentMode = .scaleAspectFit
+        view.image = UIImage(named: "iOSDCLogo")
+        return view
+    }()
+    
+    private let switchYearButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "NavMenu"), for: .normal)
+        button.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 10)
         return button
     }()
     
@@ -39,15 +47,21 @@ class TimeTableNaivBar: UIView {
     init() {
         super.init(frame: .zero)
         backgroundColor = .white
-        addSubview(logoButton)
+        addSubview(logoImageView)
         addSubview(infoButton)
+        addSubview(switchYearButton)
         addLayoutGuide(naviBarLayoutGuide)
         autoLayout()
     }
     
     func bind(_ inOut: TimeTableNaviBarInOut) {
         infoButton.reactive.pressed = CocoaAction(inOut.openInfoAction)
-        logoButton.reactive.pressed = CocoaAction(inOut.toggleYearListAction)
+        switchYearButton.reactive.pressed = CocoaAction(inOut.toggleYearListAction)
+        
+        inOut.logoImage.producer.take(during: reactive.lifetime).observe(on: UIScheduler()).startWithValues { [weak self] (image) in
+            guard let self = self else { return }
+            self.logoImageView.image = image
+        }
     }
     
     private func autoLayout() {
@@ -57,11 +71,17 @@ class TimeTableNaivBar: UIView {
             make.left.right.equalToSuperview()
         }
         
-        logoButton.snp.makeConstraints { (make) in
-            make.left.equalTo(8)
+        switchYearButton.snp.makeConstraints { (make) in
+            make.left.equalTo(2)
+            make.height.equalTo(19)
+            make.width.equalTo(39)
             make.centerY.equalTo(naviBarLayoutGuide)
-            make.width.equalTo(81)
-            make.height.equalTo(29)
+        }
+        
+        logoImageView.snp.makeConstraints { (make) in
+            make.center.equalTo(naviBarLayoutGuide)
+            make.width.equalTo(100)
+            make.height.equalTo(28)
         }
         
         infoButton.snp.makeConstraints { (make) in
@@ -142,9 +162,9 @@ class TimeTableViewController: UIViewController {
             hud.hide(animated: true, afterDelay: 1.0)
         }
         
-        viewModel.yearListViewHidden.signal.take(during: reactive.lifetime).observeValues { [weak self] (hidden) in
+        viewModel.yearListViewHidden.producer.take(during: reactive.lifetime).startWithValues { [weak self] (value) in
             guard let self = self else { return }
-            self.toggleYearListView(hidden: hidden)
+            self.toggleYearListView(hidden: value)
         }
         
         viewModel.toggleYearListAction.values.take(during: reactive.lifetime).observe(on: UIScheduler()).observeValues { [weak self] _ in
@@ -179,8 +199,8 @@ class TimeTableViewController: UIViewController {
         
         yearListView.snp.makeConstraints { (make) in
             make.left.equalTo(3)
+            make.right.equalTo(-3)
             make.top.equalTo(self.naviBar.snp.bottom).offset(3)
-            make.width.equalTo(120)
             make.height.equalTo(85)
         }
     }
