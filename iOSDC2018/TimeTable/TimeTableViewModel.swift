@@ -126,6 +126,7 @@ final class TimeTableViewModel: NSObject, TimeTableNaviBarInOut, DayTrackCollect
             iOSDCJapan.current = value
             self?.logoImage.swap(iOSDCJapan.current.logoImage)
             self?.yearListViewHidden.swap(true)
+            self?.myFavHidden.swap(true)
             self?.fetchAllProposal()
         }
     }
